@@ -83,6 +83,16 @@
 		
 		
 		/**
+		 * Renames file(s).
+		 * @param	string|string[]  from: array('from' => 'to', ...) || (from, to)
+		 * @param	string|NULL
+		 * @throws	Cz\Git\GitException
+		 */
+		public function rename($file, $to = NULL);
+		
+		
+		
+		/**
 		 * Commits changes
 		 * @param	string
 		 * @param	string[]  param => value

@@ -166,6 +166,32 @@
 		
 		
 		/**
+		 * Renames file(s).
+		 * @param	string|string[]  from: array('from' => 'to', ...) || (from, to)
+		 * @param	string|NULL
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
+		 */
+		public function rename($file, $to = NULL)
+		{
+			if(!is_array($file)) // rename(file, to);
+			{
+				$from[$file] = $to;
+				$file = $from;
+				unset($from);
+			}
+			
+			foreach($file as $from => $to)
+			{
+				$this->run('git mv', $from, $to);
+			}
+			
+			return $this;
+		}
+		
+		
+		
+		/**
 		 * Commits changes
 		 * @param	string
 		 * @param	string[]  param => value
