@@ -18,7 +18,7 @@
 		 */
 		public function tag($name)
 		{
-			$this->run("git tag", $name);
+			$this->run('git tag', $name);
 			return $this;
 		}
 		
@@ -33,7 +33,7 @@
 		 */
 		public function merge($branch, $options = NULL)
 		{
-			$this->run("git merge", $options, $branch);
+			$this->run('git merge', $options, $branch);
 			return $this;
 		}
 		
@@ -49,7 +49,7 @@
 		public function branchCreate($name, $checkout = FALSE)
 		{
 			// git branch $name
-			$this->run("git branch", $name);
+			$this->run('git branch', $name);
 			
 			if($checkout)
 			{
@@ -69,7 +69,7 @@
 		 */
 		public function branchRemove($name)
 		{
-			$this->run("git branch", array(
+			$this->run('git branch', array(
 				'-d' => $name,
 			));
 			return $this;
@@ -113,7 +113,7 @@
 		 */
 		public function checkout($name)
 		{
-			$this->run("git checkout", $name);
+			$this->run('git checkout', $name);
 			return $this;
 		}
 		
@@ -134,7 +134,7 @@
 			
 			foreach($file as $item)
 			{
-				$this->run("git rm", $item, '-r');
+				$this->run('git rm', $item, '-r');
 			}
 			
 			return $this;
@@ -157,7 +157,7 @@
 			
 			foreach($file as $item)
 			{
-				$this->run("git add", $item);
+				$this->run('git add', $item);
 			}
 			
 			return $this;
