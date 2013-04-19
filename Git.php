@@ -11,8 +11,10 @@
 	class Git implements IGit
 	{
 		/**
+		 * Creates a tag.
 		 * @param	string
-		 * @return	$this
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
 		 */
 		public function tag($name)
 		{
@@ -23,9 +25,11 @@
 		
 		
 		/**
+		 * Merges branches.
 		 * @param	string
-		 * @param	string[]|string
-		 * @return	$this
+		 * @param	array|NULL
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
 		 */
 		public function merge($branch, $options = NULL)
 		{
@@ -36,9 +40,11 @@
 		
 		
 		/**
+		 * Creates new branch.
 		 * @param	string
 		 * @param	bool
-		 * @return	$this
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
 		 */
 		public function branchCreate($name, $checkout = FALSE)
 		{
@@ -56,8 +62,10 @@
 		
 		
 		/**
+		 * Removes branch.
 		 * @param	string
-		 * @return	$this
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
 		 */
 		public function branchRemove($name)
 		{
@@ -70,9 +78,9 @@
 		
 		
 		/**
-		 * Gets current branch name
+		 * Gets name of current branch
 		 * @return	string
-		 * @throws	GitException
+		 * @throws	Cz\Git\GitException
 		 */
 		public function branchName()
 		{
@@ -98,8 +106,10 @@
 		
 		
 		/**
+		 * Checkout branch.
 		 * @param	string
-		 * @return	$this
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
 		 */
 		public function checkout($name)
 		{
@@ -110,8 +120,10 @@
 		
 		
 		/**
+		 * Removes file(s).
 		 * @param	string|string[]
-		 * @return	$this
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
 		 */
 		public function remove($file)
 		{
@@ -131,8 +143,10 @@
 		
 		
 		/**
+		 * Adds file(s).
 		 * @param	string|string[]
-		 * @return	$this
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
 		 */
 		public function add($file)
 		{
@@ -152,9 +166,11 @@
 		
 		
 		/**
+		 * Commits changes
 		 * @param	string
-		 * @param	string|string[]|NULL
-		 * @return	$this
+		 * @param	string[]  param => value
+		 * @throws	Cz\Git\GitException
+		 * @return	Cz\Git\Git
 		 */
 		public function commit($message, $params = NULL)
 		{
@@ -172,6 +188,7 @@
 		
 		
 		/**
+		 * Exists changes?
 		 * @return	bool
 		 */
 		public function isChanges()
@@ -183,7 +200,7 @@
 		
 		
 		
-		/**
+		/** Runs command.
 		 * @param	string|array
 		 * @return	void
 		 * @throws	Cz\Git\GitException

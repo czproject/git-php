@@ -8,7 +8,8 @@
 	
 	interface IGit
 	{
-		/** Create a tag.
+		/**
+		 * Creates a tag.
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
@@ -17,6 +18,7 @@
 		
 		
 		/**
+		 * Merges branches.
 		 * @param	string
 		 * @param	array|NULL
 		 * @throws	Cz\Git\GitException
@@ -26,15 +28,17 @@
 		
 		
 		/**
+		 * Creates new branch.
 		 * @param	string
 		 * @param	bool
-		 * @throws	Cz\Git\GitException	
+		 * @throws	Cz\Git\GitException
 		 */
 		public function branchCreate($name, $checkout = FALSE);
 		
 		
 		
 		/**
+		 * Removes branch.
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
@@ -42,7 +46,8 @@
 		
 		
 		
-		/** Returns name of current branch
+		/**
+		 * Gets name of current branch
 		 * @return	string
 		 * @throws	Cz\Git\GitException
 		 */
@@ -51,6 +56,7 @@
 		
 		
 		/**
+		 * Checkout of branch.
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
@@ -58,7 +64,8 @@
 		
 		
 		
-		/** Removes file.
+		/**
+		 * Removes file(s).
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 */
@@ -66,7 +73,8 @@
 		
 		
 		
-		/** Add file.
+		/**
+		 * Adds file(s).
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 */
@@ -75,6 +83,7 @@
 		
 		
 		/**
+		 * Commits changes
 		 * @param	string
 		 * @param	string[]  param => value
 		 * @throws	Cz\Git\GitException
@@ -84,6 +93,7 @@
 		
 		
 		/**
+		 * Exists changes?
 		 * @return	bool
 		 */
 		public function isChanges();
