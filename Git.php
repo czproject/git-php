@@ -110,24 +110,42 @@
 		
 		
 		/**
-		 * @param	string
+		 * @param	string|string[]
 		 * @return	$this
 		 */
 		public function remove($file)
 		{
-			$this->run("git rm", $file, '-r');
+			if(!is_array($file))
+			{
+				$file = func_get_args();
+			}
+			
+			foreach($file as $item)
+			{
+				$this->run("git rm", $item, '-r');
+			}
+			
 			return $this;
 		}
 		
 		
 		
 		/**
-		 * @param	string
+		 * @param	string|string[]
 		 * @return	$this
 		 */
 		public function add($file)
 		{
-			$this->run("git add", $file);
+			if(!is_array($file))
+			{
+				$file = func_get_args();
+			}
+			
+			foreach($file as $item)
+			{
+				$this->run("git add", $item);
+			}
+			
 			return $this;
 		}
 		

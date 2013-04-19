@@ -59,7 +59,7 @@
 		
 		
 		/** Removes file.
-		 * @param	string
+		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 */
 		public function remove($file);
@@ -67,7 +67,7 @@
 		
 		
 		/** Add file.
-		 * @param	string
+		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 */
 		public function add($file);
