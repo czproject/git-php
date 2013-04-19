@@ -56,7 +56,7 @@
 		
 		
 		/**
-		 * Checkout of branch.
+		 * Checkout branch.
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
