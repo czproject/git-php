@@ -92,7 +92,7 @@
 				}
 			}
 			
-			throw new GitException('Pokus o ziskani jmena aktualni vetvi selhal.');
+			throw new GitException('Getting current branch name failed.');
 		}
 		
 		
@@ -204,7 +204,7 @@
 			
 			if($success === FALSE || $ret !== 0)
 			{
-				throw new GitException("Prikaz '$cmd' selhal.");
+				throw new GitException("Command '$cmd' failed.");
 			}
 		}
 	}
