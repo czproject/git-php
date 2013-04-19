@@ -1,0 +1,14 @@
+{
+    "name": "czproject/git-php",
+    "description": "Library for work with Git from PHP.",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Jan Pecha",
+            "email": "janpecha@email.cz"
+        }
+    ],
+    "require": {
+
+    }
+}
