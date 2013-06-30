@@ -6,8 +6,6 @@
 	
 	namespace Cz\Git;
 	
-	use Cz\Git\GitException;
-	
 	class Git implements IGit
 	{
 		/**
