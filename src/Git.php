@@ -12,7 +12,7 @@
 		 * Creates a tag.
 		 * @param	string
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function tag($name)
 		{
@@ -27,7 +27,7 @@
 		 * @param	string
 		 * @param	array|NULL
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function merge($branch, $options = NULL)
 		{
@@ -42,7 +42,7 @@
 		 * @param	string
 		 * @param	bool
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function branchCreate($name, $checkout = FALSE)
 		{
@@ -63,7 +63,7 @@
 		 * Removes branch.
 		 * @param	string
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function branchRemove($name)
 		{
@@ -107,7 +107,7 @@
 		 * Checkout branch.
 		 * @param	string
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function checkout($name)
 		{
@@ -121,7 +121,7 @@
 		 * Removes file(s).
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function remove($file)
 		{
@@ -144,7 +144,7 @@
 		 * Adds file(s).
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function add($file)
 		{
@@ -168,7 +168,7 @@
 		 * @param	string|string[]  from: array('from' => 'to', ...) || (from, to)
 		 * @param	string|NULL
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function rename($file, $to = NULL)
 		{
@@ -194,7 +194,7 @@
 		 * @param	string
 		 * @param	string[]  param => value
 		 * @throws	Cz\Git\GitException
-		 * @return	Cz\Git\Git
+		 * @return	self
 		 */
 		public function commit($message, $params = NULL)
 		{
