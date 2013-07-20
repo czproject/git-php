@@ -1,7 +1,10 @@
 Git-PHP
--------
+============
 
-Library for work with Git from PHP.
+Library for work with Git repository from PHP.
+
+Usage
+-----
 
 ``` php
 <?php
@@ -16,3 +19,17 @@ Library for work with Git from PHP.
 	}
 ```
 
+
+Installation
+------------
+
+[Download a latest package](https://github.com/czproject/git-php/releases) or use [Composer](http://getcomposer.org/):
+
+```
+composer require czproject/git-php
+```
+
+------------------------------
+
+License: [New BSD License](license.md)
+<br>Author: Jan Pecha, http://janpecha.iunas.cz/
