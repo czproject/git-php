@@ -1,5 +1,6 @@
 {
     "name": "czproject/git-php",
+    "type": "library",
     "description": "Library for work with Git from PHP.",
     "license": "BSD-3-Clause",
     "authors": [
@@ -9,6 +10,9 @@
         }
     ],
     "require": {
-
+		"php": ">=5.3.0"
+    },
+    "autoload": {
+        "classmap": ["src/"]
     }
 }
