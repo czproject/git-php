@@ -8,6 +8,31 @@
 	
 	class Git implements IGit
 	{
+		/** @var  string */
+		private $repository;
+		
+		/** @var  string|NULL  @internal */
+		private $cwd;
+		
+		
+		
+		public function __construct($repository)
+		{
+			if(basename($repository) === '.git')
+			{
+				$repository = dirname($repository);
+			}
+			
+			$this->repository = realpath($repository);
+			
+			if($this->repository === FALSE)
+			{
+				throw new GitException("Repository '$repository' not found.");
+			}
+		}
+		
+		
+		
 		/**
 		 * Creates a tag.
 		 * @param	string
@@ -16,8 +41,9 @@
 		 */
 		public function tag($name)
 		{
-			$this->run('git tag', $name);
-			return $this;
+			return $this->begin()
+				->run('git tag', $name)
+				->end();
 		}
 		
 		
@@ -31,8 +57,9 @@
 		 */
 		public function merge($branch, $options = NULL)
 		{
-			$this->run('git merge', $options, $branch);
-			return $this;
+			return $this->begin()
+				->run('git merge', $options, $branch)
+				->end();
 		}
 		
 		
@@ -46,6 +73,8 @@
 		 */
 		public function branchCreate($name, $checkout = FALSE)
 		{
+			$this->begin();
+			
 			// git branch $name
 			$this->run('git branch', $name);
 			
@@ -54,7 +83,7 @@
 				$this->checkout($name);
 			}
 			
-			return $this;
+			return $this->end();
 		}
 		
 		
@@ -67,10 +96,11 @@
 		 */
 		public function branchRemove($name)
 		{
-			$this->run('git branch', array(
-				'-d' => $name,
-			));
-			return $this;
+			return $this->begin()
+				->run('git branch', array(
+					'-d' => $name,
+				))
+				->end();
 		}
 		
 		
@@ -85,7 +115,9 @@
 			$output = array();
 			$exitCode = NULL;
 			
+			$this->begin();
 			exec('git branch', $output, $exitCode);
+			$this->end();
 			
 			if($exitCode === 0 && is_array($output))
 			{
@@ -111,8 +143,9 @@
 		 */
 		public function checkout($name)
 		{
-			$this->run('git checkout', $name);
-			return $this;
+			return $this->begin()
+				->run('git checkout', $name)
+				->end();
 		}
 		
 		
@@ -130,12 +163,14 @@
 				$file = func_get_args();
 			}
 			
+			$this->begin();
+			
 			foreach($file as $item)
 			{
 				$this->run('git rm', $item, '-r');
 			}
 			
-			return $this;
+			return $this->end();
 		}
 		
 		
@@ -153,12 +188,14 @@
 				$file = func_get_args();
 			}
 			
+			$this->begin();
+			
 			foreach($file as $item)
 			{
 				$this->run('git add', $item);
 			}
 			
-			return $this;
+			return $this->end();
 		}
 		
 		
@@ -179,12 +216,14 @@
 				unset($from);
 			}
 			
+			$this->begin();
+			
 			foreach($file as $from => $to)
 			{
 				$this->run('git mv', $from, $to);
 			}
 			
-			return $this;
+			return $this->end();
 		}
 		
 		
@@ -203,10 +242,11 @@
 				$params = array();
 			}
 			
-			$this->run("git commit", $params, array(
-				'-m' => $message,
-			));
-			return $this;
+			return $this->begin()
+				->run("git commit", $params, array(
+					'-m' => $message,
+				))
+				->end();
 		}
 		
 		
@@ -217,16 +257,49 @@
 		 */
 		public function isChanges()
 		{
+			$this->begin();
 			$lastLine = exec('git status');
-			
+			$this->end();
 			return (strpos($lastLine, 'nothing to commit')) === FALSE; // FALSE => changes
+		}
+		
+		
+		
+		/**
+		 * @return	self
+		 */
+		private function begin()
+		{
+			if($this->cwd === NULL) // TODO: good idea??
+			{
+				$this->cwd = getcwd();
+				chdir($this->repository);
+			}
+			
+			return $this;
+		}
+		
+		
+		
+		/**
+		 * @return	self
+		 */
+		private function end()
+		{
+			if(is_string($this->cwd))
+			{
+				chdir($this->cwd);
+			}
+			
+			$this->cwd = NULL;
+			return $this;
 		}
 		
 		
 		
 		/** Runs command.
 		 * @param	string|array
-		 * @return	void
+		 * @return	self
 		 * @throws	Cz\Git\GitException
 		 */
 		protected function run($cmd/*, $options = NULL*/)
@@ -265,6 +338,8 @@
 			{
 				throw new GitException("Command '$cmd' failed.");
 			}
+			
+			return $this;
 		}
 	}
 
