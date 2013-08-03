@@ -6,7 +6,7 @@
 	
 	namespace Cz\Git;
 	
-	class Git implements IGit
+	class GitRepository implements IGit
 	{
 		/** @var  string */
 		private $repository;
