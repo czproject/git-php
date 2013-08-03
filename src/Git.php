@@ -49,6 +49,23 @@
 		
 		
 		/**
+		 * Removes tag.
+		 * @param	string
+		 * @throws	Cz\Git\GitException
+		 * @return	self
+		 */
+		public function removeTag($name)
+		{
+			return $this->begin()
+				->run('git tag', array(
+					'-d' => $name,
+				))
+				->end();
+		}
+		
+		
+		
+		/**
 		 * Merges branches.
 		 * @param	string
 		 * @param	array|NULL
