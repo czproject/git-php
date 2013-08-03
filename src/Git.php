@@ -39,7 +39,7 @@
 		 * @throws	Cz\Git\GitException
 		 * @return	self
 		 */
-		public function tag($name)
+		public function createTag($name)
 		{
 			return $this->begin()
 				->run('git tag', $name)
@@ -71,7 +71,7 @@
 		 * @throws	Cz\Git\GitException
 		 * @return	self
 		 */
-		public function branchCreate($name, $checkout = FALSE)
+		public function createBranch($name, $checkout = FALSE)
 		{
 			$this->begin();
 			
@@ -94,7 +94,7 @@
 		 * @throws	Cz\Git\GitException
 		 * @return	self
 		 */
-		public function branchRemove($name)
+		public function removeBranch($name)
 		{
 			return $this->begin()
 				->run('git branch', array(
@@ -110,7 +110,7 @@
 		 * @return	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function branchName()
+		public function getCurrentBranchName()
 		{
 			$output = array();
 			$exitCode = NULL;
@@ -156,7 +156,7 @@
 		 * @throws	Cz\Git\GitException
 		 * @return	self
 		 */
-		public function remove($file)
+		public function removeFile($file)
 		{
 			if(!is_array($file))
 			{
@@ -181,7 +181,7 @@
 		 * @throws	Cz\Git\GitException
 		 * @return	self
 		 */
-		public function add($file)
+		public function addFile($file)
 		{
 			if(!is_array($file))
 			{
@@ -207,7 +207,7 @@
 		 * @throws	Cz\Git\GitException
 		 * @return	self
 		 */
-		public function rename($file, $to = NULL)
+		public function renameFile($file, $to = NULL)
 		{
 			if(!is_array($file)) // rename(file, to);
 			{
