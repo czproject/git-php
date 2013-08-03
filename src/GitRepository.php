@@ -66,6 +66,26 @@
 		
 		
 		/**
+		 * Renames tag.
+		 * @param	string
+		 * @param	string
+		 * @throws	Cz\Git\GitException
+		 * @return	self
+		 */
+		public function renameTag($oldName, $newName)
+		{
+			return $this->begin()
+				// http://stackoverflow.com/a/1873932
+				// create new as alias to old (`git tag NEW OLD`)
+				->run('git tag', $newName, $oldName)
+				// delete old (`git tag -d OLD`)
+				->removeTag($oldName) // WARN! removeTag() calls end() method!!!
+				->end();
+		}
+		
+		
+		
+		/**
 		 * Merges branches.
 		 * @param	string
 		 * @param	array|NULL
