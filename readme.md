@@ -8,13 +8,13 @@ Usage
 
 ``` php
 <?php
-	$git = new Cz\Git\Git;
+	$repo = new Cz\Git\GitRepository(__DIR__);
 	$filename = __DIR__ . '/my-file.txt';
 	file_put_contents($filename, "Lorem ipsum\ndolor\nsit amet");
 	
-	if($git->isChanges())
+	if($repo->isChanges())
 	{
-		$git->add($filename)
+		$repo->addFile($filename)
 			->commit('Added a file.');
 	}
 ```
