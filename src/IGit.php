@@ -13,7 +13,7 @@
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function createTag($name);
+		function createTag($name);
 		
 		
 		
@@ -22,7 +22,7 @@
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function removeTag($name);
+		function removeTag($name);
 		
 		
 		
@@ -32,7 +32,7 @@
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function renameTag($oldName, $newName);
+		function renameTag($oldName, $newName);
 		
 		
 		
@@ -42,7 +42,7 @@
 		 * @param	array|NULL
 		 * @throws	Cz\Git\GitException
 		 */
-		public function merge($branch, $options = NULL);
+		function merge($branch, $options = NULL);
 		
 		
 		
@@ -52,7 +52,7 @@
 		 * @param	bool
 		 * @throws	Cz\Git\GitException
 		 */
-		public function createBranch($name, $checkout = FALSE);
+		function createBranch($name, $checkout = FALSE);
 		
 		
 		
@@ -61,7 +61,7 @@
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function removeBranch($name);
+		function removeBranch($name);
 		
 		
 		
@@ -70,7 +70,7 @@
 		 * @return	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function getCurrentBranchName();
+		function getCurrentBranchName();
 		
 		
 		
@@ -79,7 +79,7 @@
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function checkout($name);
+		function checkout($name);
 		
 		
 		
@@ -88,7 +88,7 @@
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 */
-		public function removeFile($file);
+		function removeFile($file);
 		
 		
 		
@@ -97,7 +97,7 @@
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 */
-		public function addFile($file);
+		function addFile($file);
 		
 		
 		
@@ -107,7 +107,7 @@
 		 * @param	string|NULL
 		 * @throws	Cz\Git\GitException
 		 */
-		public function renameFile($file, $to = NULL);
+		function renameFile($file, $to = NULL);
 		
 		
 		
@@ -117,7 +117,7 @@
 		 * @param	string[]  param => value
 		 * @throws	Cz\Git\GitException
 		 */
-		public function commit($message, $params = NULL);
+		function commit($message, $params = NULL);
 		
 		
 		
@@ -125,7 +125,7 @@
 		 * Exists changes?
 		 * @return	bool
 		 */
-		public function isChanges();
+		function isChanges();
 	}
 	
 	
