@@ -13,7 +13,26 @@
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function tag($name);
+		public function createTag($name);
+		
+		
+		
+		/**
+		 * Removes tag.
+		 * @param	string
+		 * @throws	Cz\Git\GitException
+		 */
+		public function removeTag($name);
+		
+		
+		
+		/**
+		 * Renames tag.
+		 * @param	string
+		 * @param	string
+		 * @throws	Cz\Git\GitException
+		 */
+		public function renameTag($oldName, $newName);
 		
 		
 		
@@ -33,7 +52,7 @@
 		 * @param	bool
 		 * @throws	Cz\Git\GitException
 		 */
-		public function branchCreate($name, $checkout = FALSE);
+		public function createBranch($name, $checkout = FALSE);
 		
 		
 		
@@ -42,7 +61,7 @@
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function branchRemove($name);
+		public function removeBranch($name);
 		
 		
 		
@@ -51,7 +70,7 @@
 		 * @return	string
 		 * @throws	Cz\Git\GitException
 		 */
-		public function branchName();
+		public function getCurrentBranchName();
 		
 		
 		
@@ -69,7 +88,7 @@
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 */
-		public function remove($file);
+		public function removeFile($file);
 		
 		
 		
@@ -78,7 +97,7 @@
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 */
-		public function add($file);
+		public function addFile($file);
 		
 		
 		
@@ -88,7 +107,7 @@
 		 * @param	string|NULL
 		 * @throws	Cz\Git\GitException
 		 */
-		public function rename($file, $to = NULL);
+		public function renameFile($file, $to = NULL);
 		
 		
 		
