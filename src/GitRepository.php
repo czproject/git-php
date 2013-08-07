@@ -229,6 +229,7 @@
 			
 			foreach($file as $item)
 			{
+				// TODO: ?? is file($repo . / . $item) ??
 				$this->run('git add', $item);
 			}
 			
@@ -248,9 +249,9 @@
 		{
 			if(!is_array($file)) // rename(file, to);
 			{
-				$from[$file] = $to;
-				$file = $from;
-				unset($from);
+				$file = array(
+					$file => $to,
+				);
 			}
 			
 			$this->begin();
