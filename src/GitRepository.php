@@ -35,6 +35,7 @@
 		
 		/**
 		 * Creates a tag.
+		 * `git tag <name>`
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 * @return	self
@@ -50,6 +51,7 @@
 		
 		/**
 		 * Removes tag.
+		 * `git tag -d <name>`
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 * @return	self
@@ -67,6 +69,8 @@
 		
 		/**
 		 * Renames tag.
+		 * `git tag <new> <old>`
+		 * `git tag -d <old>`
 		 * @param	string
 		 * @param	string
 		 * @throws	Cz\Git\GitException
@@ -87,6 +91,7 @@
 		
 		/**
 		 * Merges branches.
+		 * `git merge <options> <name>`
 		 * @param	string
 		 * @param	array|NULL
 		 * @throws	Cz\Git\GitException
@@ -103,6 +108,8 @@
 		
 		/**
 		 * Creates new branch.
+		 * `git branch <name>`
+		 * (optionaly) `git checkout <name>`
 		 * @param	string
 		 * @param	bool
 		 * @throws	Cz\Git\GitException
@@ -127,6 +134,7 @@
 		
 		/**
 		 * Removes branch.
+		 * `git branch -d <name>`
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 * @return	self
@@ -144,6 +152,7 @@
 		
 		/**
 		 * Gets name of current branch
+		 * `git branch` + magic
 		 * @return	string
 		 * @throws	Cz\Git\GitException
 		 */
@@ -174,6 +183,7 @@
 		
 		/**
 		 * Checkout branch.
+		 * `git checkout <branch>`
 		 * @param	string
 		 * @throws	Cz\Git\GitException
 		 * @return	self
@@ -189,6 +199,7 @@
 		
 		/**
 		 * Removes file(s).
+		 * `git rm <file>`
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 * @return	self
@@ -214,6 +225,7 @@
 		
 		/**
 		 * Adds file(s).
+		 * `git add <file>`
 		 * @param	string|string[]
 		 * @throws	Cz\Git\GitException
 		 * @return	self
@@ -240,6 +252,7 @@
 		
 		/**
 		 * Renames file(s).
+		 * `git mv <file>`
 		 * @param	string|string[]  from: array('from' => 'to', ...) || (from, to)
 		 * @param	string|NULL
 		 * @throws	Cz\Git\GitException
@@ -268,6 +281,7 @@
 		
 		/**
 		 * Commits changes
+		 * `git commit <params> -m <message>`
 		 * @param	string
 		 * @param	string[]  param => value
 		 * @throws	Cz\Git\GitException
@@ -291,6 +305,7 @@
 		
 		/**
 		 * Exists changes?
+		 * `git status` + magic
 		 * @return	bool
 		 */
 		public function isChanges()
