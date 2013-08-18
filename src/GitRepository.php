@@ -411,9 +411,15 @@
 		 * Init repo in directory
 		 * @param	string
 		 * @return	self
+		 * @throws	GitException
 		 */
 		public static function init($directory)
 		{
+			if(is_dir("$directory/.git"))
+			{
+				throw new GitException("Repo already exists in $directory.");
+			}
+			
 			if(!is_dir($directory) && !@mkdir($directory, 0777, TRUE)) // intentionally @; not atomic; from Nette FW
 			{
 				throw new GitException("Unable to create directory '$directory'.");
