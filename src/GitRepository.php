@@ -179,24 +179,23 @@
 		 */
 		public function getCurrentBranchName()
 		{
-			$output = array();
-			$exitCode = NULL;
-			
-			$this->begin();
-			exec('git branch', $output, $exitCode);
-			$this->end();
-			
-			if($exitCode === 0 && is_array($output))
+			try
 			{
-				foreach($output as $line)
-				{
-					if($line[0] === '*')
+				$branch = $this->extractFromCommand('git branch', function($value) {
+					if(isset($value[0]) && $value[0] === '*')
 					{
-						return trim(substr($line, 1));
+						return trim(substr($value, 1));
 					}
+					
+					return FALSE;
+				});
+				
+				if(is_array($branch))
+				{
+					return $branch[0];
 				}
 			}
-			
+			catch(GitException $e) {}
 			throw new GitException('Getting current branch name failed.');
 		}
 		

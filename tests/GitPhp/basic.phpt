@@ -60,6 +60,7 @@ Assert::same(array(
 	'develop',
 	'master',
 ), $repo->getBranches());
+Assert::same('develop', $repo->getCurrentBranchName());
 
 // ...change file
 $file = TEMP_DIR . '/first.txt';
@@ -74,6 +75,7 @@ $repo->commit('Changed first file.');
 Assert::false($repo->isChanges());
 
 $repo->checkout('master');
+Assert::same('master', $repo->getCurrentBranchName());
 Assert::null($repo->getTags());
 $repo->createTag('v0.9.0');
 Assert::same(array(
