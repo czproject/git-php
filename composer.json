@@ -14,5 +14,8 @@
 	},
 	"autoload": {
 		"classmap": ["src/"]
+	},
+	"require-dev": {
+		"nette/tester": "0.9.3"
 	}
 }
