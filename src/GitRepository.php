@@ -395,9 +395,9 @@
 			}
 			
 			$cmd = "$programName " . implode(' ', $cmd);
-			$success = system($cmd, $ret);
+			exec($cmd, $output, $ret);
 			
-			if($success === FALSE || $ret !== 0)
+			if($ret !== 0)
 			{
 				throw new GitException("Command '$cmd' failed.");
 			}
@@ -427,9 +427,9 @@
 			
 			$cwd = getcwd();
 			chdir($directory);
-			$success = system('git init', $returnCode);
+			exec('git init', $output, $returnCode);
 			
-			if($success === FALSE || $returnCode !== 0)
+			if($returnCode !== 0)
 			{
 				throw new GitException("Git init failed (directory $directory).");
 			}
