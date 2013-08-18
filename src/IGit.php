@@ -37,6 +37,14 @@
 		
 		
 		/**
+		 * Returns list of tags in repo.
+		 * @return	string[]|NULL  NULL => no tags
+		 */
+		function getTags();
+		
+		
+		
+		/**
 		 * Merges branches.
 		 * @param	string
 		 * @param	array|NULL
@@ -71,6 +79,15 @@
 		 * @throws	Cz\Git\GitException
 		 */
 		function getCurrentBranchName();
+		
+		
+		
+		
+		/**
+		 * Returns list of branches in repo.
+		 * @return	string[]|NULL  NULL => no branches
+		 */
+		function getBranches();
 		
 		
 		

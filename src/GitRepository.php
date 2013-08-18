@@ -100,6 +100,17 @@
 		
 		
 		/**
+		 * Returns list of tags in repo.
+		 * @return	string[]|NULL  NULL => no tags
+		 */
+		public function getTags()
+		{
+			return $this->extractFromCommand('git tag', 'trim');
+		}
+		
+		
+		
+		/**
 		 * Merges branches.
 		 * `git merge <options> <name>`
 		 * @param	string
@@ -187,6 +198,19 @@
 			}
 			
 			throw new GitException('Getting current branch name failed.');
+		}
+		
+		
+		
+		/**
+		 * Returns list of branches in repo.
+		 * @return	string[]|NULL  NULL => no branches
+		 */
+		public function getBranches()
+		{
+			return $this->extractFromCommand('git branch', function($value) {
+				return trim(substr($value, 1));
+			});
 		}
 		
 		
@@ -356,6 +380,54 @@
 			
 			$this->cwd = NULL;
 			return $this;
+		}
+		
+		
+		
+		/**
+		 * @param	string
+		 * @param	callback|NULL
+		 * @return	string[]|NULL
+		 */
+		private function extractFromCommand($cmd, $filter = NULL)
+		{
+			$output = array();
+			$exitCode = NULL;
+			
+			$this->begin();
+			exec("$cmd", $output, $exitCode);
+			$this->end();
+			
+			if($exitCode !== 0 || !is_array($output))
+			{
+				throw new GitException("Command $cmd failed.");
+			}
+			
+			if($filter !== NULL)
+			{
+				$newArray = array();
+				
+				foreach($output as $line)
+				{
+					$value = $filter($line);
+					
+					if($value === FALSE)
+					{
+						continue;
+					}
+					
+					$newArray[] = $value;
+				}
+				
+				$output = $newArray;
+			}
+			
+			if(!isset($output[0])) // empty array
+			{
+				return NULL;
+			}
+			
+			return $output;
 		}
 		
 		

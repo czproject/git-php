@@ -20,6 +20,8 @@ Assert::exception(function() use ($repo) {
 }, 'Cz\Git\GitException', 'Getting current branch name failed.');
 
 Assert::false($repo->isChanges());
+Assert::null($repo->getTags());
+Assert::null($repo->getBranches());
 
 // init commit
 $file = TEMP_DIR . '/first.txt';
@@ -29,6 +31,9 @@ Assert::true($repo->isChanges());
 $repo->commit('First commit');
 
 Assert::same('master', $repo->getCurrentBranchName());
+Assert::same(array(
+	'master',
+), $repo->getBranches());
 
 
 // second commit
@@ -51,6 +56,10 @@ Assert::false($repo->isChanges());
 
 // Branches
 $repo->createBranch('develop', TRUE);
+Assert::same(array(
+	'develop',
+	'master',
+), $repo->getBranches());
 
 // ...change file
 $file = TEMP_DIR . '/first.txt';
@@ -65,7 +74,11 @@ $repo->commit('Changed first file.');
 Assert::false($repo->isChanges());
 
 $repo->checkout('master');
+Assert::null($repo->getTags());
 $repo->createTag('v0.9.0');
+Assert::same(array(
+	'v0.9.0',
+), $repo->getTags());
 Assert::false($repo->isChanges());
 $repo->merge('develop');
 Assert::false($repo->isChanges());
@@ -73,9 +86,20 @@ Assert::false($repo->isChanges());
 Assert::same($newContent, file_get_contents($file));
 
 $repo->createTag('v2.0.0');
+Assert::same(array(
+	'v0.9.0',
+	'v2.0.0',
+), $repo->getTags());
 $repo->removeBranch('develop');
+Assert::same(array(
+	'master',
+), $repo->getBranches());
 
 $repo->renameTag('v0.9.0', 'v1.0.0');
+Assert::same(array(
+	'v1.0.0',
+	'v2.0.0',
+), $repo->getTags());
 $repo->checkout('v1.0.0');
 Assert::same($content, file_get_contents($file));
 
