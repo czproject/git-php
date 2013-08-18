@@ -34,6 +34,16 @@
 		
 		
 		/**
+		 * @return	string
+		 */
+		public function getRepositoryPath()
+		{
+			return $this->repository;
+		}
+		
+		
+		
+		/**
 		 * Creates a tag.
 		 * `git tag <name>`
 		 * @param	string
