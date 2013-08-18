@@ -1,7 +1,7 @@
 {
 	"name": "czproject/git-php",
 	"type": "library",
-	"description": "Library for work with Git from PHP.",
+	"description": "Library for work with Git repository in PHP.",
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
