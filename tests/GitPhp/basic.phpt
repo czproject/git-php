@@ -1,0 +1,99 @@
+<?php
+use Tester\Assert;
+use Cz\Git\GitRepository;
+require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/../../src/IGit.php';
+require __DIR__ . '/../../src/GitRepository.php';
+
+$repo = GitRepository::init(TEMP_DIR);
+
+// repo already exists
+Assert::exception(function() {
+	GitRepository::init(TEMP_DIR);
+}, 'Cz\Git\GitException');
+
+Assert::same(realpath(TEMP_DIR), $repo->getRepositoryPath());
+
+// repo is empty
+Assert::exception(function() use ($repo) {
+	$repo->getCurrentBranchName();
+}, 'Cz\Git\GitException', 'Getting current branch name failed.');
+
+Assert::false($repo->isChanges());
+
+// init commit
+$file = TEMP_DIR . '/first.txt';
+file_put_contents($file, "Lorem\n\tipsum\ndolor sit\namet.\n");
+$repo->addFile($file);
+Assert::true($repo->isChanges());
+$repo->commit('First commit');
+
+Assert::same('master', $repo->getCurrentBranchName());
+
+
+// second commit
+$file = TEMP_DIR . '/second.txt';
+file_put_contents($file, "Sit amet dolor ipsum lorem.\n");
+$repo->addFile(array(
+	$file,
+));
+Assert::true($repo->isChanges());
+$repo->commit('Second commit');
+Assert::false($repo->isChanges());
+
+
+// remove second file
+$repo->removeFile($file);
+Assert::true($repo->isChanges());
+$repo->commit('Removed second file');
+Assert::false($repo->isChanges());
+
+
+// Branches
+$repo->createBranch('develop', TRUE);
+
+// ...change file
+$file = TEMP_DIR . '/first.txt';
+$content = file_get_contents($file);
+$newContent = "$content\n\tchanged " . date('Y-m-d H:i:s');
+
+Assert::false($repo->isChanges());
+file_put_contents($file, $newContent);
+Assert::true($repo->isChanges());
+$repo->addFile($file);
+$repo->commit('Changed first file.');
+Assert::false($repo->isChanges());
+
+$repo->checkout('master');
+$repo->createTag('v0.9.0');
+Assert::false($repo->isChanges());
+$repo->merge('develop');
+Assert::false($repo->isChanges());
+
+Assert::same($newContent, file_get_contents($file));
+
+$repo->createTag('v2.0.0');
+$repo->removeBranch('develop');
+
+$repo->renameTag('v0.9.0', 'v1.0.0');
+$repo->checkout('v1.0.0');
+Assert::same($content, file_get_contents($file));
+
+$repo->checkout('v2.0.0');
+Assert::false($repo->isChanges());
+$repo->renameFile($file, $newFile = TEMP_DIR . '/renamed.txt');
+Assert::true($repo->isChanges());
+$repo->commit('First file renamed.');
+Assert::false(is_file($file));
+Assert::true(is_file($newFile));
+Assert::same($newContent, file_get_contents($newFile));
+
+// creating repo object
+$newRepo = new GitRepository(TEMP_DIR . '/.git');
+Assert::same(realpath(TEMP_DIR), $newRepo->getRepositoryPath());
+
+Assert::exception(function () {
+	new GitRepository(TEMP_DIR . '/bad/bad/bad/repo/');
+}, 'Cz\Git\GitException');
+
+
