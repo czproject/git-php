@@ -404,5 +404,34 @@
 			
 			return $this;
 		}
+		
+		
+		
+		/**
+		 * Init repo in directory
+		 * @param	string
+		 * @return	self
+		 */
+		public static function init($directory)
+		{
+			if(!is_dir($directory) && !@mkdir($directory, 0777, TRUE)) // intentionally @; not atomic; from Nette FW
+			{
+				throw new GitException("Unable to create directory '$directory'.");
+			}
+			
+			$cwd = getcwd();
+			chdir($directory);
+			$success = system('git init', $returnCode);
+			
+			if($success === FALSE || $returnCode !== 0)
+			{
+				throw new GitException("Git init failed (directory $directory).");
+			}
+			
+			$repo = getcwd();
+			chdir($cwd);
+			
+			return new static($repo);
+		}
 	}
 
