@@ -8,16 +8,19 @@ Usage
 
 ``` php
 <?php
+	// new repo object
 	$repo = new Cz\Git\GitRepository(__DIR__);
-	$filename = __DIR__ . '/my-file.txt';
+	
+	// new file
+	$filename = __DIR__ . '/first.txt';
 	file_put_contents($filename, "Lorem ipsum\ndolor\nsit amet");
 	
-	if($repo->isChanges())
-	{
-		$repo->addFile($filename)
-			->commit('Added a file.');
-	}
+	// commit
+	$repo->addFile($filename);
+	$repo->commit('init commit');
 ```
+
+[API documentation](http://api.iunas.cz/git-php/)
 
 
 Installation
