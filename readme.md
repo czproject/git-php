@@ -1,7 +1,7 @@
 Git-PHP
 ============
 
-Library for work with Git repository from PHP.
+Library for work with Git repository in PHP.
 
 Usage
 -----
