@@ -181,7 +181,7 @@
 		{
 			try
 			{
-				$branch = $this->extractFromCommand('git branch', function($value) {
+				$branch = $this->extractFromCommand('git branch -a', function($value) {
 					if(isset($value[0]) && $value[0] === '*')
 					{
 						return trim(substr($value, 1));
