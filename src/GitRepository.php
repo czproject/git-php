@@ -202,10 +202,23 @@
 		
 		
 		/**
-		 * Returns list of branches in repo.
+		 * Returns list of all (local & remote) branches in repo.
 		 * @return	string[]|NULL  NULL => no branches
 		 */
 		public function getBranches()
+		{
+			return $this->extractFromCommand('git branch -a', function($value) {
+				return trim(substr($value, 1));
+			});
+		}
+		
+		
+		
+		/**
+		 * Returns list of local branches in repo.
+		 * @return	string[]|NULL  NULL => no branches
+		 */
+		public function getLocalBranches()
 		{
 			return $this->extractFromCommand('git branch', function($value) {
 				return trim(substr($value, 1));
