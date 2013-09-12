@@ -143,6 +143,16 @@
 		 * @return	bool
 		 */
 		function isChanges();
+		
+		
+		
+		/**
+		 * Clones GIT repository from $url into $directory
+		 * @param	string
+		 * @param	string|NULL
+		 * @return	self
+		 */
+		static function cloneRepository($url, $directory = NULL);
 	}
 	
 	

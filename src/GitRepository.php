@@ -523,5 +523,81 @@
 			
 			return new static($repo);
 		}
+		
+		
+		
+		/**
+		 * Clones GIT repository from $url into $directory
+		 * @param	string
+		 * @param	string|NULL
+		 * @return	self
+		 */
+		public static function cloneRepository($url, $directory = NULL)
+		{
+			if($directory !== NULL && is_dir("$directory/.git"))
+			{
+				throw new GitException("Repo already exists in $directory.");
+			}
+			
+			$cwd = getcwd();
+			
+			if($directory === NULL)
+			{
+				$directory = self::extractRepositoryNameFromUrl($url);
+				$directory = "$cwd/$directory";
+			}
+			elseif(!self::isAbsolute($directory))
+			{
+				$directory = "$cwd/$directory";
+			}
+			
+			exec('git clone -q ' . escapeshellarg($url) . ' ' . escapeshellarg($directory), $output, $returnCode);
+			
+			if($returnCode !== 0)
+			{
+				throw new GitException("Git clone failed (directory $directory).");
+			}
+			
+			return new static($directory);
+		}
+		
+		
+		
+		/**
+		 * @param	string  /path/to/repo.git | host.xz:foo/.git | ...
+		 * @return	string  repo | foo | ...
+		 */
+		public static function extractRepositoryNameFromUrl($url)
+		{
+			// /path/to/repo.git => repo
+			// host.xz:foo/.git => foo
+			$directory = rtrim($url, '/');
+			if(substr($directory, -5) === '/.git')
+			{
+				$directory = substr($directory, 0, -5);
+			}
+			
+			$directory = basename($directory, '.git');
+			
+			if(($pos = strrpos($directory, ':')) !== FALSE)
+			{
+				$directory = substr($directory, $pos + 1);
+			}
+			
+			return $directory;
+		}
+		
+		
+		
+		/**
+		 * Is path absolute?
+		 * Method from Nette\Utils\FileSystem
+		 * @link https://github.com/nette/nette/blob/master/Nette/Utils/FileSystem.php
+		 * @return bool
+		 */
+		public static function isAbsolute($path)
+		{
+			return (bool) preg_match('#[/\\\\]|[a-zA-Z]:[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
+		}
 	}
 
