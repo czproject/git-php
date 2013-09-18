@@ -1,21 +1,21 @@
 <?php
 	/** Default Implementation of IGit Interface
-	 * 
+	 *
 	 * @author		Jan Pecha, <janpecha@email.cz>
 	 */
-	
+
 	namespace Cz\Git;
-	
+
 	class GitRepository implements IGit
 	{
 		/** @var  string */
 		private $repository;
-		
+
 		/** @var  string|NULL  @internal */
 		private $cwd;
-		
-		
-		
+
+
+
 		/**
 		 * @param	string
 		 */
@@ -25,17 +25,17 @@
 			{
 				$repository = dirname($repository);
 			}
-			
+
 			$this->repository = realpath($repository);
-			
+
 			if($this->repository === FALSE)
 			{
 				throw new GitException("Repository '$repository' not found.");
 			}
 		}
-		
-		
-		
+
+
+
 		/**
 		 * @return	string
 		 */
@@ -43,9 +43,9 @@
 		{
 			return $this->repository;
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Creates a tag.
 		 * `git tag <name>`
@@ -59,9 +59,9 @@
 				->run('git tag', $name)
 				->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Removes tag.
 		 * `git tag -d <name>`
@@ -77,9 +77,9 @@
 				))
 				->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Renames tag.
 		 * `git tag <new> <old>`
@@ -99,9 +99,9 @@
 				->removeTag($oldName) // WARN! removeTag() calls end() method!!!
 				->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Returns list of tags in repo.
 		 * @return	string[]|NULL  NULL => no tags
@@ -110,9 +110,9 @@
 		{
 			return $this->extractFromCommand('git tag', 'trim');
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Merges branches.
 		 * `git merge <options> <name>`
@@ -127,9 +127,9 @@
 				->run('git merge', $options, $branch)
 				->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Creates new branch.
 		 * `git branch <name>`
@@ -142,20 +142,20 @@
 		public function createBranch($name, $checkout = FALSE)
 		{
 			$this->begin();
-			
+
 			// git branch $name
 			$this->run('git branch', $name);
-			
+
 			if($checkout)
 			{
 				$this->checkout($name);
 			}
-			
+
 			return $this->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Removes branch.
 		 * `git branch -d <name>`
@@ -171,9 +171,9 @@
 				))
 				->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Gets name of current branch
 		 * `git branch` + magic
@@ -189,10 +189,10 @@
 					{
 						return trim(substr($value, 1));
 					}
-					
+
 					return FALSE;
 				});
-				
+
 				if(is_array($branch))
 				{
 					return $branch[0];
@@ -201,9 +201,9 @@
 			catch(GitException $e) {}
 			throw new GitException('Getting current branch name failed.');
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Returns list of all (local & remote) branches in repo.
 		 * @return	string[]|NULL  NULL => no branches
@@ -214,9 +214,9 @@
 				return trim(substr($value, 1));
 			});
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Returns list of local branches in repo.
 		 * @return	string[]|NULL  NULL => no branches
@@ -227,9 +227,9 @@
 				return trim(substr($value, 1));
 			});
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Checkout branch.
 		 * `git checkout <branch>`
@@ -243,9 +243,9 @@
 				->run('git checkout', $name)
 				->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Removes file(s).
 		 * `git rm <file>`
@@ -259,19 +259,19 @@
 			{
 				$file = func_get_args();
 			}
-			
+
 			$this->begin();
-			
+
 			foreach($file as $item)
 			{
 				$this->run('git rm', $item, '-r');
 			}
-			
+
 			return $this->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Adds file(s).
 		 * `git add <file>`
@@ -285,20 +285,20 @@
 			{
 				$file = func_get_args();
 			}
-			
+
 			$this->begin();
-			
+
 			foreach($file as $item)
 			{
 				// TODO: ?? is file($repo . / . $item) ??
 				$this->run('git add', $item);
 			}
-			
+
 			return $this->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Renames file(s).
 		 * `git mv <file>`
@@ -315,19 +315,19 @@
 					$file => $to,
 				);
 			}
-			
+
 			$this->begin();
-			
+
 			foreach($file as $from => $to)
 			{
 				$this->run('git mv', $from, $to);
 			}
-			
+
 			return $this->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Commits changes
 		 * `git commit <params> -m <message>`
@@ -342,16 +342,16 @@
 			{
 				$params = array();
 			}
-			
+
 			return $this->begin()
 				->run("git commit", $params, array(
 					'-m' => $message,
 				))
 				->end();
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Exists changes?
 		 * `git status` + magic
@@ -364,9 +364,9 @@
 			$this->end();
 			return (strpos($lastLine, 'nothing to commit')) === FALSE; // FALSE => changes
 		}
-		
-		
-		
+
+
+
 		/**
 		 * @return	self
 		 */
@@ -377,12 +377,12 @@
 				$this->cwd = getcwd();
 				chdir($this->repository);
 			}
-			
+
 			return $this;
 		}
-		
-		
-		
+
+
+
 		/**
 		 * @return	self
 		 */
@@ -392,13 +392,13 @@
 			{
 				chdir($this->cwd);
 			}
-			
+
 			$this->cwd = NULL;
 			return $this;
 		}
-		
-		
-		
+
+
+
 		/**
 		 * @param	string
 		 * @param	callback|NULL
@@ -408,45 +408,45 @@
 		{
 			$output = array();
 			$exitCode = NULL;
-			
+
 			$this->begin();
 			exec("$cmd", $output, $exitCode);
 			$this->end();
-			
+
 			if($exitCode !== 0 || !is_array($output))
 			{
 				throw new GitException("Command $cmd failed.");
 			}
-			
+
 			if($filter !== NULL)
 			{
 				$newArray = array();
-				
+
 				foreach($output as $line)
 				{
 					$value = $filter($line);
-					
+
 					if($value === FALSE)
 					{
 						continue;
 					}
-					
+
 					$newArray[] = $value;
 				}
-				
+
 				$output = $newArray;
 			}
-			
+
 			if(!isset($output[0])) // empty array
 			{
 				return NULL;
 			}
-			
+
 			return $output;
 		}
-		
-		
-		
+
+
+
 		/** Runs command.
 		 * @param	string|array
 		 * @return	self
@@ -456,9 +456,9 @@
 		{
 			$args = func_get_args();
 			$cmd = array();
-			
+
 			$programName = array_shift($args);
-			
+
 			foreach($args as $arg)
 			{
 				if(is_array($arg))
@@ -466,12 +466,12 @@
 					foreach($arg as $key => $value)
 					{
 						$_c = '';
-						
+
 						if(is_string($key))
 						{
 							$_c = "$key ";
 						}
-						
+
 						$cmd[] = $_c . escapeshellarg($value);
 					}
 				}
@@ -480,20 +480,20 @@
 					$cmd[] = escapeshellarg($arg);
 				}
 			}
-			
+
 			$cmd = "$programName " . implode(' ', $cmd);
 			exec($cmd, $output, $ret);
-			
+
 			if($ret !== 0)
 			{
 				throw new GitException("Command '$cmd' failed.");
 			}
-			
+
 			return $this;
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Init repo in directory
 		 * @param	string
@@ -506,29 +506,29 @@
 			{
 				throw new GitException("Repo already exists in $directory.");
 			}
-			
+
 			if(!is_dir($directory) && !@mkdir($directory, 0777, TRUE)) // intentionally @; not atomic; from Nette FW
 			{
 				throw new GitException("Unable to create directory '$directory'.");
 			}
-			
+
 			$cwd = getcwd();
 			chdir($directory);
 			exec('git init', $output, $returnCode);
-			
+
 			if($returnCode !== 0)
 			{
 				throw new GitException("Git init failed (directory $directory).");
 			}
-			
+
 			$repo = getcwd();
 			chdir($cwd);
-			
+
 			return new static($repo);
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Clones GIT repository from $url into $directory
 		 * @param	string
@@ -541,9 +541,9 @@
 			{
 				throw new GitException("Repo already exists in $directory.");
 			}
-			
+
 			$cwd = getcwd();
-			
+
 			if($directory === NULL)
 			{
 				$directory = self::extractRepositoryNameFromUrl($url);
@@ -553,19 +553,19 @@
 			{
 				$directory = "$cwd/$directory";
 			}
-			
+
 			exec('git clone -q ' . escapeshellarg($url) . ' ' . escapeshellarg($directory), $output, $returnCode);
-			
+
 			if($returnCode !== 0)
 			{
 				throw new GitException("Git clone failed (directory $directory).");
 			}
-			
+
 			return new static($directory);
 		}
-		
-		
-		
+
+
+
 		/**
 		 * @param	string  /path/to/repo.git | host.xz:foo/.git | ...
 		 * @return	string  repo | foo | ...
@@ -579,19 +579,19 @@
 			{
 				$directory = substr($directory, 0, -5);
 			}
-			
+
 			$directory = basename($directory, '.git');
-			
+
 			if(($pos = strrpos($directory, ':')) !== FALSE)
 			{
 				$directory = substr($directory, $pos + 1);
 			}
-			
+
 			return $directory;
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Is path absolute?
 		 * Method from Nette\Utils\FileSystem

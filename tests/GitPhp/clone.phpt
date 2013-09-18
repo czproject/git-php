@@ -54,4 +54,3 @@ Assert::true(in_array('remotes/origin/version-2.0.0', $branches));
 
 Assert::same(array('master'),$repo->getLocalBranches());
 
-
