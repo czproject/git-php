@@ -16,6 +16,9 @@
 		
 		
 		
+		/**
+		 * @param	string
+		 */
 		public function __construct($repository)
 		{
 			if(basename($repository) === '.git')
