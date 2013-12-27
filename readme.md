@@ -8,12 +8,15 @@ Usage
 
 ``` php
 <?php
-	// new repo object
+	// create repo object
 	$repo = new Cz\Git\GitRepository('/path/to/repo');
 
-	// new file
-	$filename = '/path/to/repo/first.txt';
-	file_put_contents($filename, "Lorem ipsum\ndolor\nsit amet");
+	// create a new file in repo
+	$filename = $repo->getRepositoryPath() . '/readme.txt';
+	file_put_contents($filename, "Lorem ipsum
+		dolor
+		sit amet
+	");
 
 	// commit
 	$repo->addFile($filename);
@@ -50,7 +53,7 @@ Basic operations
 
 ``` php
 <?php
-$repo->isChanges();
+$repo->isChanges();    // returns boolean
 $repo->commit('commit message');
 $repo->merge('branch-name');
 $repo->checkout('master');
@@ -77,8 +80,8 @@ $repo->removeFile(array('file3.txt', 'file4.txt'));
 
 
 
-Manipulation with branches
---------------------------
+Branches
+--------
 
 ``` php
 <?php
@@ -102,19 +105,19 @@ $repo->removeBranch('branch-name');
 ```
 
 
-Manipulation with tags
---------------------------
+Tags
+----
 
 ``` php
 <?php
-// gets list of all repository tags
+// gets list of all tags in repository
 $repo->getTags();
 
 // creates new tag
 $repo->createTag('v1.0.0');
 
 // renames tag
-$repo->renameTag('old-tag', 'new-tag');
+$repo->renameTag('old-tag-name', 'new-tag-name');
 
 // removes tag
 $repo->removeTag('tag-name');
