@@ -2,6 +2,7 @@
 	/** IGit interface
 	 *
 	 * @author		Jan Pecha, <janpecha@email.cz>
+	 * @license		New BSD License (BSD-3), see file license.md
 	 */
 
 	namespace Cz\Git;
