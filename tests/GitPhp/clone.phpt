@@ -19,16 +19,17 @@ Assert::same(realpath(TEMP_DIR . '/git-php'), $repo->getRepositoryPath());
 
 // repo is empty
 Assert::false($repo->isChanges());
-Assert::same(array(
-	'v1.0.0', 'v1.0.1', 'v1.0.2', 'v2.0.0',
-),$repo->getTags());
+$tags = $repo->getTags();
+Assert::true(in_array('v1.0.0', $tags));
+Assert::true(in_array('v1.0.1', $tags));
+Assert::true(in_array('v2.0.0', $tags));
 
 $branches = $repo->getBranches();
 Assert::true(in_array('master', $branches));
 Assert::true(in_array('remotes/origin/master', $branches));
-Assert::true(in_array('remotes/origin/version-2.0.0', $branches));
+Assert::true(in_array('remotes/origin/version-2', $branches));
 
-Assert::same(array('master'),$repo->getLocalBranches());
+Assert::same(array('master'), $repo->getLocalBranches());
 
 // Specificky adresar
 Tester\Helpers::purge(TEMP_DIR);
@@ -43,14 +44,15 @@ Assert::same(realpath(TEMP_DIR . '/git-php2'), $repo->getRepositoryPath());
 
 // repo is empty
 Assert::false($repo->isChanges());
-Assert::same(array(
-	'v1.0.0', 'v1.0.1', 'v1.0.2', 'v2.0.0',
-),$repo->getTags());
+$tags = $repo->getTags();
+Assert::true(in_array('v1.0.0', $tags));
+Assert::true(in_array('v1.0.1', $tags));
+Assert::true(in_array('v2.0.0', $tags));
 
 $branches = $repo->getBranches();
 Assert::true(in_array('master', $branches));
 Assert::true(in_array('remotes/origin/master', $branches));
-Assert::true(in_array('remotes/origin/version-2.0.0', $branches));
+Assert::true(in_array('remotes/origin/version-2', $branches));
 
 Assert::same(array('master'),$repo->getLocalBranches());
 
