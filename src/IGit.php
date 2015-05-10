@@ -148,6 +148,17 @@
 
 
 		/**
+		 * Init repo in directory
+		 * @param	string
+		 * @param   array|NULL
+		 * @return	self
+		 * @throws	GitException
+		 */
+		static function init($directory, array $params = NULL);
+
+
+
+		/**
 		 * Clones GIT repository from $url into $directory
 		 * @param	string
 		 * @param	string|NULL
