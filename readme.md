@@ -34,6 +34,15 @@ Initialization of empty repository
 $repo = GitRepository::init('/path/to/repo-directory');
 ```
 
+With parameters:
+
+``` php
+<?php
+$repo = GitRepository::init('/path/to/repo-directory', array(
+	'--bare', // creates bare repo
+));
+```
+
 
 Cloning of repository
 ---------------------
