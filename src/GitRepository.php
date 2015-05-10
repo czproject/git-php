@@ -505,10 +505,11 @@
 		/**
 		 * Init repo in directory
 		 * @param	string
+		 * @param	array|NULL
 		 * @return	self
 		 * @throws	GitException
 		 */
-		public static function init($directory)
+		public static function init($directory, array $params = NULL)
 		{
 			if(is_dir("$directory/.git"))
 			{
@@ -522,7 +523,11 @@
 
 			$cwd = getcwd();
 			chdir($directory);
-			exec('git init', $output, $returnCode);
+			exec(self::processCommand(array(
+				'git init',
+				$params,
+				$directory,
+			)), $output, $returnCode);
 
 			if($returnCode !== 0)
 			{
