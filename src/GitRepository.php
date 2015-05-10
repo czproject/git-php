@@ -456,6 +456,21 @@
 		protected function run($cmd/*, $options = NULL*/)
 		{
 			$args = func_get_args();
+			$cmd = self::processCommand($args);
+			exec($cmd, $output, $ret);
+
+			if($ret !== 0)
+			{
+				throw new GitException("Command '$cmd' failed.");
+			}
+
+			return $this;
+		}
+
+
+
+		protected static function processCommand(array $args)
+		{
 			$cmd = array();
 
 			$programName = array_shift($args);
@@ -482,15 +497,7 @@
 				}
 			}
 
-			$cmd = "$programName " . implode(' ', $cmd);
-			exec($cmd, $output, $ret);
-
-			if($ret !== 0)
-			{
-				throw new GitException("Command '$cmd' failed.");
-			}
-
-			return $this;
+			return "$programName " . implode(' ', $cmd);
 		}
 
 
