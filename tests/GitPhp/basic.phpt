@@ -19,7 +19,7 @@ Assert::exception(function() use ($repo) {
 	$repo->getCurrentBranchName();
 }, 'Cz\Git\GitException', 'Getting current branch name failed.');
 
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 Assert::null($repo->getTags());
 Assert::null($repo->getBranches());
 
@@ -27,7 +27,7 @@ Assert::null($repo->getBranches());
 $file = TEMP_DIR . '/first.txt';
 file_put_contents($file, "Lorem\n\tipsum\ndolor sit\namet.\n");
 $repo->addFile($file);
-Assert::true($repo->isChanges());
+Assert::true($repo->hasChanges());
 $repo->commit('First commit');
 
 Assert::same('master', $repo->getCurrentBranchName());
@@ -42,16 +42,16 @@ file_put_contents($file, "Sit amet dolor ipsum lorem.\n");
 $repo->addFile(array(
 	$file,
 ));
-Assert::true($repo->isChanges());
+Assert::true($repo->hasChanges());
 $repo->commit('Second commit');
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 
 
 // remove second file
 $repo->removeFile($file);
-Assert::true($repo->isChanges());
+Assert::true($repo->hasChanges());
 $repo->commit('Removed second file');
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 
 
 // Branches
@@ -67,12 +67,12 @@ $file = TEMP_DIR . '/first.txt';
 $content = file_get_contents($file);
 $newContent = "$content\n\tchanged " . date('Y-m-d H:i:s');
 
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 file_put_contents($file, $newContent);
-Assert::true($repo->isChanges());
+Assert::true($repo->hasChanges());
 $repo->addFile($file);
 $repo->commit('Changed first file.');
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 
 $repo->checkout('master');
 Assert::same('master', $repo->getCurrentBranchName());
@@ -81,9 +81,9 @@ $repo->createTag('v0.9.0');
 Assert::same(array(
 	'v0.9.0',
 ), $repo->getTags());
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 $repo->merge('develop');
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 
 Assert::same($newContent, file_get_contents($file));
 
@@ -106,9 +106,9 @@ $repo->checkout('v1.0.0');
 Assert::same($content, file_get_contents($file));
 
 $repo->checkout('v2.0.0');
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 $repo->renameFile($file, $newFile = TEMP_DIR . '/renamed.txt');
-Assert::true($repo->isChanges());
+Assert::true($repo->hasChanges());
 $repo->commit('First file renamed.');
 Assert::false(is_file($file));
 Assert::true(is_file($newFile));
