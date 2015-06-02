@@ -62,7 +62,7 @@ Basic operations
 
 ``` php
 <?php
-$repo->isChanges();    // returns boolean
+$repo->hasChanges();    // returns boolean
 $repo->commit('commit message');
 $repo->merge('branch-name');
 $repo->checkout('master');

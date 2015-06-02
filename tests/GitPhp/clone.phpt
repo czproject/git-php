@@ -18,7 +18,7 @@ chdir($cwd);
 Assert::same(realpath(TEMP_DIR . '/git-php'), $repo->getRepositoryPath());
 
 // repo is empty
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 $tags = $repo->getTags();
 Assert::true(in_array('v1.0.0', $tags));
 Assert::true(in_array('v1.0.1', $tags));
@@ -43,7 +43,7 @@ $repo = GitRepository::cloneRepository('https://github.com/czproject/git-php.git
 Assert::same(realpath(TEMP_DIR . '/git-php2'), $repo->getRepositoryPath());
 
 // repo is empty
-Assert::false($repo->isChanges());
+Assert::false($repo->hasChanges());
 $tags = $repo->getTags();
 Assert::true(in_array('v1.0.0', $tags));
 Assert::true(in_array('v1.0.1', $tags));

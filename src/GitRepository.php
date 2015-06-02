@@ -358,7 +358,7 @@
 		 * `git status` + magic
 		 * @return	bool
 		 */
-		public function isChanges()
+		public function hasChanges()
 		{
 			$this->begin();
 			$lastLine = exec('git status');

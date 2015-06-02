@@ -143,7 +143,7 @@
 		 * Exists changes?
 		 * @return	bool
 		 */
-		function isChanges();
+		function hasChanges();
 
 
 
