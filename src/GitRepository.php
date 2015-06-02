@@ -369,6 +369,16 @@
 
 
 		/**
+		 * @deprecated
+		 */
+		public function isChanges()
+		{
+			return $this->hasChanges();
+		}
+
+
+
+		/**
 		 * @return	self
 		 */
 		private function begin()
