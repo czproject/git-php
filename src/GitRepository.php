@@ -10,10 +10,10 @@
 	class GitRepository implements IGit
 	{
 		/** @var  string */
-		private $repository;
+		protected $repository;
 
 		/** @var  string|NULL  @internal */
-		private $cwd;
+		protected $cwd;
 
 
 
@@ -381,7 +381,7 @@
 		/**
 		 * @return	self
 		 */
-		private function begin()
+		protected function begin()
 		{
 			if($this->cwd === NULL) // TODO: good idea??
 			{
@@ -397,7 +397,7 @@
 		/**
 		 * @return	self
 		 */
-		private function end()
+		protected function end()
 		{
 			if(is_string($this->cwd))
 			{
@@ -415,7 +415,7 @@
 		 * @param	callback|NULL
 		 * @return	string[]|NULL
 		 */
-		private function extractFromCommand($cmd, $filter = NULL)
+		protected function extractFromCommand($cmd, $filter = NULL)
 		{
 			$output = array();
 			$exitCode = NULL;
