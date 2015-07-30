@@ -121,4 +121,3 @@ Assert::same(realpath(TEMP_DIR), $newRepo->getRepositoryPath());
 Assert::exception(function () {
 	new GitRepository(TEMP_DIR . '/bad/bad/bad/repo/');
 }, 'Cz\Git\GitException');
-

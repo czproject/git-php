@@ -148,4 +148,3 @@ Library requires PHP 5.4 or later.
 
 License: [New BSD License](license.md)
 <br>Author: Jan Pecha, http://janpecha.iunas.cz/
-

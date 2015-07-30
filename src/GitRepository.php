@@ -1,8 +1,9 @@
 <?php
-	/** Default Implementation of IGit Interface
+	/**
+	 * Default implementation of IGit interface
 	 *
-	 * @author		Jan Pecha, <janpecha@email.cz>
-	 * @license		New BSD License (BSD-3), see file license.md
+	 * @author  Jan Pecha, <janpecha@email.cz>
+	 * @license New BSD License (BSD-3), see file license.md
 	 */
 
 	namespace Cz\Git;
@@ -16,9 +17,8 @@
 		protected $cwd;
 
 
-
 		/**
-		 * @param	string
+		 * @param  string
 		 */
 		public function __construct($repository)
 		{
@@ -36,9 +36,8 @@
 		}
 
 
-
 		/**
-		 * @return	string
+		 * @return string
 		 */
 		public function getRepositoryPath()
 		{
@@ -46,13 +45,12 @@
 		}
 
 
-
 		/**
 		 * Creates a tag.
 		 * `git tag <name>`
-		 * @param	string
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function createTag($name)
 		{
@@ -62,13 +60,12 @@
 		}
 
 
-
 		/**
 		 * Removes tag.
 		 * `git tag -d <name>`
-		 * @param	string
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function removeTag($name)
 		{
@@ -80,15 +77,14 @@
 		}
 
 
-
 		/**
 		 * Renames tag.
 		 * `git tag <new> <old>`
 		 * `git tag -d <old>`
-		 * @param	string
-		 * @param	string
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string
+		 * @param  string
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function renameTag($oldName, $newName)
 		{
@@ -102,10 +98,9 @@
 		}
 
 
-
 		/**
 		 * Returns list of tags in repo.
-		 * @return	string[]|NULL  NULL => no tags
+		 * @return string[]|NULL  NULL => no tags
 		 */
 		public function getTags()
 		{
@@ -113,14 +108,13 @@
 		}
 
 
-
 		/**
 		 * Merges branches.
 		 * `git merge <options> <name>`
-		 * @param	string
-		 * @param	array|NULL
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string
+		 * @param  array|NULL
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function merge($branch, $options = NULL)
 		{
@@ -130,15 +124,14 @@
 		}
 
 
-
 		/**
 		 * Creates new branch.
 		 * `git branch <name>`
 		 * (optionaly) `git checkout <name>`
-		 * @param	string
-		 * @param	bool
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string
+		 * @param  bool
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function createBranch($name, $checkout = FALSE)
 		{
@@ -156,13 +149,12 @@
 		}
 
 
-
 		/**
 		 * Removes branch.
 		 * `git branch -d <name>`
-		 * @param	string
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function removeBranch($name)
 		{
@@ -174,12 +166,11 @@
 		}
 
 
-
 		/**
 		 * Gets name of current branch
 		 * `git branch` + magic
-		 * @return	string
-		 * @throws	Cz\Git\GitException
+		 * @return string
+		 * @throws Cz\Git\GitException
 		 */
 		public function getCurrentBranchName()
 		{
@@ -204,10 +195,9 @@
 		}
 
 
-
 		/**
 		 * Returns list of all (local & remote) branches in repo.
-		 * @return	string[]|NULL  NULL => no branches
+		 * @return string[]|NULL  NULL => no branches
 		 */
 		public function getBranches()
 		{
@@ -217,10 +207,9 @@
 		}
 
 
-
 		/**
 		 * Returns list of local branches in repo.
-		 * @return	string[]|NULL  NULL => no branches
+		 * @return string[]|NULL  NULL => no branches
 		 */
 		public function getLocalBranches()
 		{
@@ -230,13 +219,12 @@
 		}
 
 
-
 		/**
 		 * Checkout branch.
 		 * `git checkout <branch>`
-		 * @param	string
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function checkout($name)
 		{
@@ -246,13 +234,12 @@
 		}
 
 
-
 		/**
 		 * Removes file(s).
 		 * `git rm <file>`
-		 * @param	string|string[]
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string|string[]
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function removeFile($file)
 		{
@@ -272,13 +259,12 @@
 		}
 
 
-
 		/**
 		 * Adds file(s).
 		 * `git add <file>`
-		 * @param	string|string[]
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string|string[]
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function addFile($file)
 		{
@@ -299,14 +285,13 @@
 		}
 
 
-
 		/**
 		 * Renames file(s).
 		 * `git mv <file>`
-		 * @param	string|string[]  from: array('from' => 'to', ...) || (from, to)
-		 * @param	string|NULL
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string|string[]  from: array('from' => 'to', ...) || (from, to)
+		 * @param  string|NULL
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function renameFile($file, $to = NULL)
 		{
@@ -328,14 +313,13 @@
 		}
 
 
-
 		/**
 		 * Commits changes
 		 * `git commit <params> -m <message>`
-		 * @param	string
-		 * @param	string[]  param => value
-		 * @throws	Cz\Git\GitException
-		 * @return	self
+		 * @param  string
+		 * @param  string[]  param => value
+		 * @throws Cz\Git\GitException
+		 * @return self
 		 */
 		public function commit($message, $params = NULL)
 		{
@@ -352,11 +336,10 @@
 		}
 
 
-
 		/**
 		 * Exists changes?
 		 * `git status` + magic
-		 * @return	bool
+		 * @return bool
 		 */
 		public function hasChanges()
 		{
@@ -365,7 +348,6 @@
 			$this->end();
 			return (strpos($lastLine, 'nothing to commit')) === FALSE; // FALSE => changes
 		}
-
 
 
 		/**
@@ -377,9 +359,8 @@
 		}
 
 
-
 		/**
-		 * @return	self
+		 * @return self
 		 */
 		protected function begin()
 		{
@@ -393,9 +374,8 @@
 		}
 
 
-
 		/**
-		 * @return	self
+		 * @return self
 		 */
 		protected function end()
 		{
@@ -409,11 +389,10 @@
 		}
 
 
-
 		/**
-		 * @param	string
-		 * @param	callback|NULL
-		 * @return	string[]|NULL
+		 * @param  string
+		 * @param  callback|NULL
+		 * @return string[]|NULL
 		 */
 		protected function extractFromCommand($cmd, $filter = NULL)
 		{
@@ -457,11 +436,10 @@
 		}
 
 
-
 		/** Runs command.
-		 * @param	string|array
-		 * @return	self
-		 * @throws	Cz\Git\GitException
+		 * @param  string|array
+		 * @return self
+		 * @throws Cz\Git\GitException
 		 */
 		protected function run($cmd/*, $options = NULL*/)
 		{
@@ -476,7 +454,6 @@
 
 			return $this;
 		}
-
 
 
 		protected static function processCommand(array $args)
@@ -511,13 +488,12 @@
 		}
 
 
-
 		/**
 		 * Init repo in directory
-		 * @param	string
-		 * @param	array|NULL
-		 * @return	self
-		 * @throws	GitException
+		 * @param  string
+		 * @param  array|NULL
+		 * @return self
+		 * @throws GitException
 		 */
 		public static function init($directory, array $params = NULL)
 		{
@@ -551,12 +527,11 @@
 		}
 
 
-
 		/**
 		 * Clones GIT repository from $url into $directory
-		 * @param	string
-		 * @param	string|NULL
-		 * @return	self
+		 * @param  string
+		 * @param  string|NULL
+		 * @return self
 		 */
 		public static function cloneRepository($url, $directory = NULL)
 		{
@@ -588,10 +563,9 @@
 		}
 
 
-
 		/**
-		 * @param	string  /path/to/repo.git | host.xz:foo/.git | ...
-		 * @return	string  repo | foo | ...
+		 * @param  string  /path/to/repo.git | host.xz:foo/.git | ...
+		 * @return string  repo | foo | ...
 		 */
 		public static function extractRepositoryNameFromUrl($url)
 		{
@@ -614,11 +588,10 @@
 		}
 
 
-
 		/**
 		 * Is path absolute?
 		 * Method from Nette\Utils\FileSystem
-		 * @link https://github.com/nette/nette/blob/master/Nette/Utils/FileSystem.php
+		 * @link   https://github.com/nette/nette/blob/master/Nette/Utils/FileSystem.php
 		 * @return bool
 		 */
 		public static function isAbsolute($path)
@@ -626,4 +599,3 @@
 			return (bool) preg_match('#[/\\\\]|[a-zA-Z]:[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
 		}
 	}
-

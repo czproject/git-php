@@ -10,11 +10,6 @@ chdir(TEMP_DIR);
 $repo = GitRepository::cloneRepository('https://github.com/czproject/git-php.git');
 chdir($cwd);
 
-// repo already exists
-#Assert::exception(function() {
-#	GitRepository::init(TEMP_DIR);
-#}, 'Cz\Git\GitException');
-
 Assert::same(realpath(TEMP_DIR . '/git-php'), $repo->getRepositoryPath());
 
 // repo is empty
@@ -35,11 +30,6 @@ Assert::same(array('master'), $repo->getLocalBranches());
 Tester\Helpers::purge(TEMP_DIR);
 $repo = GitRepository::cloneRepository('https://github.com/czproject/git-php.git', TEMP_DIR . '/git-php2');
 
-// repo already exists
-#Assert::exception(function() {
-#	GitRepository::init(TEMP_DIR);
-#}, 'Cz\Git\GitException');
-
 Assert::same(realpath(TEMP_DIR . '/git-php2'), $repo->getRepositoryPath());
 
 // repo is empty
@@ -55,4 +45,3 @@ Assert::true(in_array('remotes/origin/master', $branches));
 Assert::true(in_array('remotes/origin/version-2', $branches));
 
 Assert::same(array('master'),$repo->getLocalBranches());
-
