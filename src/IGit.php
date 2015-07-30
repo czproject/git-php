@@ -84,6 +84,13 @@
 
 
 		/**
+		 * Returns list of local branches in repo.
+		 * @return string[]|NULL  NULL => no branches
+		 */
+		function getLocalBranches();
+
+
+		/**
 		 * Checkout branch.
 		 * @param  string
 		 * @throws Cz\Git\GitException
