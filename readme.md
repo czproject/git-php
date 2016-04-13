@@ -66,6 +66,7 @@ $repo->hasChanges();    // returns boolean
 $repo->commit('commit message');
 $repo->merge('branch-name');
 $repo->checkout('master');
+$repo->pull('origin');
 
 $repo->getRepositoryPath();
 
