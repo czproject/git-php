@@ -403,9 +403,9 @@
 				$params = array();
 			}
 
-		return $this->begin()
-			->run("git pull $remote", $params)
-			->end();
+			return $this->begin()
+				->run("git pull $remote", $params)
+				->end();
 		}
 
 
