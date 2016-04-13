@@ -390,6 +390,26 @@
 
 
 		/**
+		 * Pull changes from a remote
+		 * @param  string|NULL
+		 * @param  array|NULL
+		 * @return self
+		 * @throws GitException
+		 */
+		public function pull($remote = NULL, array $params = NULL)
+		{
+			if(!is_array($params))
+			{
+				$params = array();
+			}
+
+		return $this->begin()
+			->run("git pull $remote", $params)
+			->end();
+		}
+
+
+		/**
 		 * @param  string
 		 * @param  callback|NULL
 		 * @return string[]|NULL
