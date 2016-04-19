@@ -150,6 +150,16 @@
 
 
 		/**
+		 * Push changes to a remote
+		 * @param  string|NULL
+		 * @param  array|NULL
+		 * @return self
+		 * @throws GitException
+		 */
+		function push($remote = NULL, array $params = NULL);
+
+
+		/**
 		 * Init repo in directory
 		 * @param  string
 		 * @param  array|NULL
