@@ -410,6 +410,26 @@
 
 
 		/**
+		 * Push changes to a remote
+		 * @param  string|NULL
+		 * @param  array|NULL
+		 * @return self
+		 * @throws GitException
+		 */
+		public function push($remote = NULL, array $params = NULL)
+		{
+			if(!is_array($params))
+			{
+				$params = array();
+			}
+
+			return $this->begin()
+				->run("git push $remote", $params)
+				->end();
+		}
+
+
+		/**
 		 * @param  string
 		 * @param  callback|NULL
 		 * @return string[]|NULL
