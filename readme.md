@@ -23,8 +23,6 @@ Usage
 	$repo->commit('init commit');
 ```
 
-[API documentation](http://api.iunas.cz/git-php/)
-
 
 Initialization of empty repository
 ----------------------------------
