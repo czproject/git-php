@@ -67,6 +67,7 @@ $repo->commit('commit message');
 $repo->merge('branch-name');
 $repo->checkout('master');
 $repo->pull('origin');
+$repo->push('origin');
 
 $repo->getRepositoryPath();
 
