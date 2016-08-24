@@ -158,11 +158,13 @@
 		 */
 		function push($remote = NULL, array $params = NULL);
 
+
 		/**
 		 * Run fetch command to get latest branches
 		 * return self
 		 */
 		function fetch();
+
 
 		/**
 		 * Init repo in directory

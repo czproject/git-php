@@ -428,6 +428,7 @@
 				->end();
 		}
 
+
 		/**
 		 * Run fetch command to get latest branches
 		 * return self
@@ -438,6 +439,7 @@
 				->run('git fetch')
 				->end();
 		}
+
 
 		/**
 		 * @param  string
