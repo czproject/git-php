@@ -66,6 +66,7 @@ $repo->merge('branch-name');
 $repo->checkout('master');
 $repo->pull('origin');
 $repo->push('origin');
+$repo->fetch('origin');
 
 $repo->getRepositoryPath();
 
@@ -147,4 +148,4 @@ Library requires PHP 5.4 or later.
 ------------------------------
 
 License: [New BSD License](license.md)
-<br>Author: Jan Pecha, http://janpecha.iunas.cz/
+<br>Author: Jan Pecha, https://www.janpecha.cz/
