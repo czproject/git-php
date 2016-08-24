@@ -488,7 +488,8 @@
 		}
 
 
-		/** Runs command.
+		/**
+		 * Runs command.
 		 * @param  string|array
 		 * @return self
 		 * @throws Cz\Git\GitException
