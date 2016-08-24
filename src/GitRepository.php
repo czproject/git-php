@@ -428,6 +428,16 @@
 				->end();
 		}
 
+		/**
+		 * Run fetch command to get latest branches
+		 * return self
+		 */
+		public function fetch()
+		{
+			return $this->begin()
+				->run('git fetch')
+				->end();
+		}
 
 		/**
 		 * @param  string
