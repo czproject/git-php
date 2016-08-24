@@ -163,7 +163,7 @@
 		 * Run fetch command to get latest branches
 		 * return self
 		 */
-		function fetch();
+		function fetch($remote = NULL, array $params = NULL);
 
 
 		/**

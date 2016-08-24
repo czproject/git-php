@@ -433,10 +433,15 @@
 		 * Run fetch command to get latest branches
 		 * return self
 		 */
-		public function fetch()
+		public function fetch($remote = NULL, array $params = NULL)
 		{
+			if(!is_array($params))
+			{
+				$params = array();
+			}
+
 			return $this->begin()
-				->run('git fetch')
+				->run("git fetch $remote", $params)
 				->end();
 		}
 
