@@ -589,9 +589,10 @@
 		 * Clones GIT repository from $url into $directory
 		 * @param  string
 		 * @param  string|NULL
+		 * @param  array|NULL
 		 * @return self
 		 */
-		public static function cloneRepository($url, $directory = NULL)
+		public static function cloneRepository($url, $directory = NULL, array $params = NULL)
 		{
 			if($directory !== NULL && is_dir("$directory/.git"))
 			{
@@ -610,7 +611,16 @@
 				$directory = "$cwd/$directory";
 			}
 
-			exec('git clone -q ' . escapeshellarg($url) . ' ' . escapeshellarg($directory), $output, $returnCode);
+			if ($params === NULL) {
+				$params = '-q';
+			}
+
+			exec(self::processCommand(array(
+				'git clone',
+				$params,
+				$url,
+				$directory
+			)), $output, $returnCode);
 
 			if($returnCode !== 0)
 			{
