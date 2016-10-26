@@ -706,6 +706,23 @@
 
 
 		/**
+		 * @param  string
+		 * @return bool
+		 */
+		public static function isRemoteUrlReadable($url)
+		{
+			exec(self::processCommand(array(
+				'GIT_TERMINAL_PROMPT=0 git ls-remote',
+				'--heads',
+				'--quiet',
+				$url,
+			)) . ' 2>&1', $output, $returnCode);
+
+			return $returnCode === 0;
+		}
+
+
+		/**
 		 * @param  string  /path/to/repo.git | host.xz:foo/.git | ...
 		 * @return string  repo | foo | ...
 		 */
