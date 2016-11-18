@@ -286,6 +286,20 @@
 
 
 		/**
+		 * Adds all created, modified & removed files.
+		 * `git add --all`
+		 * @throws Cz\Git\GitException
+		 * @return self
+		 */
+		public function addAllChanges()
+		{
+			return $this->begin()
+				->run('git add --all')
+				->end();
+		}
+
+
+		/**
 		 * Renames file(s).
 		 * `git mv <file>`
 		 * @param  string|string[]  from: array('from' => 'to', ...) || (from, to)

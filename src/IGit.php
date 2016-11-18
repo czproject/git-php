@@ -115,6 +115,13 @@
 
 
 		/**
+		 * Adds all created, modified & removed files.
+		 * @throws Cz\Git\GitException
+		 */
+		function addAllChanges();
+
+
+		/**
 		 * Renames file(s).
 		 * @param  string|string[]  from: array('from' => 'to', ...) || (from, to)
 		 * @param  string|NULL

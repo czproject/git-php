@@ -86,6 +86,9 @@ $repo->renameFile(array(
 $repo->removeFile('file.txt');
 $repo->removeFile('file1.txt', 'file2.txt');
 $repo->removeFile(array('file3.txt', 'file4.txt'));
+
+// adds all changes in repository
+$repo->addAllChanges();
 ```
 
 
