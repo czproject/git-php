@@ -374,36 +374,6 @@
 
 
 		/**
-		 * @return self
-		 */
-		protected function begin()
-		{
-			if($this->cwd === NULL) // TODO: good idea??
-			{
-				$this->cwd = getcwd();
-				chdir($this->repository);
-			}
-
-			return $this;
-		}
-
-
-		/**
-		 * @return self
-		 */
-		protected function end()
-		{
-			if(is_string($this->cwd))
-			{
-				chdir($this->cwd);
-			}
-
-			$this->cwd = NULL;
-			return $this;
-		}
-
-
-		/**
 		 * Pull changes from a remote
 		 * @param  string|NULL
 		 * @param  array|NULL
@@ -457,6 +427,36 @@
 			return $this->begin()
 				->run("git fetch $remote", $params)
 				->end();
+		}
+
+
+		/**
+		 * @return self
+		 */
+		protected function begin()
+		{
+			if($this->cwd === NULL) // TODO: good idea??
+			{
+				$this->cwd = getcwd();
+				chdir($this->repository);
+			}
+
+			return $this;
+		}
+
+
+		/**
+		 * @return self
+		 */
+		protected function end()
+		{
+			if(is_string($this->cwd))
+			{
+				chdir($this->cwd);
+			}
+
+			$this->cwd = NULL;
+			return $this;
 		}
 
 
