@@ -169,6 +169,32 @@ $repo->removeRemote('upstream', 'https://github.com/czproject/git-php.git');
 ```
 
 
+Custom methods
+--------------
+
+You can create custom methods. For example:
+
+``` php
+class OwnGitRepository extends \Cz\Git\GitRepository
+{
+	public function setRemoteBranches($name, array $branches)
+	{
+		return $this->begin()
+			->run('git remote set-branches', $name, $branches)
+			->end();
+	}
+}
+
+
+$repo = new OwnGitRepository('/path/to/repo');
+$repo->addRemote('origin', 'repository-url');
+$repo->setRemoteBranches('origin', array(
+	'branch-1',
+	'branch-2',
+));
+```
+
+
 Installation
 ------------
 
