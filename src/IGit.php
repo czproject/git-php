@@ -175,6 +175,42 @@
 		 */
 		function fetch($remote = NULL, array $params = NULL);
 
+		/**
+		 * Adds new remote repository
+		 * @param  string
+		 * @param  string
+		 * @param  array|NULL
+		 * @return self
+		 */
+		function addRemote($name, $url, array $params = NULL);
+
+
+		/**
+		 * Renames remote repository
+		 * @param  string
+		 * @param  string
+		 * @return self
+		 */
+		function renameRemote($oldName, $newName);
+
+
+		/**
+		 * Removes remote repository
+		 * @param  string
+		 * @return self
+		 */
+		function removeRemote($name);
+
+
+		/**
+		 * Changes remote repository URL
+		 * @param  string
+		 * @param  string
+		 * @param  array|NULL
+		 * @return self
+		 */
+		function setRemoteUrl($name, $url, array $params = NULL);
+
 
 		/**
 		 * Init repo in directory

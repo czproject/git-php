@@ -434,6 +434,63 @@
 
 
 		/**
+		 * Adds new remote repository
+		 * @param  string
+		 * @param  string
+		 * @param  array|NULL
+		 * @return self
+		 */
+		public function addRemote($name, $url, array $params = NULL)
+		{
+			return $this->begin()
+				->run('git remote add', $params, $name, $url)
+				->end();
+		}
+
+
+		/**
+		 * Renames remote repository
+		 * @param  string
+		 * @param  string
+		 * @return self
+		 */
+		public function renameRemote($oldName, $newName)
+		{
+			return $this->begin()
+				->run('git remote rename', $oldName, $newName)
+				->end();
+		}
+
+
+		/**
+		 * Removes remote repository
+		 * @param  string
+		 * @return self
+		 */
+		public function removeRemote($name)
+		{
+			return $this->begin()
+				->run('git remote remove', $name)
+				->end();
+		}
+
+
+		/**
+		 * Changes remote repository URL
+		 * @param  string
+		 * @param  string
+		 * @param  array|NULL
+		 * @return self
+		 */
+		public function setRemoteUrl($name, $url, array $params = NULL)
+		{
+			return $this->begin()
+				->run('git remote set-url', $params, $name, $url)
+				->end();
+		}
+
+
+		/**
 		 * @return self
 		 */
 		protected function begin()
