@@ -64,9 +64,6 @@ $repo->hasChanges();    // returns boolean
 $repo->commit('commit message');
 $repo->merge('branch-name');
 $repo->checkout('master');
-$repo->pull('origin');
-$repo->push('origin');
-$repo->fetch('origin');
 
 $repo->getRepositoryPath();
 
@@ -134,6 +131,41 @@ $repo->renameTag('old-tag-name', 'new-tag-name');
 
 // removes tag
 $repo->removeTag('tag-name');
+```
+
+
+Remotes
+-------
+
+``` php
+<?php
+// pulls changes from remote
+$repo->pull('remote-name', array('--options'));
+$repo->pull('origin');
+
+// pushs changes to remote
+$repo->push('remote-name', array('--options'));
+$repo->push('origin');
+
+// fetchs changes from remote
+$repo->fetch('remote-name', array('--options'));
+$repo->fetch('origin');
+
+// adds remote repository
+$repo->addRemote('remote-name', 'repository-url', array('--options'));
+$repo->addRemote('origin', 'git@github.com:czproject/git-php.git');
+
+// renames remote
+$repo->renameRemote('old-remote-name', 'new-remote-name');
+$repo->renameRemote('origin', 'upstream');
+
+// removes remote
+$repo->removeRemote('remote-name');
+$repo->removeRemote('origin');
+
+// changes remote URL
+$repo->setRemoteUrl('remote-name', 'new-repository-url');
+$repo->removeRemote('upstream', 'https://github.com/czproject/git-php.git');
 ```
 
 
