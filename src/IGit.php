@@ -168,7 +168,10 @@
 
 		/**
 		 * Run fetch command to get latest branches
-		 * return self
+		 * @param  string|NULL
+		 * @param  array|NULL
+		 * @return self
+		 * @throws GitException
 		 */
 		function fetch($remote = NULL, array $params = NULL);
 
