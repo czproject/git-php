@@ -707,15 +707,17 @@
 
 		/**
 		 * @param  string
+		 * @param  array|NULL
 		 * @return bool
 		 */
-		public static function isRemoteUrlReadable($url)
+		public static function isRemoteUrlReadable($url, array $refs = NULL)
 		{
 			exec(self::processCommand(array(
 				'GIT_TERMINAL_PROMPT=0 git ls-remote',
 				'--heads',
 				'--quiet',
 				$url,
+				$refs,
 			)) . ' 2>&1', $output, $returnCode);
 
 			return $returnCode === 0;
