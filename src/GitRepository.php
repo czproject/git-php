@@ -716,6 +716,7 @@
 				'GIT_TERMINAL_PROMPT=0 git ls-remote',
 				'--heads',
 				'--quiet',
+				'--exit-code',
 				$url,
 				$refs,
 			)) . ' 2>&1', $output, $returnCode);
