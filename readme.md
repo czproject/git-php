@@ -168,6 +168,18 @@ $repo->setRemoteUrl('remote-name', 'new-repository-url');
 $repo->removeRemote('upstream', 'https://github.com/czproject/git-php.git');
 ```
 
+**Troubleshooting - How to provide username and password for commands**
+
+1) use SSH instead of HTTPS - https://stackoverflow.com/a/8588786
+2) store credentials to *Git Credential Storage*
+	* http://www.tilcode.com/push-github-without-entering-username-password-windows-git-bash/
+	* https://help.github.com/articles/caching-your-github-password-in-git/
+	* https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage
+3) insert user and password into remote URL - https://stackoverflow.com/a/16381160
+	* `git remote add origin https://user:password@server/path/repo.git`
+4) for `push()` you can use `--repo` argument - https://stackoverflow.com/a/12193555
+	* `$git->push(NULL, array('--repo' => 'https://user:password@server/path/repo.git'));`
+
 
 Custom methods
 --------------
@@ -204,7 +216,13 @@ Installation
 composer require czproject/git-php
 ```
 
-Library requires PHP 5.4 or later.
+Library requires PHP 5.4 or later and `git` client (path to Git must be in system variable `PATH`).
+
+Git installers:
+
+* for Linux - https://git-scm.com/download/linux
+* for Windows - https://git-scm.com/download/win
+* for others - https://git-scm.com/downloads
 
 ------------------------------
 
