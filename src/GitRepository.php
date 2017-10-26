@@ -655,6 +655,7 @@
 			$args = func_get_args();
 			$cmd = self::processCommand($args);
 			exec($cmd . ' 2>&1', $output, $ret);
+
 			$result = implode (" ",$output);
 			if($ret !== 0)
 			{
