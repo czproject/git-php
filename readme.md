@@ -125,6 +125,10 @@ $repo->getTags();
 
 // creates new tag
 $repo->createTag('v1.0.0');
+$repo->createTag('v1.0.0', $options);
+$repo->createTag('v1.0.0', array(
+	'-m' => 'message',
+));
 
 // renames tag
 $repo->renameTag('old-tag-name', 'new-tag-name');

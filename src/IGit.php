@@ -13,9 +13,10 @@
 		/**
 		 * Creates a tag.
 		 * @param  string
+		 * @param  array|NULL
 		 * @throws Cz\Git\GitException
 		 */
-		function createTag($name);
+		function createTag($name, $options = NULL);
 
 
 		/**
