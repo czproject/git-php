@@ -49,13 +49,14 @@
 		 * Creates a tag.
 		 * `git tag <name>`
 		 * @param  string
+         * @param  array|NULL
 		 * @throws Cz\Git\GitException
 		 * @return self
 		 */
-		public function createTag($name)
+		public function createTag($name, $options = NULL)
 		{
 			return $this->begin()
-				->run('git tag', $name)
+				->run('git tag', $options, $name)
 				->end();
 		}
 
