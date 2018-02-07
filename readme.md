@@ -3,6 +3,9 @@ Git-PHP
 
 Library for work with Git repository in PHP.
 
+<a href="https://www.patreon.com/bePatron?u=9680759"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!" height="35"></a>
+
+
 Usage
 -----
 
