@@ -49,7 +49,7 @@
 		 * Creates a tag.
 		 * `git tag <name>`
 		 * @param  string
-         * @param  array|NULL
+		 * @param  array|NULL
 		 * @throws Cz\Git\GitException
 		 * @return self
 		 */
