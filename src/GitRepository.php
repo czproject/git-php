@@ -358,6 +358,11 @@
 		 */
 		public function hasChanges()
 		{
+			// Make sure the `git status` gets a refreshed look at the working tree.
+			$this->begin()
+				->run('git update-index -q --refresh')
+				->end();
+
 			$this->begin();
 			$lastLine = exec('git status');
 			$this->end();
