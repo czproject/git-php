@@ -357,6 +357,11 @@
 		 */
 		public function hasChanges()
 		{
+			// Make sure the `git status` gets a refreshed look at the working tree.
+			$this->begin()
+				->run('git update-index -q --refresh')
+				->end();
+
 			$this->begin();
 			$lastLine = exec('git status');
 			$this->end();
@@ -486,20 +491,6 @@
 		{
 			return $this->begin()
 				->run('git remote set-url', $params, $name, $url)
-				->end();
-		}
-
-		/**
-		 * Refresh working tree index.
-		 * Looks at the current index and checks to see if merges or updates are needed by
-		 * checking stat() information. Useful when you want to make sure git all the latest
-		 * changes will appear in the git status.
-		 * @return self
-		 */
-		public function refreshIndex()
-		{
-			return $this->begin()
-				->run('git update-index -q --refresh')
 				->end();
 		}
 
