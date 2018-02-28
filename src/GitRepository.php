@@ -274,6 +274,7 @@
          */
         public function clean($cleanDirectories = true, $force = true)
         {
+            $options = null;
             if (!($cleanDirectories === false && $force === false)) {
                 $options = '-';
                 if ($force) {
