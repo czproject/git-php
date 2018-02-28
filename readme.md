@@ -89,6 +89,9 @@ $repo->removeFile(array('file3.txt', 'file4.txt'));
 
 // adds all changes in repository
 $repo->addAllChanges();
+
+// removes all unstaged files and directories in repository
+$repo->clean();
 ```
 
 
