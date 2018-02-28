@@ -14,7 +14,7 @@
 		 * Creates a tag.
 		 * @param  string
 		 * @param  array|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function createTag($name, $options = NULL);
 
@@ -22,7 +22,7 @@
 		/**
 		 * Removes tag.
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function removeTag($name);
 
@@ -31,7 +31,7 @@
 		 * Renames tag.
 		 * @param  string
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function renameTag($oldName, $newName);
 
@@ -47,7 +47,7 @@
 		 * Merges branches.
 		 * @param  string
 		 * @param  array|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function merge($branch, $options = NULL);
 
@@ -56,7 +56,7 @@
 		 * Creates new branch.
 		 * @param  string
 		 * @param  bool
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function createBranch($name, $checkout = FALSE);
 
@@ -64,7 +64,7 @@
 		/**
 		 * Removes branch.
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function removeBranch($name);
 
@@ -72,7 +72,7 @@
 		/**
 		 * Gets name of current branch
 		 * @return string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function getCurrentBranchName();
 
@@ -94,7 +94,7 @@
 		/**
 		 * Checkout branch.
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function checkout($name);
 
@@ -102,7 +102,7 @@
 		/**
 		 * Removes file(s).
 		 * @param  string|string[]
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function removeFile($file);
 
@@ -110,14 +110,14 @@
 		/**
 		 * Adds file(s).
 		 * @param  string|string[]
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function addFile($file);
 
 
 		/**
 		 * Adds all created, modified & removed files.
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function addAllChanges();
 
@@ -126,7 +126,7 @@
 		 * Renames file(s).
 		 * @param  string|string[]  from: array('from' => 'to', ...) || (from, to)
 		 * @param  string|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function renameFile($file, $to = NULL);
 
@@ -135,7 +135,7 @@
 		 * Commits changes
 		 * @param  string
 		 * @param  string[]  param => value
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		function commit($message, $params = NULL);
 

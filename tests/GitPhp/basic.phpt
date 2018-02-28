@@ -54,6 +54,16 @@ $repo->commit('Removed second file');
 Assert::false($repo->hasChanges());
 
 
+// clean
+$file = TEMP_DIR . '/somefile.txt';
+$dir = TEMP_DIR . '/somedir';
+file_put_contents($file, "Sit amet dolor ipsum lorem.\n");
+mkdir($dir);
+Assert::true($repo->hasChanges());
+$repo->clean();
+Assert::false($repo->hasChanges());
+
+
 // Branches
 $repo->createBranch('develop', TRUE);
 Assert::same(array(

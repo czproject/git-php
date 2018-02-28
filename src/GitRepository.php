@@ -17,9 +17,10 @@
 		protected $cwd;
 
 
-		/**
-		 * @param  string
-		 */
+        /**
+         * @param  string
+         * @throws GitException
+         */
 		public function __construct($repository)
 		{
 			if(basename($repository) === '.git')
@@ -50,7 +51,7 @@
 		 * `git tag <name>`
 		 * @param  string
 		 * @param  array|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function createTag($name, $options = NULL)
@@ -65,7 +66,7 @@
 		 * Removes tag.
 		 * `git tag -d <name>`
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function removeTag($name)
@@ -84,7 +85,7 @@
 		 * `git tag -d <old>`
 		 * @param  string
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function renameTag($oldName, $newName)
@@ -99,10 +100,11 @@
 		}
 
 
-		/**
-		 * Returns list of tags in repo.
-		 * @return string[]|NULL  NULL => no tags
-		 */
+        /**
+         * Returns list of tags in repo.
+         * @return string[]|NULL  NULL => no tags
+         * @throws GitException
+         */
 		public function getTags()
 		{
 			return $this->extractFromCommand('git tag', 'trim');
@@ -114,7 +116,7 @@
 		 * `git merge <options> <name>`
 		 * @param  string
 		 * @param  array|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function merge($branch, $options = NULL)
@@ -131,7 +133,7 @@
 		 * (optionaly) `git checkout <name>`
 		 * @param  string
 		 * @param  bool
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function createBranch($name, $checkout = FALSE)
@@ -154,7 +156,7 @@
 		 * Removes branch.
 		 * `git branch -d <name>`
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function removeBranch($name)
@@ -171,7 +173,7 @@
 		 * Gets name of current branch
 		 * `git branch` + magic
 		 * @return string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		public function getCurrentBranchName()
 		{
@@ -196,10 +198,11 @@
 		}
 
 
-		/**
-		 * Returns list of all (local & remote) branches in repo.
-		 * @return string[]|NULL  NULL => no branches
-		 */
+        /**
+         * Returns list of all (local & remote) branches in repo.
+         * @return string[]|NULL  NULL => no branches
+         * @throws GitException
+         */
 		public function getBranches()
 		{
 			return $this->extractFromCommand('git branch -a', function($value) {
@@ -208,10 +211,11 @@
 		}
 
 
-		/**
-		 * Returns list of local branches in repo.
-		 * @return string[]|NULL  NULL => no branches
-		 */
+        /**
+         * Returns list of local branches in repo.
+         * @return string[]|NULL  NULL => no branches
+         * @throws GitException
+         */
 		public function getLocalBranches()
 		{
 			return $this->extractFromCommand('git branch', function($value) {
@@ -224,7 +228,7 @@
 		 * Checkout branch.
 		 * `git checkout <branch>`
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function checkout($name)
@@ -239,7 +243,7 @@
 		 * Removes file(s).
 		 * `git rm <file>`
 		 * @param  string|string[]
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function removeFile($file)
@@ -260,11 +264,37 @@
 		}
 
 
+        /**
+         * Clean repo.
+         * `git clean`
+         * @param  bool $cleanDirectories
+         * @param  bool $force
+         * @throws GitException
+         * @return self
+         */
+        public function clean($cleanDirectories = true, $force = true)
+        {
+            if (!($cleanDirectories === false && $force === false)) {
+                $options = '-';
+                if ($force) {
+                    $options .= 'f';
+                }
+                if ($cleanDirectories) {
+                    $options .= 'd';
+                }
+            }
+
+            return $this->begin()
+                ->run('git clean', $options)
+                ->end();
+        }
+
+
 		/**
 		 * Adds file(s).
 		 * `git add <file>`
 		 * @param  string|string[]
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function addFile($file)
@@ -289,7 +319,7 @@
 		/**
 		 * Adds all created, modified & removed files.
 		 * `git add --all`
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function addAllChanges()
@@ -305,7 +335,7 @@
 		 * `git mv <file>`
 		 * @param  string|string[]  from: array('from' => 'to', ...) || (from, to)
 		 * @param  string|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function renameFile($file, $to = NULL)
@@ -333,7 +363,7 @@
 		 * `git commit <params> -m <message>`
 		 * @param  string
 		 * @param  string[]  param => value
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function commit($message, $params = NULL)
@@ -351,11 +381,12 @@
 		}
 
 
-		/**
-		 * Exists changes?
-		 * `git status` + magic
-		 * @return bool
-		 */
+        /**
+         * Exists changes?
+         * `git status` + magic
+         * @return bool
+         * @throws GitException
+         */
 		public function hasChanges()
 		{
 			// Make sure the `git status` gets a refreshed look at the working tree.
@@ -439,13 +470,14 @@
 		}
 
 
-		/**
-		 * Adds new remote repository
-		 * @param  string
-		 * @param  string
-		 * @param  array|NULL
-		 * @return self
-		 */
+        /**
+         * Adds new remote repository
+         * @param  string
+         * @param  string
+         * @param  array|NULL
+         * @return self
+         * @throws GitException
+         */
 		public function addRemote($name, $url, array $params = NULL)
 		{
 			return $this->begin()
@@ -454,12 +486,13 @@
 		}
 
 
-		/**
-		 * Renames remote repository
-		 * @param  string
-		 * @param  string
-		 * @return self
-		 */
+        /**
+         * Renames remote repository
+         * @param  string
+         * @param  string
+         * @return self
+         * @throws GitException
+         */
 		public function renameRemote($oldName, $newName)
 		{
 			return $this->begin()
@@ -468,11 +501,12 @@
 		}
 
 
-		/**
-		 * Removes remote repository
-		 * @param  string
-		 * @return self
-		 */
+        /**
+         * Removes remote repository
+         * @param  string
+         * @return self
+         * @throws GitException
+         */
 		public function removeRemote($name)
 		{
 			return $this->begin()
@@ -481,13 +515,14 @@
 		}
 
 
-		/**
-		 * Changes remote repository URL
-		 * @param  string
-		 * @param  string
-		 * @param  array|NULL
-		 * @return self
-		 */
+        /**
+         * Changes remote repository URL
+         * @param  string
+         * @param  string
+         * @param  array|NULL
+         * @return self
+         * @throws GitException
+         */
 		public function setRemoteUrl($name, $url, array $params = NULL)
 		{
 			return $this->begin()
@@ -526,11 +561,12 @@
 		}
 
 
-		/**
-		 * @param  string
-		 * @param  callback|NULL
-		 * @return string[]|NULL
-		 */
+        /**
+         * @param  string
+         * @param  callback|NULL
+         * @return string[]|NULL
+         * @throws GitException
+         */
 		protected function extractFromCommand($cmd, $filter = NULL)
 		{
 			$output = array();
@@ -577,7 +613,7 @@
 		 * Runs command.
 		 * @param  string|array
 		 * @return self
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		protected function run($cmd/*, $options = NULL*/)
 		{
@@ -665,13 +701,14 @@
 		}
 
 
-		/**
-		 * Clones GIT repository from $url into $directory
-		 * @param  string
-		 * @param  string|NULL
-		 * @param  array|NULL
-		 * @return self
-		 */
+        /**
+         * Clones GIT repository from $url into $directory
+         * @param  string
+         * @param  string|NULL
+         * @param  array|NULL
+         * @return self
+         * @throws GitException
+         */
 		public static function cloneRepository($url, $directory = NULL, array $params = NULL)
 		{
 			if($directory !== NULL && is_dir("$directory/.git"))
