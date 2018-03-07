@@ -497,6 +497,32 @@
 
 
 		/**
+		 * @param  string|string[]
+		 * @return string[]  returns output
+		 */
+		public function execute($cmd)
+		{
+			if (!is_array($cmd)) {
+				$cmd = array($cmd);
+			}
+
+			array_unshift($cmd, 'git');
+			$cmd = self::processCommand($cmd);
+
+			$this->begin();
+			exec($cmd . ' 2>&1', $output, $ret);
+			$this->end();
+
+			if($ret !== 0)
+			{
+				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret);
+			}
+
+			return $output;
+		}
+
+
+		/**
 		 * @return self
 		 */
 		protected function begin()

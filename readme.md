@@ -190,6 +190,20 @@ $repo->removeRemote('upstream', 'https://github.com/czproject/git-php.git');
 	* `$git->push(NULL, array('--repo' => 'https://user:password@server/path/repo.git'));`
 
 
+Other commands
+--------------
+
+For running other commands you can use `execute` method:
+
+```php
+$output = $repo->execute('command');
+$output = $repo->execute(array('command', 'with', 'parameters'));
+
+// example:
+$repo->execute(array('remote', 'set-branches', $originName, $branches));
+```
+
+
 Custom methods
 --------------
 
