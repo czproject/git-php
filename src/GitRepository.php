@@ -25,6 +25,8 @@
 			if(basename($repository) === '.git')
 			{
 				$repository = dirname($repository);
+				// Fix ssl errors.
+				exec('git config --global http.sslVerify false');
 			}
 
 			$this->repository = realpath($repository);
@@ -352,7 +354,7 @@
 
 
 		/**
-		 * Exists changes?
+		 * Exists any changes?
 		 * `git status` + magic
 		 * @return bool
 		 */
@@ -366,19 +368,92 @@
 			$this->begin();
 			$lastLine = exec('git status');
 			$this->end();
-			return (strpos($lastLine, 'nothing to commit')) === FALSE; // FALSE => changes
+			return ((strpos($lastLine, 'nothing to commit')) || (strpos($lastLine, 'branch is behind'))) === FALSE;
+		}
+
+
+	/**
+		 * Exists local changes?
+		 * `git status` + magic
+		 * @return bool
+		 */
+		public function hasLocalChanges()
+		{
+			$this->begin();
+			$lastLine = exec('git status');
+			$this->end();
+			return !preg_match("/nothing to commit/",$lastLine);
 		}
 
 
 		/**
-		 * @deprecated
+		 * Exists local changes?
+		 * `git status` + magic
+		 * @return bool
 		 */
-		public function isChanges()
+		public function hasRemoteChanges()
 		{
-			return $this->hasChanges();
+			$this->begin();
+			exec('git status',$lines);
+			$this->end();
+			return (preg_match("/fast-forwarded/",implode(" ",$lines)));
 		}
 
 
+		
+
+		/**
+		 * Read Log Messages to JSON
+		 *
+		 * @param  string $branch - The branch to read logs from
+		 * @param  string|int $limit - Number of commits to return, or the commit hash to return logs until
+		 * @throws Cz\Git\GitException
+		 * @return array $logs
+		 */
+
+		public function readLog($branch="origin/master",$limit=10)
+		{
+			$output = "";
+			$this->begin();
+			$commits = [];
+			if (!is_numeric($limit)) {
+				$command = "git log $limit..$branch --oneline";
+				exec($command,$shorts);
+			}
+			if (count($shorts)) $limit = count($shorts)-1;
+			if (is_numeric($limit)) {
+				$i = 0;
+				do {
+					$command = "git log $branch -1 --pretty=format:";
+					if ($i) $command = "git log $branch --skip $i -1 --pretty=format:";
+					$head = exec($command.'"%H"');
+					$shortHead = exec($command.'"%h"');
+					$subject = exec($command.'"%s"');
+					exec($command.'"%b"',$body);
+					$body = implode('<br>',$body);
+					$author = exec($command.'"%aN"');
+					$date = exec($command.'"%aD"');
+					$commit = [
+						'head'=>$head,
+						'shortHead'=>$shortHead,
+						'subject'=>$subject,
+						'body'=>$body,
+						'author'=>$author,
+						'date'=>$date
+					];
+					array_push($commits,$commit);
+					$i++;
+				} while ($i <= $limit);
+			}
+			$this->end();
+			return $commits;
+		}
+		public function getRev() {
+			$this->begin();
+			$head = exec('git rev-parse HEAD');
+			$this->end();
+			return $head;
+		}
 		/**
 		 * Pull changes from a remote
 		 * @param  string|NULL
@@ -393,9 +468,10 @@
 				$params = array();
 			}
 
-			return $this->begin()
-				->run("git pull $remote", $params)
-				->end();
+			$this->begin();
+			$result = $this->run("git pull $remote", $params);
+			$this->end();
+			return $result;
 		}
 
 
@@ -433,9 +509,10 @@
 				$params = array();
 			}
 
-			return $this->begin()
-				->run("git fetch $remote", $params)
-				->end();
+				$this->begin();
+				$result = $this->run("git fetch $remote", $params);
+				$this->end();
+				return $result;
 		}
 
 
@@ -611,12 +688,13 @@
 			$cmd = self::processCommand($args);
 			exec($cmd . ' 2>&1', $output, $ret);
 
+			$result = implode (" ",$output);
 			if($ret !== 0)
 			{
-				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret);
+				$result = "Command '$cmd' failed (exit-code $ret): $ret";
 			}
 
-			return $this;
+			return $result;
 		}
 
 
