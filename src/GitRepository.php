@@ -50,7 +50,7 @@
 		 * `git tag <name>`
 		 * @param  string
 		 * @param  array|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function createTag($name, $options = NULL)
@@ -65,7 +65,7 @@
 		 * Removes tag.
 		 * `git tag -d <name>`
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function removeTag($name)
@@ -84,7 +84,7 @@
 		 * `git tag -d <old>`
 		 * @param  string
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function renameTag($oldName, $newName)
@@ -114,7 +114,7 @@
 		 * `git merge <options> <name>`
 		 * @param  string
 		 * @param  array|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function merge($branch, $options = NULL)
@@ -131,7 +131,7 @@
 		 * (optionaly) `git checkout <name>`
 		 * @param  string
 		 * @param  bool
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function createBranch($name, $checkout = FALSE)
@@ -154,7 +154,7 @@
 		 * Removes branch.
 		 * `git branch -d <name>`
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function removeBranch($name)
@@ -171,7 +171,7 @@
 		 * Gets name of current branch
 		 * `git branch` + magic
 		 * @return string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		public function getCurrentBranchName()
 		{
@@ -224,7 +224,7 @@
 		 * Checkout branch.
 		 * `git checkout <branch>`
 		 * @param  string
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function checkout($name)
@@ -239,7 +239,7 @@
 		 * Removes file(s).
 		 * `git rm <file>`
 		 * @param  string|string[]
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function removeFile($file)
@@ -264,7 +264,7 @@
 		 * Adds file(s).
 		 * `git add <file>`
 		 * @param  string|string[]
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function addFile($file)
@@ -289,7 +289,7 @@
 		/**
 		 * Adds all created, modified & removed files.
 		 * `git add --all`
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function addAllChanges()
@@ -305,7 +305,7 @@
 		 * `git mv <file>`
 		 * @param  string|string[]  from: array('from' => 'to', ...) || (from, to)
 		 * @param  string|NULL
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function renameFile($file, $to = NULL)
@@ -333,7 +333,7 @@
 		 * `git commit <params> -m <message>`
 		 * @param  string
 		 * @param  string[]  param => value
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 * @return self
 		 */
 		public function commit($message, $params = NULL)
@@ -603,7 +603,7 @@
 		 * Runs command.
 		 * @param  string|array
 		 * @return self
-		 * @throws Cz\Git\GitException
+		 * @throws GitException
 		 */
 		protected function run($cmd/*, $options = NULL*/)
 		{
