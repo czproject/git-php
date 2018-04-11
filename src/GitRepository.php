@@ -19,6 +19,7 @@
 
 		/**
 		 * @param  string
+		 * @throws GitException
 		 */
 		public function __construct($repository)
 		{
@@ -102,6 +103,7 @@
 		/**
 		 * Returns list of tags in repo.
 		 * @return string[]|NULL  NULL => no tags
+		 * @throws GitException
 		 */
 		public function getTags()
 		{
@@ -199,6 +201,7 @@
 		/**
 		 * Returns list of all (local & remote) branches in repo.
 		 * @return string[]|NULL  NULL => no branches
+		 * @throws GitException
 		 */
 		public function getBranches()
 		{
@@ -211,6 +214,7 @@
 		/**
 		 * Returns list of local branches in repo.
 		 * @return string[]|NULL  NULL => no branches
+		 * @throws GitException
 		 */
 		public function getLocalBranches()
 		{
@@ -355,6 +359,7 @@
 		 * Exists changes?
 		 * `git status` + magic
 		 * @return bool
+		 * @throws GitException
 		 */
 		public function hasChanges()
 		{
@@ -372,6 +377,7 @@
 
 		/**
 		 * @deprecated
+		 * @throws GitException
 		 */
 		public function isChanges()
 		{
@@ -445,6 +451,7 @@
 		 * @param  string
 		 * @param  array|NULL
 		 * @return self
+		 * @throws GitException
 		 */
 		public function addRemote($name, $url, array $params = NULL)
 		{
@@ -459,6 +466,7 @@
 		 * @param  string
 		 * @param  string
 		 * @return self
+		 * @throws GitException
 		 */
 		public function renameRemote($oldName, $newName)
 		{
@@ -472,6 +480,7 @@
 		 * Removes remote repository
 		 * @param  string
 		 * @return self
+		 * @throws GitException
 		 */
 		public function removeRemote($name)
 		{
@@ -487,6 +496,7 @@
 		 * @param  string
 		 * @param  array|NULL
 		 * @return self
+		 * @throws GitException
 		 */
 		public function setRemoteUrl($name, $url, array $params = NULL)
 		{
@@ -499,6 +509,7 @@
 		/**
 		 * @param  string|string[]
 		 * @return string[]  returns output
+		 * @throws GitException
 		 */
 		public function execute($cmd)
 		{
@@ -556,6 +567,7 @@
 		 * @param  string
 		 * @param  callback|NULL
 		 * @return string[]|NULL
+		 * @throws GitException
 		 */
 		protected function extractFromCommand($cmd, $filter = NULL)
 		{
@@ -697,6 +709,7 @@
 		 * @param  string|NULL
 		 * @param  array|NULL
 		 * @return self
+		 * @throws GitException
 		 */
 		public static function cloneRepository($url, $directory = NULL, array $params = NULL)
 		{
