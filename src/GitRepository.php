@@ -369,7 +369,7 @@
 			if(preg_match('/^[0-9a-f]{40}$/i', $lastLine)) {
 				return $lastLine;
 			}else {
-				return FALSE;
+				return "";
 			}
 		}
 
