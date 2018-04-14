@@ -356,21 +356,20 @@
 
 
 		/**
-		 * Get last commit ID
+		 * Returns last commit ID on current branch
 		 * `git log --pretty=format:'%H' -n 1`
-		 * @return string
+		 * @return string|NULL
 		 * @throws GitException
 		 */
-		public function lastCommitId()
+		public function getLastCommitId()
 		{
 			$this->begin();
 			$lastLine = exec('git log --pretty=format:\'%H\' -n 1 2>&1');
 			$this->end();
-			if(preg_match('/^[0-9a-f]{40}$/i', $lastLine)) {
+			if (preg_match('/^[0-9a-f]{40}$/i', $lastLine)) {
 				return $lastLine;
-			}else {
-				return "";
 			}
+			return NULL;
 		}
 
 
