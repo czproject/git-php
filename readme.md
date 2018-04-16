@@ -89,6 +89,9 @@ $repo->removeFile(array('file3.txt', 'file4.txt'));
 
 // adds all changes in repository
 $repo->addAllChanges();
+
+// returns last commit ID on current branch or NULL
+$repo->getLastCommitId();
 ```
 
 
