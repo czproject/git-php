@@ -386,10 +386,8 @@
 				->run('git update-index -q --refresh')
 				->end();
 
-			$this->begin();
-			$lastLine = exec('git status');
-			$this->end();
-			return (strpos($lastLine, 'nothing to commit')) === FALSE; // FALSE => changes
+			$output = $this->extractFromCommand('git status --porcelain');
+			return !empty($output);
 		}
 
 
