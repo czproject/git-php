@@ -4,6 +4,25 @@ Git-PHP
 Library for work with Git repository in PHP.
 
 <a href="https://www.patreon.com/bePatron?u=9680759"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!" height="35"></a>
+<a href="https://www.paypal.me/janpecha/1eur"><img src="https://buymecoffee.intm.org/img/button-paypal-white.png" alt="Buy me a coffee" height="35"></a>
+
+
+Installation
+------------
+
+[Download a latest package](https://github.com/czproject/git-php/releases) or use [Composer](http://getcomposer.org/):
+
+```
+composer require czproject/git-php
+```
+
+Library requires PHP 5.4 or later and `git` client (path to Git must be in system variable `PATH`).
+
+Git installers:
+
+* for Linux - https://git-scm.com/download/linux
+* for Windows - https://git-scm.com/download/win
+* for others - https://git-scm.com/downloads
 
 
 Usage
@@ -231,24 +250,6 @@ $repo->setRemoteBranches('origin', array(
 	'branch-2',
 ));
 ```
-
-
-Installation
-------------
-
-[Download a latest package](https://github.com/czproject/git-php/releases) or use [Composer](http://getcomposer.org/):
-
-```
-composer require czproject/git-php
-```
-
-Library requires PHP 5.4 or later and `git` client (path to Git must be in system variable `PATH`).
-
-Git installers:
-
-* for Linux - https://git-scm.com/download/linux
-* for Windows - https://git-scm.com/download/win
-* for others - https://git-scm.com/downloads
 
 ------------------------------
 
