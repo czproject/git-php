@@ -264,14 +264,15 @@
 		}
 
 
-		/**
-		 * Adds file(s).
-		 * `git add <file>`
-		 * @param  string|string[]
-		 * @throws GitException
-		 * @return self
-		 */
-		public function addFile($file)
+        /**
+         * Adds file(s).
+         * `git add <file>`
+         * @param  string|string[]
+         * @param bool $prependRoot Whether to prepend the path to the repository (from {@link getRepositoryPath}).
+         * @return self
+         * @throws GitException
+         */
+		public function addFile($file, $prependRoot = true)
 		{
 			if(!is_array($file))
 			{
@@ -282,8 +283,21 @@
 
 			foreach($file as $item)
 			{
-				// TODO: ?? is file($repo . / . $item) ??
-				$this->run('git add', $item);
+			    // make sure the given item exists
+                // this can be a file or an directory, git supports both
+                $path = $prependRoot ?
+                    $this->getRepositoryPath() . DIRECTORY_SEPARATOR . $item :
+                    $item;
+                if (file_exists($path))
+                {
+                    $this->run('git add', $item);
+                }
+                else
+                {
+                    throw new GitException(sprintf(
+                        "The path at '%s' does not represent a valid file!", $item
+                    ));
+                }
 			}
 
 			return $this->end();
