@@ -114,6 +114,15 @@ Assert::false(is_file($file));
 Assert::true(is_file($newFile));
 Assert::same($newContent, file_get_contents($newFile));
 
+// missing file
+Assert::exception(function () use ($repo) {
+	$repo->addFile('missing-file.txt');
+}, 'Cz\Git\GitException', "The path at 'missing-file.txt' does not represent a valid file.");
+
+Assert::exception(function () use ($repo) {
+	$repo->addFile($repo->getRepositoryPath() . '/missing-file.txt');
+}, 'Cz\Git\GitException', "The path at '" . $repo->getRepositoryPath() . "/missing-file.txt' does not represent a valid file.");
+
 // creating repo object
 $newRepo = new GitRepository(TEMP_DIR . '/.git');
 Assert::same(realpath(TEMP_DIR), $newRepo->getRepositoryPath());

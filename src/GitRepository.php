@@ -282,7 +282,14 @@
 
 			foreach($file as $item)
 			{
-				// TODO: ?? is file($repo . / . $item) ??
+				// make sure the given item exists
+				// this can be a file or an directory, git supports both
+				$path = self::isAbsolute($item) ? $item : ($this->getRepositoryPath() . DIRECTORY_SEPARATOR . $item);
+
+				if (!file_exists($path)) {
+					throw new GitException("The path at '$item' does not represent a valid file.");
+				}
+
 				$this->run('git add', $item);
 			}
 
