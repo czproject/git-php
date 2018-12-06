@@ -272,7 +272,7 @@
          * @return self
          * @throws GitException
          */
-		public function addFile($file, $prependRoot = true)
+		public function addFile($file, $prependRoot = false)
 		{
 			if(!is_array($file))
 			{
