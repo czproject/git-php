@@ -212,6 +212,19 @@
 
 
 		/**
+		 * Returns list of remote branches in repo.
+		 * @return string[]|NULL  NULL => no branches
+		 * @throws GitException
+		 */
+		public function getRemoteBranches()
+		{
+			return $this->extractFromCommand('git branch -r', function($value) {
+				return trim(substr($value, 1));
+			});
+		}
+
+
+		/**
 		 * Returns list of local branches in repo.
 		 * @return string[]|NULL  NULL => no branches
 		 * @throws GitException
