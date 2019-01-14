@@ -785,7 +785,7 @@
 			if (DIRECTORY_SEPARATOR === '\\') { // Windows
 				$env = 'set GIT_TERMINAL_PROMPT=0 &&';
 
-			} else { // windows
+			} else {
 				$env = 'GIT_TERMINAL_PROMPT=0';
 			}
 
