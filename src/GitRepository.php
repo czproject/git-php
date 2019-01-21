@@ -803,7 +803,7 @@
 			}
 
 			exec(self::processCommand(array(
-				$env . 'git ls-remote',
+				$env . ' git ls-remote',
 				'--heads',
 				'--quiet',
 				'--exit-code',
