@@ -793,17 +793,14 @@
 		 */
 		public static function isRemoteUrlReadable($url, array $refs = NULL)
 		{
-			$env = '';
-
 			if (DIRECTORY_SEPARATOR === '\\') { // Windows
 				$env = 'set GIT_TERMINAL_PROMPT=0 &&';
-
 			} else {
 				$env = 'GIT_TERMINAL_PROMPT=0';
 			}
 
 			exec(self::processCommand(array(
-				$env . 'git ls-remote',
+				$env . ' git ls-remote',
 				'--heads',
 				'--quiet',
 				'--exit-code',
