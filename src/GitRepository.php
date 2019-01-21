@@ -850,4 +850,69 @@
 		{
 			return (bool) preg_match('#[/\\\\]|[a-zA-Z]:[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
 		}
+
+
+		/**
+		 * Returns commit message from specific commit
+		 * `git log -1 --format={%s|%B} )--pretty=format:'%H' -n 1`
+		 * @param  string  commit ID
+		 * @param  bool    use %s instead of %B if TRUE
+		 * @return string
+		 * @throws GitException
+		 */
+		public function getCommitMessage($commit, $oneline = FALSE)
+		{
+			$this->begin();
+			exec('git log -1 --format=' . ($oneline ? '%s' : '%B') . ' ' . $commit . ' 2>&1', $message);
+			$this->end();
+			return implode(PHP_EOL, $message);
+		}
+
+
+		/**
+		 * Returns array of commit metadata from specific commit
+		 * `git show --raw <sha1>`
+		 * @param  string  commit ID
+		 * @return array
+		 * @throws GitException
+		 */
+		public function getCommitData($commit)
+		{
+			$message = $this->getCommitMessage($commit);
+			$subject = $this->getCommitMessage($commit, TRUE);
+
+			$this->begin();
+			exec('git show --raw ' . $commit . ' 2>&1', $output);
+			$this->end();
+			$data = array(
+				'commit' => $commit,
+				'subject' => $subject,
+				'message' => $message,
+				'author' => NULL,
+				'committer' => NULL,
+				'date' => NULL,
+			);
+
+			// git show is a porcelain command and output format may changes
+			// in future git release or custom config.
+			foreach ($output as $index => $info) {
+				if (preg_match('`Author: *(.*)`', $info, $author)) {
+					$data['author'] = trim($author[1]);
+					unset($output[$index]);
+				}
+
+				if (preg_match('`Commit: *(.*)`', $info, $committer)) {
+					$data['committer'] = trim($committer[1]);
+					unset($output[$index]);
+				}
+
+				if (preg_match('`Date: *(.*)`', $info, $date)) {
+					$data['date'] = trim($date[1]);
+					unset($output[$index]);
+				}
+			}
+
+			return $data;
+		}
+
 	}
