@@ -770,16 +770,60 @@
 				$params = '-q';
 			}
 
-			exec(self::processCommand(array(
+			$descriptorspec = Array(
+				0 => Array('pipe', 'r'), // stdout
+				1 => Array('pipe', 'w'), // stdin
+				2 => Array('pipe', 'w'), // stderr
+			);
+
+			$pipes = [];
+			$command = self::processCommand(array(
 				'git clone',
 				$params,
 				$url,
 				$directory
-			)), $output, $returnCode);
+			));
+			$process = proc_open($command, $descriptorspec, $pipes);
+
+			if (!$process)
+			{
+				throw new GitException("Git clone failed (directory $directory).");
+			}
+
+			// Reset output and error
+			$stdout = '';
+			$stderr = '';
+
+			while (TRUE)
+			{
+				// Read standard output
+				$output = fgets($pipes[0], 1024);
+
+				if ($output)
+				{
+					$stdout .= $output;
+				}
+
+				// Read error output
+				$output_err = fgets($pipes[2], 1024);
+
+				if ($output_err)
+				{
+					$stderr .= $output_err;
+				}
+
+				// We are done
+				if ((feof($pipes[0]) OR $output === FALSE) AND (feof($pipes[2]) OR $output_err === FALSE))
+				{
+					break;
+				}
+			}
+
+			$returnCode = proc_close($process);
 
 			if($returnCode !== 0)
 			{
-				throw new GitException("Git clone failed (directory $directory).");
+				throw new GitException("Git clone failed (directory $directory)." . ($stderr !== '' ? ("\n$stderr") : ''));
 			}
 
 			return new static($directory);

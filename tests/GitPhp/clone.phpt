@@ -45,3 +45,10 @@ Assert::true(in_array('remotes/origin/master', $branches));
 Assert::true(in_array('remotes/origin/version-2', $branches));
 
 Assert::same(array('master'),$repo->getLocalBranches());
+
+// error
+$invalidRepoPath = TEMP_DIR . '/INVALID.git';
+$invalidDest = TEMP_DIR . '/INVALID';
+Assert::exception(function () use ($invalidRepoPath, $invalidDest) {
+	GitRepository::cloneRepository($invalidRepoPath, $invalidDest);
+}, 'Cz\Git\GitException', "Git clone failed (directory $invalidDest).\nfatal: repository '$invalidRepoPath' does not exist");
