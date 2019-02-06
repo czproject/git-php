@@ -8,7 +8,7 @@
 
 	namespace Cz\Git;
 
-	class GitRepository implements IGit
+	class GitRepository
 	{
 		/** @var  string */
 		protected $repository;

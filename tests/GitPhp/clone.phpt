@@ -2,7 +2,7 @@
 use Tester\Assert;
 use Cz\Git\GitRepository;
 require __DIR__ . '/bootstrap.php';
-require __DIR__ . '/../../src/IGit.php';
+require __DIR__ . '/../../src/exceptions.php';
 require __DIR__ . '/../../src/GitRepository.php';
 
 $cwd = getcwd();
