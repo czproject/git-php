@@ -3,6 +3,16 @@
 	namespace CzProject\GitPhp;
 
 
-	class GitException extends \Exception
+	class Exception extends \Exception
+	{
+	}
+
+
+	class GitException extends Exception
+	{
+	}
+
+
+	class StaticClassException extends Exception
 	{
 	}

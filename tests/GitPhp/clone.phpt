@@ -2,8 +2,6 @@
 use Tester\Assert;
 use CzProject\GitPhp\GitRepository;
 require __DIR__ . '/bootstrap.php';
-require __DIR__ . '/../../src/exceptions.php';
-require __DIR__ . '/../../src/GitRepository.php';
 
 $cwd = getcwd();
 chdir(TEMP_DIR);

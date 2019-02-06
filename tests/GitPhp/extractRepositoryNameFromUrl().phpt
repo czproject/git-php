@@ -1,13 +1,11 @@
 <?php
 use Tester\Assert;
-use CzProject\GitPhp\GitRepository;
+use CzProject\GitPhp\Helpers;
 require __DIR__ . '/bootstrap.php';
-require __DIR__ . '/../../src/exceptions.php';
-require __DIR__ . '/../../src/GitRepository.php';
 
-Assert::same('repo', GitRepository::extractRepositoryNameFromUrl('/path/to/repo.git'));
-Assert::same('repo', GitRepository::extractRepositoryNameFromUrl('/path/to/repo/.git'));
-Assert::same('foo', GitRepository::extractRepositoryNameFromUrl('host.xz:foo/.git'));
-Assert::same('repo', GitRepository::extractRepositoryNameFromUrl('file:///path/to/repo.git/'));
-Assert::same('git-php', GitRepository::extractRepositoryNameFromUrl('https://github.com/czproject/git-php.git'));
-Assert::same('git-php', GitRepository::extractRepositoryNameFromUrl('git@github.com:czproject/git-php.git'));
+Assert::same('repo', Helpers::extractRepositoryNameFromUrl('/path/to/repo.git'));
+Assert::same('repo', Helpers::extractRepositoryNameFromUrl('/path/to/repo/.git'));
+Assert::same('foo', Helpers::extractRepositoryNameFromUrl('host.xz:foo/.git'));
+Assert::same('repo', Helpers::extractRepositoryNameFromUrl('file:///path/to/repo.git/'));
+Assert::same('git-php', Helpers::extractRepositoryNameFromUrl('https://github.com/czproject/git-php.git'));
+Assert::same('git-php', Helpers::extractRepositoryNameFromUrl('git@github.com:czproject/git-php.git'));

@@ -292,7 +292,7 @@
 			{
 				// make sure the given item exists
 				// this can be a file or an directory, git supports both
-				$path = self::isAbsolute($item) ? $item : ($this->getRepositoryPath() . DIRECTORY_SEPARATOR . $item);
+				$path = Helpers::isAbsolute($item) ? $item : ($this->getRepositoryPath() . DIRECTORY_SEPARATOR . $item);
 
 				if (!file_exists($path)) {
 					throw new GitException("The path at '$item' does not represent a valid file.");
@@ -753,10 +753,10 @@
 
 			if($directory === NULL)
 			{
-				$directory = self::extractRepositoryNameFromUrl($url);
+				$directory = Helpers::extractRepositoryNameFromUrl($url);
 				$directory = "$cwd/$directory";
 			}
-			elseif(!self::isAbsolute($directory))
+			elseif(!Helpers::isAbsolute($directory))
 			{
 				$directory = "$cwd/$directory";
 			}
@@ -851,43 +851,6 @@
 			)) . ' 2>&1', $output, $returnCode);
 
 			return $returnCode === 0;
-		}
-
-
-		/**
-		 * @param  string  /path/to/repo.git | host.xz:foo/.git | ...
-		 * @return string  repo | foo | ...
-		 */
-		public static function extractRepositoryNameFromUrl($url)
-		{
-			// /path/to/repo.git => repo
-			// host.xz:foo/.git => foo
-			$directory = rtrim($url, '/');
-			if(substr($directory, -5) === '/.git')
-			{
-				$directory = substr($directory, 0, -5);
-			}
-
-			$directory = basename($directory, '.git');
-
-			if(($pos = strrpos($directory, ':')) !== FALSE)
-			{
-				$directory = substr($directory, $pos + 1);
-			}
-
-			return $directory;
-		}
-
-
-		/**
-		 * Is path absolute?
-		 * Method from Nette\Utils\FileSystem
-		 * @link   https://github.com/nette/nette/blob/master/Nette/Utils/FileSystem.php
-		 * @return bool
-		 */
-		public static function isAbsolute($path)
-		{
-			return (bool) preg_match('#[/\\\\]|[a-zA-Z]:[/\\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
 		}
 
 
