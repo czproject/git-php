@@ -47,7 +47,7 @@
 		 * @param  string
 		 * @param  array|NULL
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function createTag($name, $options = NULL)
 		{
@@ -62,7 +62,7 @@
 		 * `git tag -d <name>`
 		 * @param  string
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function removeTag($name)
 		{
@@ -81,7 +81,7 @@
 		 * @param  string
 		 * @param  string
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function renameTag($oldName, $newName)
 		{
@@ -112,7 +112,7 @@
 		 * @param  string
 		 * @param  array|NULL
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function merge($branch, $options = NULL)
 		{
@@ -129,7 +129,7 @@
 		 * @param  string
 		 * @param  bool
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function createBranch($name, $checkout = FALSE)
 		{
@@ -152,7 +152,7 @@
 		 * `git branch -d <name>`
 		 * @param  string
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function removeBranch($name)
 		{
@@ -237,7 +237,7 @@
 		 * `git checkout <branch>`
 		 * @param  string
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function checkout($name)
 		{
@@ -252,7 +252,7 @@
 		 * `git rm <file>`
 		 * @param  string|string[]
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function removeFile($file)
 		{
@@ -277,7 +277,7 @@
 		 * `git add <file>`
 		 * @param  string|string[]
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function addFile($file)
 		{
@@ -309,7 +309,7 @@
 		 * Adds all created, modified & removed files.
 		 * `git add --all`
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function addAllChanges()
 		{
@@ -325,7 +325,7 @@
 		 * @param  string|string[]  from: array('from' => 'to', ...) || (from, to)
 		 * @param  string|NULL
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function renameFile($file, $to = NULL)
 		{
@@ -353,7 +353,7 @@
 		 * @param  string
 		 * @param  string[]  param => value
 		 * @throws GitException
-		 * @return IGit
+		 * @return static
 		 */
 		public function commit($message, $params = NULL)
 		{
@@ -420,7 +420,7 @@
 		 * Pull changes from a remote
 		 * @param  string|NULL
 		 * @param  array|NULL
-		 * @return IGit
+		 * @return static
 		 * @throws GitException
 		 */
 		public function pull($remote = NULL, array $params = NULL)
@@ -440,7 +440,7 @@
 		 * Push changes to a remote
 		 * @param  string|NULL
 		 * @param  array|NULL
-		 * @return IGit
+		 * @return static
 		 * @throws GitException
 		 */
 		public function push($remote = NULL, array $params = NULL)
@@ -460,7 +460,7 @@
 		 * Run fetch command to get latest branches
 		 * @param  string|NULL
 		 * @param  array|NULL
-		 * @return IGit
+		 * @return static
 		 * @throws GitException
 		 */
 		public function fetch($remote = NULL, array $params = NULL)
@@ -481,7 +481,7 @@
 		 * @param  string
 		 * @param  string
 		 * @param  array|NULL
-		 * @return IGit
+		 * @return static
 		 * @throws GitException
 		 */
 		public function addRemote($name, $url, array $params = NULL)
@@ -496,7 +496,7 @@
 		 * Renames remote repository
 		 * @param  string
 		 * @param  string
-		 * @return IGit
+		 * @return static
 		 * @throws GitException
 		 */
 		public function renameRemote($oldName, $newName)
@@ -510,7 +510,7 @@
 		/**
 		 * Removes remote repository
 		 * @param  string
-		 * @return IGit
+		 * @return static
 		 * @throws GitException
 		 */
 		public function removeRemote($name)
@@ -526,7 +526,7 @@
 		 * @param  string
 		 * @param  string
 		 * @param  array|NULL
-		 * @return IGit
+		 * @return static
 		 * @throws GitException
 		 */
 		public function setRemoteUrl($name, $url, array $params = NULL)
@@ -565,7 +565,7 @@
 
 
 		/**
-		 * @return IGit
+		 * @return static
 		 */
 		protected function begin()
 		{
@@ -580,7 +580,7 @@
 
 
 		/**
-		 * @return IGit
+		 * @return static
 		 */
 		protected function end()
 		{
@@ -645,7 +645,7 @@
 		/**
 		 * Runs command.
 		 * @param  string|array
-		 * @return IGit
+		 * @return static
 		 * @throws GitException
 		 */
 		protected function run($cmd/*, $options = NULL*/)
