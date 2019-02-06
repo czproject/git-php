@@ -1,6 +1,6 @@
 <?php
 use Tester\Assert;
-use Cz\Git\GitRepository;
+use CzProject\GitPhp\GitRepository;
 require __DIR__ . '/bootstrap.php';
 require __DIR__ . '/../../src/exceptions.php';
 require __DIR__ . '/../../src/GitRepository.php';
@@ -10,14 +10,14 @@ $repo = GitRepository::init(TEMP_DIR);
 // repo already exists
 Assert::exception(function() {
 	GitRepository::init(TEMP_DIR);
-}, 'Cz\Git\GitException');
+}, 'CzProject\GitPhp\GitException');
 
 Assert::same(realpath(TEMP_DIR), $repo->getRepositoryPath());
 
 // repo is empty
 Assert::exception(function() use ($repo) {
 	$repo->getCurrentBranchName();
-}, 'Cz\Git\GitException', 'Getting current branch name failed.');
+}, 'CzProject\GitPhp\GitException', 'Getting current branch name failed.');
 
 Assert::false($repo->hasChanges());
 Assert::null($repo->getTags());
@@ -117,11 +117,11 @@ Assert::same($newContent, file_get_contents($newFile));
 // missing file
 Assert::exception(function () use ($repo) {
 	$repo->addFile('missing-file.txt');
-}, 'Cz\Git\GitException', "The path at 'missing-file.txt' does not represent a valid file.");
+}, 'CzProject\GitPhp\GitException', "The path at 'missing-file.txt' does not represent a valid file.");
 
 Assert::exception(function () use ($repo) {
 	$repo->addFile($repo->getRepositoryPath() . '/missing-file.txt');
-}, 'Cz\Git\GitException', "The path at '" . $repo->getRepositoryPath() . "/missing-file.txt' does not represent a valid file.");
+}, 'CzProject\GitPhp\GitException', "The path at '" . $repo->getRepositoryPath() . "/missing-file.txt' does not represent a valid file.");
 
 // creating repo object
 $newRepo = new GitRepository(TEMP_DIR . '/.git');
@@ -129,4 +129,4 @@ Assert::same(realpath(TEMP_DIR), $newRepo->getRepositoryPath());
 
 Assert::exception(function () {
 	new GitRepository(TEMP_DIR . '/bad/bad/bad/repo/');
-}, 'Cz\Git\GitException');
+}, 'CzProject\GitPhp\GitException');

@@ -1,6 +1,7 @@
 <?php
 
-	namespace Cz\Git;
+	namespace CzProject\GitPhp;
+
 
 	class GitRepository
 	{

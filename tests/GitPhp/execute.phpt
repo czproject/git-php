@@ -1,6 +1,6 @@
 <?php
 use Tester\Assert;
-use Cz\Git\GitRepository;
+use CzProject\GitPhp\GitRepository;
 require __DIR__ . '/bootstrap.php';
 require __DIR__ . '/../../src/exceptions.php';
 require __DIR__ . '/../../src/GitRepository.php';
@@ -24,4 +24,4 @@ Assert::same(array(
 
 Assert::exception(function () use ($repo) {
 	$repo->execute('blabla');
-}, 'Cz\Git\GitException', "Command 'git 'blabla'' failed (exit-code 1).");
+}, 'CzProject\GitPhp\GitException', "Command 'git 'blabla'' failed (exit-code 1).");

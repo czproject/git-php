@@ -1,6 +1,6 @@
 <?php
 use Tester\Assert;
-use Cz\Git\GitRepository;
+use CzProject\GitPhp\GitRepository;
 require __DIR__ . '/bootstrap.php';
 require __DIR__ . '/../../src/exceptions.php';
 require __DIR__ . '/../../src/GitRepository.php';

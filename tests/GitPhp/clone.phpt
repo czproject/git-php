@@ -1,6 +1,6 @@
 <?php
 use Tester\Assert;
-use Cz\Git\GitRepository;
+use CzProject\GitPhp\GitRepository;
 require __DIR__ . '/bootstrap.php';
 require __DIR__ . '/../../src/exceptions.php';
 require __DIR__ . '/../../src/GitRepository.php';
@@ -51,4 +51,4 @@ $invalidRepoPath = TEMP_DIR . '/INVALID.git';
 $invalidDest = TEMP_DIR . '/INVALID';
 Assert::exception(function () use ($invalidRepoPath, $invalidDest) {
 	GitRepository::cloneRepository($invalidRepoPath, $invalidDest);
-}, 'Cz\Git\GitException', "Git clone failed (directory $invalidDest).\nfatal: repository '$invalidRepoPath' does not exist");
+}, 'CzProject\GitPhp\GitException', "Git clone failed (directory $invalidDest).\nfatal: repository '$invalidRepoPath' does not exist");

@@ -1,6 +1,6 @@
 <?php
 
-	namespace Cz\Git;
+	namespace CzProject\GitPhp;
 
 
 	class GitException extends \Exception
