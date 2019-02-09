@@ -770,10 +770,10 @@
 				$params = '-q';
 			}
 
-			$descriptorspec = Array(
-				0 => Array('pipe', 'r'), // stdout
-				1 => Array('pipe', 'w'), // stdin
-				2 => Array('pipe', 'w'), // stderr
+			$descriptorspec = array(
+				0 => array('pipe', 'r'), // stdout
+				1 => array('pipe', 'w'), // stdin
+				2 => array('pipe', 'w'), // stderr
 			);
 
 			$pipes = [];
