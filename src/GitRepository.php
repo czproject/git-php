@@ -435,7 +435,7 @@
 		}
                 
                 /**
-		 * What files were changed
+		 * What files were changed?
 		 * `git status` + magic
 		 * @return bool
 		 * @throws GitException
