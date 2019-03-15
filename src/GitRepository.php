@@ -17,6 +17,7 @@
 		protected $cwd;
                 
                 // Constants for file status in git
+                // reference: https://git-scm.com/docs/git-status/
                 const GIT_FILE_STATUS_MODIFIED = "M";
                 const GIT_FILE_STATUS_ADDED = "A";
                 const GIT_FILE_STATUS_DELETED = "D";
