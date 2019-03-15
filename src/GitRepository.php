@@ -15,6 +15,14 @@
 
 		/** @var  string|NULL  @internal */
 		protected $cwd;
+                
+                // Constants for file status in git
+                const GIT_FILE_STATUS_MODIFIED = "M";
+                const GIT_FILE_STATUS_ADDED = "A";
+                const GIT_FILE_STATUS_DELETED = "D";
+                const GIT_FILE_STATUS_RENAMED = "R";
+                const GIT_FILE_STATUS_COPIED = "C";
+                const GIT_FILE_STATUS_UPDATED_BUT_UNMERGED = "U";
 
 
 		/**
@@ -395,6 +403,32 @@
 
 		/**
 		 * Exists changes?
+		 * `git status` + magic
+		 * @return string[]
+		 * @throws GitException
+		 */
+		public function getChanges()
+		{
+			// Make sure the `git status` gets a refreshed look at the working tree.
+			$this->begin()
+				->run('git update-index -q --refresh')
+				->end();
+
+			$output = $this->extractFromCommand('git status --porcelain');
+                        $files = array();
+                        foreach($output as $line){
+                            $line = trim($line);
+                            
+                            $file = explode(" ", $line, 2);
+                            if(count($file) >= 2){
+                                $files[$file[1]] = $file[0];
+                            }
+                        }
+                        return $files;
+		}
+                
+                		/**
+		 * What files were changed
 		 * `git status` + magic
 		 * @return bool
 		 * @throws GitException
