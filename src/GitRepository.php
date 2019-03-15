@@ -403,7 +403,7 @@
 
 
 		/**
-		 * Exists changes?
+		 * What files were changed?
 		 * `git status` + magic
 		 * @return string[]
 		 * @throws GitException
@@ -435,7 +435,7 @@
 		}
                 
                 /**
-		 * What files were changed?
+		 * Exists changes?
 		 * `git status` + magic
 		 * @return bool
 		 * @throws GitException
