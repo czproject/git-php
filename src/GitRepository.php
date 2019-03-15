@@ -434,7 +434,8 @@
                         return $files;
 		}
                 
-                		/**
+                /**
+                 * 
 		 * What files were changed
 		 * `git status` + magic
 		 * @return bool
