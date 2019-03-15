@@ -146,7 +146,7 @@
 		 */
 		function hasChanges();
                 
-                    /**
+                /**
                 * What files were changed?
                 * @return string[] filename => change type
                 */
