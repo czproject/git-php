@@ -416,7 +416,13 @@
 				->end();
 
 			$output = $this->extractFromCommand('git status --porcelain');
+                        
                         $files = array();
+                        
+                        if(empty($output)){
+                            return $files;
+                        }
+               
                         foreach($output as $line){
                             $line = trim($line);
                             
