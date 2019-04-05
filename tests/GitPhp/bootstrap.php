@@ -3,7 +3,7 @@ require __DIR__ . '/../../vendor/nette/tester/Tester/bootstrap.php';
 
 // create temporary directory
 define('TEMP_DIR', __DIR__ . '/../tmp/' . (isset($_SERVER['argv']) ? md5(serialize($_SERVER['argv'])) : getmypid()));
-@mkdir(TEMP_DIR, 0777, TRUE);
+@mkdir(TEMP_DIR, 0777, true);
 Tester\Helpers::purge(TEMP_DIR);
 
 
