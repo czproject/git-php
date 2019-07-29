@@ -230,6 +230,16 @@
 		 * @return self
 		 */
 		static function cloneRepository($url, $directory = NULL);
+
+
+		/**
+		 * Get all commits from a branch
+		 * @param  string
+		 * @param  boolean
+		 * @return IGit|NULL|string|string[]
+		 * @throws GitException
+		 */
+		function getAllCommits($branch = 'HEAD', $count = false);
 	}
 
 
