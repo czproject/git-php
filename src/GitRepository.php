@@ -965,7 +965,7 @@
 		 * @return IGit|NULL|string|string[]
 		 * @throws GitException
 		 */
-		function getAllCommits($branch = 'HEAD', $count = false)
+		function getAllCommits($branch = 'HEAD', $count = FALSE)
 		{
 			if ($count) {
 				$this->begin();
