@@ -771,8 +771,8 @@
 			}
 
 			$descriptorspec = array(
-				0 => array('pipe', 'r'), // stdout
-				1 => array('pipe', 'w'), // stdin
+				0 => array('pipe', 'r'), // stdin
+				1 => array('pipe', 'w'), // stdout
 				2 => array('pipe', 'w'), // stderr
 			);
 
@@ -797,7 +797,7 @@
 			while (TRUE)
 			{
 				// Read standard output
-				$output = fgets($pipes[0], 1024);
+				$output = fgets($pipes[1], 1024);
 
 				if ($output)
 				{
@@ -813,7 +813,7 @@
 				}
 
 				// We are done
-				if ((feof($pipes[0]) OR $output === FALSE) AND (feof($pipes[2]) OR $output_err === FALSE))
+				if ((feof($pipes[1]) OR $output === FALSE) AND (feof($pipes[2]) OR $output_err === FALSE))
 				{
 					break;
 				}
