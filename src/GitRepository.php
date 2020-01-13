@@ -958,5 +958,42 @@
 
 			return $data;
 		}
+		
+		/**
+		 * Checks whether the given file is committed to the git repository. Staged files are not counted as committed
+		 * files - unless they are both staged an committed previously.
+		 *
+		 * Uses `git ls-files --error-unmatch <filename>`
+		 *
+		 * @param string $filename
+		 * @return bool
+		 * @throws GitException
+		 */
+		public function isFileCommitted($filename)
+		{
+			$this->begin();
+			try {
+				$this->run('git ls-files --error-unmatch', [$filename]);
+			}
+			catch (GitException $git_exception) {
+				switch ($git_exception->getCode()) {
+				case 1:
+					// The `git ls-files --error-unmatch` command didn't find the given file in git and has yelled an error
+					// number 1. This exception can be considered normal. We can just report that the file is not in git and
+					// continue execution normally.
+					$this->end();
+					return FALSE;
+				break;
+				default:
+					// An unrecognised error has occurred. Rethrow the exception.
+					$this->end();
+					throw $git_exception;
+				break;
+				}
+			}
+			// As the command didn't give any error code when exiting, it's a sign for us to know that the file _does_ exist in git.
+			$this->end();
+			return TRUE;
+		}
 
 	}
