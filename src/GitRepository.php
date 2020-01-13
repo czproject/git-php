@@ -562,7 +562,7 @@
 
 			if($ret !== 0)
 			{
-				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret);
+				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret, NULL, $output);
 			}
 
 			return $output;
@@ -611,12 +611,13 @@
 			$exitCode = NULL;
 
 			$this->begin();
+			$cmd .= ' 2>&1'; // Direct errors to stdout too so they'll get passed to GitException if $exitCode is > 0. This should not mess up the output when the command runs successfully. If $exitCode is 0, no errors should be present in $output.
 			exec("$cmd", $output, $exitCode);
 			$this->end();
 
 			if($exitCode !== 0 || !is_array($output))
 			{
-				throw new GitException("Command $cmd failed.");
+				throw new GitException("Command $cmd failed.", $exitCode, NULL, $output);
 			}
 
 			if($filter !== NULL)
@@ -661,7 +662,7 @@
 
 			if($ret !== 0)
 			{
-				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret);
+				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret, NULL, $output);
 			}
 
 			return $this;
