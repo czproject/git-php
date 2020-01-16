@@ -335,10 +335,6 @@
 		 */
 		public function commit($message, $params = NULL)
 		{
-			if (!is_array($params)) {
-				$params = [];
-			}
-
 			$this->run('commit', $params, [
 				'-m' => $message,
 			]);
@@ -399,10 +395,6 @@
 		 */
 		public function pull($remote = NULL, array $params = NULL)
 		{
-			if (!is_array($params)) {
-				$params = [];
-			}
-
 			$this->run('pull', $remote, $params);
 			return $this;
 		}
@@ -417,10 +409,6 @@
 		 */
 		public function push($remote = NULL, array $params = NULL)
 		{
-			if (!is_array($params)) {
-				$params = [];
-			}
-
 			$this->run('push', $remote, $params);
 			return $this;
 		}
@@ -435,10 +423,6 @@
 		 */
 		public function fetch($remote = NULL, array $params = NULL)
 		{
-			if (!is_array($params)) {
-				$params = [];
-			}
-
 			$this->run('fetch', $remote, $params);
 			return $this;
 		}
