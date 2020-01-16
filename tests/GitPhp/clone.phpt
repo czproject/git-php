@@ -49,4 +49,4 @@ $invalidRepoPath = TEMP_DIR . '/INVALID.git';
 $invalidDest = TEMP_DIR . '/INVALID';
 Assert::exception(function () use ($invalidRepoPath, $invalidDest) {
 	GitRepository::cloneRepository($invalidRepoPath, $invalidDest);
-}, 'CzProject\GitPhp\GitException', "Git clone failed (directory $invalidDest).\nfatal: repository '$invalidRepoPath' does not exist");
+}, CzProject\GitPhp\GitException::class, "Git clone failed (directory $invalidDest).\nfatal: repository '$invalidRepoPath' does not exist");

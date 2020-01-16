@@ -30,7 +30,7 @@ Installation
 composer require czproject/git-php
 ```
 
-Library requires PHP 5.4 or later and `git` client (path to Git must be in system variable `PATH`).
+Library requires PHP 5.6 or later and `git` client (path to Git must be in system variable `PATH`).
 
 Git installers:
 
