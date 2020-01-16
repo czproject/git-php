@@ -32,15 +32,14 @@
 			// /path/to/repo.git => repo
 			// host.xz:foo/.git => foo
 			$directory = rtrim($url, '/');
-			if(substr($directory, -5) === '/.git')
-			{
+
+			if (substr($directory, -5) === '/.git') {
 				$directory = substr($directory, 0, -5);
 			}
 
 			$directory = basename($directory, '.git');
 
-			if(($pos = strrpos($directory, ':')) !== FALSE)
-			{
+			if (($pos = strrpos($directory, ':')) !== FALSE) {
 				$directory = substr($directory, $pos + 1);
 			}
 

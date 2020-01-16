@@ -18,15 +18,13 @@
 		 */
 		public function __construct($repository)
 		{
-			if(basename($repository) === '.git')
-			{
+			if (basename($repository) === '.git') {
 				$repository = dirname($repository);
 			}
 
 			$this->repository = realpath($repository);
 
-			if($this->repository === FALSE)
-			{
+			if ($this->repository === FALSE) {
 				throw new GitException("Repository '$repository' not found.");
 			}
 		}
@@ -138,8 +136,7 @@
 			// git branch $name
 			$this->run('git branch', $name);
 
-			if($checkout)
-			{
+			if ($checkout) {
 				$this->checkout($name);
 			}
 
@@ -172,23 +169,23 @@
 		 */
 		public function getCurrentBranchName()
 		{
-			try
-			{
+			try {
 				$branch = $this->extractFromCommand('git branch -a', function($value) {
-					if(isset($value[0]) && $value[0] === '*')
-					{
+					if (isset($value[0]) && $value[0] === '*') {
 						return trim(substr($value, 1));
 					}
 
 					return FALSE;
 				});
 
-				if(is_array($branch))
-				{
+				if (is_array($branch)) {
 					return $branch[0];
 				}
+
+			} catch (GitException $e) {
+				// nothing
 			}
-			catch(GitException $e) {}
+
 			throw new GitException('Getting current branch name failed.');
 		}
 
@@ -256,15 +253,13 @@
 		 */
 		public function removeFile($file)
 		{
-			if(!is_array($file))
-			{
+			if (!is_array($file)) {
 				$file = func_get_args();
 			}
 
 			$this->begin();
 
-			foreach($file as $item)
-			{
+			foreach ($file as $item) {
 				$this->run('git rm', $item, '-r');
 			}
 
@@ -281,15 +276,13 @@
 		 */
 		public function addFile($file)
 		{
-			if(!is_array($file))
-			{
+			if (!is_array($file)) {
 				$file = func_get_args();
 			}
 
 			$this->begin();
 
-			foreach($file as $item)
-			{
+			foreach ($file as $item) {
 				// make sure the given item exists
 				// this can be a file or an directory, git supports both
 				$path = Helpers::isAbsolute($item) ? $item : ($this->getRepositoryPath() . DIRECTORY_SEPARATOR . $item);
@@ -329,8 +322,7 @@
 		 */
 		public function renameFile($file, $to = NULL)
 		{
-			if(!is_array($file)) // rename(file, to);
-			{
+			if (!is_array($file)) { // rename(file, to);
 				$file = array(
 					$file => $to,
 				);
@@ -338,8 +330,7 @@
 
 			$this->begin();
 
-			foreach($file as $from => $to)
-			{
+			foreach ($file as $from => $to) {
 				$this->run('git mv', $from, $to);
 			}
 
@@ -357,8 +348,7 @@
 		 */
 		public function commit($message, $params = NULL)
 		{
-			if(!is_array($params))
-			{
+			if (!is_array($params)) {
 				$params = array();
 			}
 
@@ -381,9 +371,11 @@
 			$this->begin();
 			$lastLine = exec('git log --pretty=format:"%H" -n 1 2>&1');
 			$this->end();
+
 			if (preg_match('/^[0-9a-f]{40}$/i', $lastLine)) {
 				return $lastLine;
 			}
+
 			return NULL;
 		}
 
@@ -425,8 +417,7 @@
 		 */
 		public function pull($remote = NULL, array $params = NULL)
 		{
-			if(!is_array($params))
-			{
+			if (!is_array($params)) {
 				$params = array();
 			}
 
@@ -445,8 +436,7 @@
 		 */
 		public function push($remote = NULL, array $params = NULL)
 		{
-			if(!is_array($params))
-			{
+			if (!is_array($params)) {
 				$params = array();
 			}
 
@@ -465,8 +455,7 @@
 		 */
 		public function fetch($remote = NULL, array $params = NULL)
 		{
-			if(!is_array($params))
-			{
+			if (!is_array($params)) {
 				$params = array();
 			}
 
@@ -555,8 +544,7 @@
 			exec($cmd . ' 2>&1', $output, $ret);
 			$this->end();
 
-			if($ret !== 0)
-			{
+			if ($ret !== 0) {
 				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret);
 			}
 
@@ -569,8 +557,7 @@
 		 */
 		protected function begin()
 		{
-			if($this->cwd === NULL) // TODO: good idea??
-			{
+			if ($this->cwd === NULL) { // TODO: good idea??
 				$this->cwd = getcwd();
 				chdir($this->repository);
 			}
@@ -584,8 +571,7 @@
 		 */
 		protected function end()
 		{
-			if(is_string($this->cwd))
-			{
+			if (is_string($this->cwd)) {
 				chdir($this->cwd);
 			}
 
@@ -609,21 +595,17 @@
 			exec("$cmd", $output, $exitCode);
 			$this->end();
 
-			if($exitCode !== 0 || !is_array($output))
-			{
+			if ($exitCode !== 0 || !is_array($output)) {
 				throw new GitException("Command $cmd failed.");
 			}
 
-			if($filter !== NULL)
-			{
+			if ($filter !== NULL) {
 				$newArray = array();
 
-				foreach($output as $line)
-				{
+				foreach ($output as $line) {
 					$value = $filter($line);
 
-					if($value === FALSE)
-					{
+					if ($value === FALSE) {
 						continue;
 					}
 
@@ -633,8 +615,7 @@
 				$output = $newArray;
 			}
 
-			if(!isset($output[0])) // empty array
-			{
+			if (!isset($output[0])) { // empty array
 				return NULL;
 			}
 
@@ -654,8 +635,7 @@
 			$cmd = self::processCommand($args);
 			exec($cmd . ' 2>&1', $output, $ret);
 
-			if($ret !== 0)
-			{
+			if ($ret !== 0) {
 				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret);
 			}
 
@@ -669,24 +649,19 @@
 
 			$programName = array_shift($args);
 
-			foreach($args as $arg)
-			{
-				if(is_array($arg))
-				{
-					foreach($arg as $key => $value)
-					{
+			foreach($args as $arg) {
+				if (is_array($arg)) {
+					foreach ($arg as $key => $value) {
 						$_c = '';
 
-						if(is_string($key))
-						{
+						if (is_string($key)) {
 							$_c = "$key ";
 						}
 
 						$cmd[] = $_c . escapeshellarg($value);
 					}
-				}
-				elseif(is_scalar($arg) && !is_bool($arg))
-				{
+
+				} elseif(is_scalar($arg) && !is_bool($arg)) {
 					$cmd[] = escapeshellarg($arg);
 				}
 			}
@@ -704,13 +679,11 @@
 		 */
 		public static function init($directory, array $params = NULL)
 		{
-			if(is_dir("$directory/.git"))
-			{
+			if (is_dir("$directory/.git")) {
 				throw new GitException("Repo already exists in $directory.");
 			}
 
-			if(!is_dir($directory) && !@mkdir($directory, 0777, TRUE)) // intentionally @; not atomic; from Nette FW
-			{
+			if (!is_dir($directory) && !@mkdir($directory, 0777, TRUE)) { // intentionally @; not atomic; from Nette FW
 				throw new GitException("Unable to create directory '$directory'.");
 			}
 
@@ -722,8 +695,7 @@
 				$directory,
 			)), $output, $returnCode);
 
-			if($returnCode !== 0)
-			{
+			if ($returnCode !== 0) {
 				throw new GitException("Git init failed (directory $directory).");
 			}
 
@@ -744,20 +716,17 @@
 		 */
 		public static function cloneRepository($url, $directory = NULL, array $params = NULL)
 		{
-			if($directory !== NULL && is_dir("$directory/.git"))
-			{
+			if ($directory !== NULL && is_dir("$directory/.git")) {
 				throw new GitException("Repo already exists in $directory.");
 			}
 
 			$cwd = getcwd();
 
-			if($directory === NULL)
-			{
+			if ($directory === NULL) {
 				$directory = Helpers::extractRepositoryNameFromUrl($url);
 				$directory = "$cwd/$directory";
-			}
-			elseif(!Helpers::isAbsolute($directory))
-			{
+
+			} elseif(!Helpers::isAbsolute($directory)) {
 				$directory = "$cwd/$directory";
 			}
 
@@ -780,8 +749,7 @@
 			));
 			$process = proc_open($command, $descriptorspec, $pipes);
 
-			if (!$process)
-			{
+			if (!$process) {
 				throw new GitException("Git clone failed (directory $directory).");
 			}
 
@@ -789,35 +757,30 @@
 			$stdout = '';
 			$stderr = '';
 
-			while (TRUE)
-			{
+			while (TRUE) {
 				// Read standard output
 				$output = fgets($pipes[1], 1024);
 
-				if ($output)
-				{
+				if ($output) {
 					$stdout .= $output;
 				}
 
 				// Read error output
 				$output_err = fgets($pipes[2], 1024);
 
-				if ($output_err)
-				{
+				if ($output_err) {
 					$stderr .= $output_err;
 				}
 
 				// We are done
-				if ((feof($pipes[1]) OR $output === FALSE) AND (feof($pipes[2]) OR $output_err === FALSE))
-				{
+				if ((feof($pipes[1]) || $output === FALSE) && (feof($pipes[2]) || $output_err === FALSE)) {
 					break;
 				}
 			}
 
 			$returnCode = proc_close($process);
 
-			if($returnCode !== 0)
-			{
+			if ($returnCode !== 0) {
 				throw new GitException("Git clone failed (directory $directory)." . ($stderr !== '' ? ("\n$stderr") : ''));
 			}
 
@@ -954,5 +917,4 @@
 
 			return $data;
 		}
-
 	}
