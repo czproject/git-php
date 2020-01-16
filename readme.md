@@ -72,9 +72,9 @@ With parameters:
 
 ``` php
 <?php
-$repo = GitRepository::init('/path/to/repo-directory', array(
+$repo = GitRepository::init('/path/to/repo-directory', [
 	'--bare', // creates bare repo
-));
+]);
 ```
 
 
@@ -106,19 +106,19 @@ $repo->getRepositoryPath();
 // adds files into commit
 $repo->addFile('file.txt');
 $repo->addFile('file1.txt', 'file2.txt');
-$repo->addFile(array('file3.txt', 'file4.txt'));
+$repo->addFile(['file3.txt', 'file4.txt']);
 
 // renames files in repository
 $repo->renameFile('old.txt', 'new.txt');
-$repo->renameFile(array(
+$repo->renameFile([
     'old1.txt' => 'new1.txt',
     'old2.txt' => 'new2.txt',
-));
+]);
 
 // removes files from repository
 $repo->removeFile('file.txt');
 $repo->removeFile('file1.txt', 'file2.txt');
-$repo->removeFile(array('file3.txt', 'file4.txt'));
+$repo->removeFile(['file3.txt', 'file4.txt']);
 
 // adds all changes in repository
 $repo->addAllChanges();
@@ -165,9 +165,9 @@ $repo->getTags();
 // creates new tag
 $repo->createTag('v1.0.0');
 $repo->createTag('v1.0.0', $options);
-$repo->createTag('v1.0.0', array(
+$repo->createTag('v1.0.0', [
 	'-m' => 'message',
-));
+]);
 
 // renames tag
 $repo->renameTag('old-tag-name', 'new-tag-name');
@@ -183,21 +183,21 @@ Remotes
 ``` php
 <?php
 // pulls changes from remote
-$repo->pull('remote-name', array('--options'));
+$repo->pull('remote-name', ['--options']);
 $repo->pull('origin');
 
 // pushs changes to remote
-$repo->push('remote-name', array('--options'));
+$repo->push('remote-name', ['--options']);
 $repo->push('origin');
-$repo->push('origin', array('master', '-u'));
+$repo->push('origin', ['master', '-u']);
 
 // fetchs changes from remote
-$repo->fetch('remote-name', array('--options'));
+$repo->fetch('remote-name', ['--options']);
 $repo->fetch('origin');
-$repo->fetch('origin', array('master'));
+$repo->fetch('origin', ['master']);
 
 // adds remote repository
-$repo->addRemote('remote-name', 'repository-url', array('--options'));
+$repo->addRemote('remote-name', 'repository-url', ['--options']);
 $repo->addRemote('origin', 'git@github.com:czproject/git-php.git');
 
 // renames remote
@@ -223,7 +223,7 @@ $repo->removeRemote('upstream', 'https://github.com/czproject/git-php.git');
 3) insert user and password into remote URL - https://stackoverflow.com/a/16381160
 	* `git remote add origin https://user:password@server/path/repo.git`
 4) for `push()` you can use `--repo` argument - https://stackoverflow.com/a/12193555
-	* `$git->push(NULL, array('--repo' => 'https://user:password@server/path/repo.git'));`
+	* `$git->push(NULL, ['--repo' => 'https://user:password@server/path/repo.git']);`
 
 
 Other commands
@@ -233,10 +233,10 @@ For running other commands you can use `execute` method:
 
 ```php
 $output = $repo->execute('command');
-$output = $repo->execute(array('command', 'with', 'parameters'));
+$output = $repo->execute(['command', 'with', 'parameters']);
 
 // example:
-$repo->execute(array('remote', 'set-branches', $originName, $branches));
+$repo->execute(['remote', 'set-branches', $originName, $branches]);
 ```
 
 
@@ -259,10 +259,10 @@ class OwnGitRepository extends \CzProject\GitPhp\GitRepository
 
 $repo = new OwnGitRepository('/path/to/repo');
 $repo->addRemote('origin', 'repository-url');
-$repo->setRemoteBranches('origin', array(
+$repo->setRemoteBranches('origin', [
 	'branch-1',
 	'branch-2',
-));
+]);
 ```
 
 ------------------------------

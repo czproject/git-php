@@ -29,17 +29,17 @@ Assert::true($repo->hasChanges());
 $repo->commit('First commit');
 
 Assert::same('master', $repo->getCurrentBranchName());
-Assert::same(array(
+Assert::same([
 	'master',
-), $repo->getBranches());
+], $repo->getBranches());
 
 
 // second commit
 $file = TEMP_DIR . '/second.txt';
 file_put_contents($file, "Sit amet dolor ipsum lorem.\n");
-$repo->addFile(array(
+$repo->addFile([
 	$file,
-));
+]);
 Assert::true($repo->hasChanges());
 $repo->commit('Second commit');
 Assert::false($repo->hasChanges());
@@ -54,10 +54,10 @@ Assert::false($repo->hasChanges());
 
 // Branches
 $repo->createBranch('develop', TRUE);
-Assert::same(array(
+Assert::same([
 	'develop',
 	'master',
-), $repo->getBranches());
+], $repo->getBranches());
 Assert::same('develop', $repo->getCurrentBranchName());
 
 // ...change file
@@ -76,9 +76,9 @@ $repo->checkout('master');
 Assert::same('master', $repo->getCurrentBranchName());
 Assert::null($repo->getTags());
 $repo->createTag('v0.9.0');
-Assert::same(array(
+Assert::same([
 	'v0.9.0',
-), $repo->getTags());
+], $repo->getTags());
 Assert::false($repo->hasChanges());
 $repo->merge('develop');
 Assert::false($repo->hasChanges());
@@ -86,20 +86,20 @@ Assert::false($repo->hasChanges());
 Assert::same($newContent, file_get_contents($file));
 
 $repo->createTag('v2.0.0');
-Assert::same(array(
+Assert::same([
 	'v0.9.0',
 	'v2.0.0',
-), $repo->getTags());
+], $repo->getTags());
 $repo->removeBranch('develop');
-Assert::same(array(
+Assert::same([
 	'master',
-), $repo->getBranches());
+], $repo->getBranches());
 
 $repo->renameTag('v0.9.0', 'v1.0.0');
-Assert::same(array(
+Assert::same([
 	'v1.0.0',
 	'v2.0.0',
-), $repo->getTags());
+], $repo->getTags());
 $repo->checkout('v1.0.0');
 Assert::same($content, file_get_contents($file));
 

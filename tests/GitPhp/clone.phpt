@@ -22,7 +22,7 @@ Assert::true(in_array('master', $branches));
 Assert::true(in_array('remotes/origin/master', $branches));
 Assert::true(in_array('remotes/origin/version-2', $branches));
 
-Assert::same(array('master'), $repo->getLocalBranches());
+Assert::same(['master'], $repo->getLocalBranches());
 
 // Specificky adresar
 Tester\Helpers::purge(TEMP_DIR);
@@ -42,7 +42,7 @@ Assert::true(in_array('master', $branches));
 Assert::true(in_array('remotes/origin/master', $branches));
 Assert::true(in_array('remotes/origin/version-2', $branches));
 
-Assert::same(array('master'),$repo->getLocalBranches());
+Assert::same(['master'],$repo->getLocalBranches());
 
 // error
 $invalidRepoPath = TEMP_DIR . '/INVALID.git';

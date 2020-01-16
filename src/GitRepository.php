@@ -65,9 +65,9 @@
 		public function removeTag($name)
 		{
 			return $this->begin()
-				->run('git tag', array(
+				->run('git tag', [
 					'-d' => $name,
-				))
+				])
 				->end();
 		}
 
@@ -154,9 +154,9 @@
 		public function removeBranch($name)
 		{
 			return $this->begin()
-				->run('git branch', array(
+				->run('git branch', [
 					'-d' => $name,
-				))
+				])
 				->end();
 		}
 
@@ -323,9 +323,9 @@
 		public function renameFile($file, $to = NULL)
 		{
 			if (!is_array($file)) { // rename(file, to);
-				$file = array(
+				$file = [
 					$file => $to,
-				);
+				];
 			}
 
 			$this->begin();
@@ -349,13 +349,13 @@
 		public function commit($message, $params = NULL)
 		{
 			if (!is_array($params)) {
-				$params = array();
+				$params = [];
 			}
 
 			return $this->begin()
-				->run("git commit", $params, array(
+				->run("git commit", $params, [
 					'-m' => $message,
-				))
+				])
 				->end();
 		}
 
@@ -418,7 +418,7 @@
 		public function pull($remote = NULL, array $params = NULL)
 		{
 			if (!is_array($params)) {
-				$params = array();
+				$params = [];
 			}
 
 			return $this->begin()
@@ -437,7 +437,7 @@
 		public function push($remote = NULL, array $params = NULL)
 		{
 			if (!is_array($params)) {
-				$params = array();
+				$params = [];
 			}
 
 			return $this->begin()
@@ -456,7 +456,7 @@
 		public function fetch($remote = NULL, array $params = NULL)
 		{
 			if (!is_array($params)) {
-				$params = array();
+				$params = [];
 			}
 
 			return $this->begin()
@@ -534,7 +534,7 @@
 		public function execute($cmd)
 		{
 			if (!is_array($cmd)) {
-				$cmd = array($cmd);
+				$cmd = [$cmd];
 			}
 
 			array_unshift($cmd, 'git');
@@ -588,7 +588,7 @@
 		 */
 		protected function extractFromCommand($cmd, $filter = NULL)
 		{
-			$output = array();
+			$output = [];
 			$exitCode = NULL;
 
 			$this->begin();
@@ -600,7 +600,7 @@
 			}
 
 			if ($filter !== NULL) {
-				$newArray = array();
+				$newArray = [];
 
 				foreach ($output as $line) {
 					$value = $filter($line);
@@ -645,7 +645,7 @@
 
 		protected static function processCommand(array $args)
 		{
-			$cmd = array();
+			$cmd = [];
 
 			$programName = array_shift($args);
 
@@ -689,11 +689,11 @@
 
 			$cwd = getcwd();
 			chdir($directory);
-			exec(self::processCommand(array(
+			exec(self::processCommand([
 				'git init',
 				$params,
 				$directory,
-			)), $output, $returnCode);
+			]), $output, $returnCode);
 
 			if ($returnCode !== 0) {
 				throw new GitException("Git init failed (directory $directory).");
@@ -734,19 +734,19 @@
 				$params = '-q';
 			}
 
-			$descriptorspec = array(
-				0 => array('pipe', 'r'), // stdin
-				1 => array('pipe', 'w'), // stdout
-				2 => array('pipe', 'w'), // stderr
-			);
+			$descriptorspec = [
+				0 => ['pipe', 'r'], // stdin
+				1 => ['pipe', 'w'], // stdout
+				2 => ['pipe', 'w'], // stderr
+			];
 
 			$pipes = [];
-			$command = self::processCommand(array(
+			$command = self::processCommand([
 				'git clone',
 				$params,
 				$url,
 				$directory
-			));
+			]);
 			$process = proc_open($command, $descriptorspec, $pipes);
 
 			if (!$process) {
@@ -804,14 +804,14 @@
 				$env = 'GIT_TERMINAL_PROMPT=0';
 			}
 
-			exec(self::processCommand(array(
+			exec(self::processCommand([
 				$env . ' git ls-remote',
 				'--heads',
 				'--quiet',
 				'--exit-code',
 				$url,
 				$refs,
-			)) . ' 2>&1', $output, $returnCode);
+			]) . ' 2>&1', $output, $returnCode);
 
 			return $returnCode === 0;
 		}
@@ -887,14 +887,14 @@
 			$this->begin();
 			exec('git show --raw ' . $commit . ' 2>&1', $output);
 			$this->end();
-			$data = array(
+			$data = [
 				'commit' => $commit,
 				'subject' => $subject,
 				'message' => $message,
 				'author' => NULL,
 				'committer' => NULL,
 				'date' => NULL,
-			);
+			];
 
 			// git show is a porcelain command and output format may changes
 			// in future git release or custom config.
