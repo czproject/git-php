@@ -234,10 +234,10 @@ For running other commands you can use `execute` method:
 
 ```php
 $output = $repo->execute('command');
-$output = $repo->execute(['command', 'with', 'parameters']);
+$output = $repo->execute('command', 'with', 'parameters');
 
 // example:
-$repo->execute(['remote', 'set-branches', $originName, $branches]);
+$repo->execute('remote', 'set-branches', $originName, $branches);
 ```
 
 

@@ -502,16 +502,12 @@
 
 
 		/**
-		 * @param  string|string[]
+		 * @param  string[]
 		 * @return string[]  returns output
 		 * @throws GitException
 		 */
-		public function execute($cmd)
+		public function execute(...$cmd)
 		{
-			if (!is_array($cmd)) {
-				$cmd = [$cmd];
-			}
-
 			$result = $this->run(...$cmd);
 			return $result->getOutput();
 		}
