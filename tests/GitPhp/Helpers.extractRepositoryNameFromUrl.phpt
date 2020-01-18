@@ -1,7 +1,10 @@
 <?php
+
 use Tester\Assert;
 use CzProject\GitPhp\Helpers;
+
 require __DIR__ . '/bootstrap.php';
+
 
 Assert::same('repo', Helpers::extractRepositoryNameFromUrl('/path/to/repo.git'));
 Assert::same('repo', Helpers::extractRepositoryNameFromUrl('/path/to/repo/.git'));

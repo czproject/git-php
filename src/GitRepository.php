@@ -181,7 +181,7 @@
 				// nothing
 			}
 
-			throw new GitException('Getting current branch name failed.');
+			throw new GitException('Getting of current branch name failed.');
 		}
 
 
