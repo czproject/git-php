@@ -31,14 +31,47 @@
 				throw new GitException("Directory '$cwd' not found");
 			}
 
-			$oldCwd = getcwd();
-			chdir($cwd);
+			$descriptorspec = [
+				0 => ['pipe', 'r'], // stdin
+				1 => ['pipe', 'w'], // stdout
+				2 => ['pipe', 'w'], // stderr
+			];
 
-			$cmd = $this->processCommand($args, $env);
-			exec($cmd . ' 2>&1', $output, $returnCode);
+			$pipes = [];
+			$command = $this->processCommand($args);
+			$process = proc_open($command, $descriptorspec, $pipes, $cwd, $env);
 
-			chdir($oldCwd);
-			return new RunnerResult($cmd, $returnCode, $output);
+			if (!$process) {
+				throw new GitException("Executing of command '$command' failed (directory $cwd).");
+			}
+
+			// Reset output and error
+			$stdout = '';
+			$stderr = '';
+
+			while (TRUE) {
+				// Read standard output
+				$stdoutOutput = fgets($pipes[1], 1024);
+
+				if (is_string($stdoutOutput)) {
+					$stdout .= $stdoutOutput;
+				}
+
+				// Read error output
+				$stderrOutput = fgets($pipes[2], 1024);
+
+				if (is_string($stderrOutput)) {
+					$stderr .= $stderrOutput;
+				}
+
+				// We are done
+				if ((feof($pipes[1]) || $stdoutOutput === FALSE) && (feof($pipes[2]) || $stderrOutput === FALSE)) {
+					break;
+				}
+			}
+
+			$returnCode = proc_close($process);
+			return new RunnerResult($command, $returnCode, $this->convertOutput($stdout), $this->convertOutput($stderr));
 		}
 
 
@@ -99,5 +132,18 @@
 			}
 
 			return $envPrefix . $this->gitBinary . ' ' . implode(' ', $cmd);
+		}
+
+
+		protected function convertOutput($output)
+		{
+			$output = str_replace(["\r\n", "\r"], "\n", $output);
+			$output = rtrim($output, "\n");
+
+			if ($output === '') {
+				return [];
+			}
+
+			return explode("\n", $output);
 		}
 	}

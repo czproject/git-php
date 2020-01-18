@@ -93,8 +93,8 @@
 				$stderr = '';
 				$result = $e->getRunnerResult();
 
-				if ($result !== NULL && $result->hasOutput()) {
-					$stderr = implode(PHP_EOL, $result->getOutput());
+				if ($result !== NULL && $result->hasErrorOutput()) {
+					$stderr = implode(PHP_EOL, $result->getErrorOutput());
 				}
 
 				throw new GitException("Git clone failed (directory $directory)." . ($stderr !== '' ? ("\n$stderr") : ''));

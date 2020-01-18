@@ -14,17 +14,22 @@
 		/** @var string[] */
 		private $output;
 
+		/** @var string[] */
+		private $errorOutput;
+
 
 		/**
 		 * @param  string
 		 * @param  int
 		 * @param  string[]
+		 * @param  string[]
 		 */
-		public function __construct($command, $exitCode, array $output)
+		public function __construct($command, $exitCode, array $output, array $errorOutput)
 		{
 			$this->command = (string) $command;
 			$this->exitCode = (int) $exitCode;
 			$this->output = $output;
+			$this->errorOutput = $errorOutput;
 		}
 
 
@@ -84,12 +89,33 @@
 
 
 		/**
+		 * @return string[]
+		 */
+		public function getErrorOutput()
+		{
+			return $this->errorOutput;
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		public function hasErrorOutput()
+		{
+			return !empty($this->errorOutput);
+		}
+
+
+		/**
 		 * @return string
 		 */
 		public function toText()
 		{
 			return '$ ' . $this->getCommand() . "\n\n"
+				. "---- STDOUT: \n\n"
 				. implode("\n", $this->getOutput()) . "\n\n"
+				. "---- STDERR: \n\n"
+				. implode("\n", $this->getErrorOutput()) . "\n\n"
 				. '=> ' . $this->getExitCode() . "\n\n";
 		}
 	}
