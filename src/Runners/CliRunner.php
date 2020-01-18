@@ -2,6 +2,7 @@
 
 	namespace CzProject\GitPhp\Runners;
 
+	use CzProject\GitPhp\CommandProcessor;
 	use CzProject\GitPhp\GitException;
 	use CzProject\GitPhp\IRunner;
 	use CzProject\GitPhp\RunnerResult;
@@ -12,6 +13,9 @@
 		/** @var string */
 		private $gitBinary;
 
+		/** @var CommandProcessor */
+		private $commandProcessor;
+
 
 		/**
 		 * @param  string
@@ -19,6 +23,7 @@
 		public function __construct($gitBinary = 'git')
 		{
 			$this->gitBinary = $gitBinary;
+			$this->commandProcessor = new CommandProcessor;
 		}
 
 
@@ -38,8 +43,10 @@
 			];
 
 			$pipes = [];
-			$command = $this->processCommand($args);
-			$process = proc_open($command, $descriptorspec, $pipes, $cwd, $env);
+			$command = $this->commandProcessor->process($this->gitBinary, $args);
+			$process = proc_open($command, $descriptorspec, $pipes, $cwd, $env, [
+				'bypass_shell' => TRUE,
+			]);
 
 			if (!$process) {
 				throw new GitException("Executing of command '$command' failed (directory $cwd).");
@@ -87,51 +94,6 @@
 			}
 
 			return $cwd;
-		}
-
-
-		/**
-		 * @param  array
-		 * @param  array|NULL
-		 * @return string
-		 */
-		protected function processCommand(array $args, array $env = NULL)
-		{
-			$cmd = [];
-
-			foreach ($args as $arg) {
-				if (is_array($arg)) {
-					foreach ($arg as $key => $value) {
-						$_c = '';
-
-						if (is_string($key)) {
-							$_c = "$key ";
-						}
-
-						$cmd[] = $_c . escapeshellarg($value);
-					}
-
-				} elseif (is_scalar($arg) && !is_bool($arg)) {
-					$cmd[] = escapeshellarg($arg);
-				}
-			}
-
-			$envPrefix = '';
-
-			if ($env !== NULL) {
-				$isWindows = DIRECTORY_SEPARATOR === '\\';
-
-				foreach ($env as $envVar => $envValue) {
-					if ($isWindows) {
-						$envPrefix .= 'set ' . $envVar . '=' . $envValue . ' && ';
-
-					} else {
-						$envPrefix .= $envVar . '=' . $envValue . ' ';
-					}
-				}
-			}
-
-			return $envPrefix . $this->gitBinary . ' ' . implode(' ', $cmd);
 		}
 
 

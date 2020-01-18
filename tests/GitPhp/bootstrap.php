@@ -2,6 +2,7 @@
 require __DIR__ . '/../../vendor/nette/tester/Tester/bootstrap.php';
 require __DIR__ . '/../../src/exceptions.php';
 require __DIR__ . '/../../src/Helpers.php';
+require __DIR__ . '/../../src/CommandProcessor.php';
 require __DIR__ . '/../../src/RunnerResult.php';
 require __DIR__ . '/../../src/IRunner.php';
 require __DIR__ . '/../../src/Runners/CliRunner.php';
@@ -17,4 +18,10 @@ Tester\Helpers::purge(TEMP_DIR);
 if (extension_loaded('xdebug'))
 {
 	Tester\CodeCoverage\Collector::start(__DIR__ . '/../coverage.dat');
+}
+
+
+function test($cb)
+{
+	$cb();
 }

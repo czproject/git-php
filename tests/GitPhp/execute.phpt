@@ -23,4 +23,4 @@ Assert::same([
 
 Assert::exception(function () use ($repo) {
 	$repo->execute('blabla');
-}, CzProject\GitPhp\GitException::class, "Command 'git 'blabla'' failed (exit-code 1).");
+}, CzProject\GitPhp\GitException::class, "Command 'git blabla' failed (exit-code 1).");
