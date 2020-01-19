@@ -377,16 +377,6 @@
 
 
 		/**
-		 * @deprecated
-		 * @throws GitException
-		 */
-		public function isChanges()
-		{
-			return $this->hasChanges();
-		}
-
-
-		/**
 		 * Pull changes from a remote
 		 * @param  string|NULL
 		 * @param  array|NULL
