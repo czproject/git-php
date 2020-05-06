@@ -1,6 +1,11 @@
 Git-PHP
 =======
 
+[![Downloads this Month](https://img.shields.io/packagist/dm/czproject/git-php.svg)](https://packagist.org/packages/czproject/git-php)
+[![Latest Stable Version](https://poser.pugx.org/czproject/git-php/v/stable)](https://github.com/czproject/git-php/releases)
+[![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/czproject/git-php/blob/master/license.md)
+
+
 Library for work with Git repository in PHP.
 
 
