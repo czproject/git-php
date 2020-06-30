@@ -912,6 +912,44 @@
 			return implode(PHP_EOL, $message);
 		}
 
+		/**
+		 * Returns commit date from specific commit
+		 * `git log -1 --date=iso-strict`
+		 * @param  string          commit ID (if empty last commit)
+		 * @param  string          date format (eg. 'iso-strict' or 'format:'%Y-%m-%d %H:%M:%S'')
+		 * @return \DateTime|NULL
+		 * @throws GitException
+		 */
+		public function getCommitDate($commit = '', $dateFormat = 'iso-strict')
+		{
+			$this->begin();
+			$lastLine = exec('git log -1 ' . $commit . ' --date=' . $dateFormat);
+			$this->end();
+
+			try {
+				return new \DateTime($lastLine);
+			} catch (\Exception $e) {
+				return null;
+			}
+		}
+
+
+		/**
+		 * Returns commit author from specific commit
+		 * `git log -1 --format='%ae'`
+		 * @param  string      commit ID (if empty last commit)
+		 * @return string|NULL
+		 * @throws GitException
+		 */
+		public function getCommitAuthor($commit = '')
+		{
+			$this->begin();
+			$lastLine = exec('git log -1 ' . $commit . ' --format="%ae"');
+			$this->end();
+
+			return $lastLine;
+		}
+
 
 		/**
 		 * Returns array of commit metadata from specific commit
