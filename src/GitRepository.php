@@ -923,7 +923,7 @@
 		public function getCommitDate($commit = '', $dateFormat = 'iso-strict')
 		{
 			$this->begin();
-			$lastLine = exec('git log -1 ' . $commit . ' --date=' . $dateFormat);
+			$lastLine = exec('git log -1 ' . $commit . ' --pretty="format:%cd" --date=' . $dateFormat);
 			$this->end();
 
 			try {
@@ -938,7 +938,7 @@
 		 * Returns commit author from specific commit
 		 * `git log -1 --format='%ae'`
 		 * @param  string      commit ID (if empty last commit)
-		 * @return string|NULL
+		 * @return string
 		 * @throws GitException
 		 */
 		public function getCommitAuthor($commit = '')
