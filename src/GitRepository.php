@@ -996,5 +996,45 @@
 
 			return $data;
 		}
+		
+               /**
+                 * Set the user name
+                 * `git config user.name %user_name`
+                 * @param string $user_name
+                 * @return self
+                 */
+		public function setUserName($user_name)
+                {
+                    $this->begin();
+                    exec('git config user.name "' . $user_name . '"');
+                    $this->end();
+                    return $this;
+                }
+                
+                /**
+                 * Set the user email
+                 * `git config user.email %user_email`
+                 * @param string $user_email
+                 * @return self
+                 */
+                public function setUserEmail($user_email)
+                {
+                    $this->begin();
+                    exec('git config user.email "' . $user_email . '"');
+                    $this->end();
+                    return $this;
+                }
+
+                /**
+                 * Set the user name and email
+                 * @param string $user_name
+                 * @param string $user_email
+                 * @return self
+                 */
+                public function setUserNameAndEmail($user_name, $user_email)
+                {
+                   return $this->setUserName($user_name)
+                           ->setUserEmail($user_email);
+                }
 
 	}
