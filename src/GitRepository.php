@@ -996,5 +996,20 @@
 
 			return $data;
 		}
+		
+		/**
+                 * Return history of commit for specific file
+                 * `git log -p (-%number) -- %file`
+                 * @param string file in repository
+                 * @param int number of last commits
+                 * @return string
+                 */
+                public function getFileHistory($file, $number_of_commits=FALSE)
+		{
+			$this->begin();
+			exec('git log -p ' . ($number_of_commits?"-".$number_of_commits:"") . ' -- ' . $file . ' 2>&1', $message);
+			$this->end();
+			return implode(PHP_EOL, $message);
+		}
 
 	}
