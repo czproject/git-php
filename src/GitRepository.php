@@ -543,6 +543,21 @@
 
 
 		/**
+		 * Get remote repository URL
+		 * @return string
+		 * @throws GitException
+		 */
+		public function getRemoteUrl()
+		{
+			$this->begin();
+			$remoteUrl = exec('git remote get-url origin');
+			$this->end();
+
+			return $remoteUrl;
+		}
+
+
+		/**
 		 * @param  string|string[]
 		 * @return string[]  returns output
 		 * @throws GitException
