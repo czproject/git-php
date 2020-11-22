@@ -230,6 +230,14 @@
 		 * @return self
 		 */
 		static function cloneRepository($url, $directory = NULL);
+		
+		/**
+		 * Checks whether the given file is committed to the git repository.
+		 *
+		 * @param string $filename
+		 * @return bool
+		 */
+		public function isFileCommitted($filename);
 	}
 
 
