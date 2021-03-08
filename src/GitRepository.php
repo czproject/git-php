@@ -997,4 +997,24 @@
 			return $data;
 		}
 
+		/**
+		 * @param string $branch
+		 * @param bool $count
+		 * @return IGit|NULL|string|string[]
+		 * @throws GitException
+		 */
+		function getAllCommits($branch = 'HEAD', $count = FALSE)
+		{
+			if ($count) {
+				$this->begin();
+				$commitCount = exec('git rev-list --count ' . $branch . ' 2>&1');
+				$this->end();
+
+				return $commitCount;
+			}
+
+			return $this->extractFromCommand('git rev-list ' . $branch, function($value) {
+				return trim(substr($value, 1));
+			});
+		}
 	}
