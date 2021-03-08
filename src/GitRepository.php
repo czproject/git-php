@@ -543,6 +543,36 @@
 
 
 		/**
+		 * Get remote repository URL
+		 * @return string
+		 * @throws GitException
+		 */
+		public function getRemoteUrl()
+		{
+			$this->begin();
+			$remoteUrl = exec('git remote get-url origin');
+			$this->end();
+
+			return $remoteUrl;
+		}
+
+
+		/**
+		 * Get the default branch name
+		 * @return string
+		 * @throws GitException
+		 */
+		public function getDefaultBranchName($remote = false)
+		{
+			$this->begin();
+			$branchName = exec('git symbolic-ref --short ' . ($remote ? 'refs/remotes/origin/HEAD' : 'HEAD'));
+			$this->end();
+
+			return $branchName;
+		}
+
+
+		/**
 		 * @param  string|string[]
 		 * @return string[]  returns output
 		 * @throws GitException
