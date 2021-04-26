@@ -9,13 +9,16 @@ Git-PHP
 Library for work with Git repository in PHP.
 
 
-Do you like this project?
--------------------------
+Support Me
+----------
 
-**Please consider its support for further development. Thank you!**
+Do you like Git-PHP? Are you looking forward to the **new features**?
 
-<a href="https://www.patreon.com/bePatron?u=34956493"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!" height="35"></a>
-<a href="https://www.paypal.me/janpecha/5eur"><img src="https://buymecoffee.intm.org/img/button-paypal-white.png" alt="Buy me a coffee" height="35"></a>
+<a href="https://www.paypal.com/donate?hosted_button_id=EPSKR7MGVV7KC"><img src="https://buymecoffee.intm.org/img/gitphp-paypal-donate@2x.png" alt="PayPal or credit/debit card" width="254" height="248"></a>
+
+<img src="https://buymecoffee.intm.org/img/bitcoin@2x.png" alt="Bitcoin" height="32"> `bc1qz6qh685xa94xt88ykcq5g2nhfu7350qwgd8g2z`
+
+Thank you!
 
 
 Installation
