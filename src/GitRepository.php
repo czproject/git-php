@@ -345,19 +345,14 @@
 		/**
 		 * Returns last commit ID on current branch
 		 * `git log --pretty=format:"%H" -n 1`
-		 * @return string|NULL
+		 * @return CommitId
 		 * @throws GitException
 		 */
 		public function getLastCommitId()
 		{
 			$result = $this->run('log', '--pretty=format:"%H"', '-n', '1');
 			$lastLine = $result->getOutputLastLine();
-
-			if (is_string($lastLine) && preg_match('/^[0-9a-f]{40}$/i', $lastLine)) {
-				return $lastLine;
-			}
-
-			return NULL;
+			return new CommitId($lastLine);
 		}
 
 

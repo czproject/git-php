@@ -118,9 +118,6 @@ $repo->removeFile(['file3.txt', 'file4.txt']);
 
 // adds all changes in repository
 $repo->addAllChanges();
-
-// returns last commit ID on current branch or NULL
-$repo->getLastCommitId();
 ```
 
 
@@ -168,6 +165,16 @@ $repo->renameTag('old-tag-name', 'new-tag-name');
 
 // removes tag
 $repo->removeTag('tag-name');
+```
+
+
+History
+-------
+
+``` php
+// returns last commit ID on current branch
+$commitId = $repo->getLastCommitId();
+$commitId->getId(); // or (string) $commitId
 ```
 
 
