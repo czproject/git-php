@@ -353,7 +353,7 @@
 		{
 			$result = $this->run('log', '--pretty=format:"%H"', '-n', '1');
 			$lastLine = $result->getOutputLastLine();
-			return new CommitId($lastLine);
+			return new CommitId((string) $lastLine);
 		}
 
 
@@ -394,7 +394,7 @@
 
 			// author date
 			$result = $this->run('log', '-1', $commitId, '--pretty="format:%ad"', '--date=iso-strict');
-			$authorDate = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, $result->getOutputLastLine());
+			$authorDate = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, (string) $result->getOutputLastLine());
 
 			if (!($authorDate instanceof \DateTimeImmutable)) {
 				throw new GitException('Failed fetching of commit author date.', 0, NULL, $result);
@@ -410,7 +410,7 @@
 
 			// committer date
 			$result = $this->run('log', '-1', $commitId, '--pretty="format:%cd"', '--date=iso-strict');
-			$committerDate = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, $result->getOutputLastLine());
+			$committerDate = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, (string) $result->getOutputLastLine());
 
 			if (!($committerDate instanceof \DateTimeImmutable)) {
 				throw new GitException('Failed fetching of commit committer date.', 0, NULL, $result);
