@@ -8,15 +8,15 @@
 		/** @var  string */
 		protected $repository;
 
-		/** @var  string|NULL  @internal */
-		protected $cwd;
+		/** @var IRunner */
+		protected $runner;
 
 
 		/**
 		 * @param  string
 		 * @throws GitException
 		 */
-		public function __construct($repository)
+		public function __construct($repository, IRunner $runner = NULL)
 		{
 			if (basename($repository) === '.git') {
 				$repository = dirname($repository);
@@ -27,6 +27,8 @@
 			if ($this->repository === FALSE) {
 				throw new GitException("Repository '$repository' not found.");
 			}
+
+			$this->runner = $runner !== NULL ? $runner : new Runners\CliRunner;
 		}
 
 
@@ -49,9 +51,8 @@
 		 */
 		public function createTag($name, $options = NULL)
 		{
-			return $this->begin()
-				->run('git tag', $options, $name)
-				->end();
+			$this->run('tag', $options, $name);
+			return $this;
 		}
 
 
@@ -64,11 +65,10 @@
 		 */
 		public function removeTag($name)
 		{
-			return $this->begin()
-				->run('git tag', [
-					'-d' => $name,
-				])
-				->end();
+			$this->run('tag', [
+				'-d' => $name,
+			]);
+			return $this;
 		}
 
 
@@ -83,13 +83,12 @@
 		 */
 		public function renameTag($oldName, $newName)
 		{
-			return $this->begin()
-				// http://stackoverflow.com/a/1873932
-				// create new as alias to old (`git tag NEW OLD`)
-				->run('git tag', $newName, $oldName)
-				// delete old (`git tag -d OLD`)
-				->removeTag($oldName) // WARN! removeTag() calls end() method!!!
-				->end();
+			// http://stackoverflow.com/a/1873932
+			// create new as alias to old (`git tag NEW OLD`)
+			$this->run('tag', $newName, $oldName);
+			// delete old (`git tag -d OLD`)
+			$this->removeTag($oldName);
+			return $this;
 		}
 
 
@@ -100,7 +99,7 @@
 		 */
 		public function getTags()
 		{
-			return $this->extractFromCommand('git tag', 'trim');
+			return $this->extractFromCommand(['tag'], 'trim');
 		}
 
 
@@ -114,9 +113,8 @@
 		 */
 		public function merge($branch, $options = NULL)
 		{
-			return $this->begin()
-				->run('git merge', $options, $branch)
-				->end();
+			$this->run('merge', $options, $branch);
+			return $this;
 		}
 
 
@@ -131,16 +129,14 @@
 		 */
 		public function createBranch($name, $checkout = FALSE)
 		{
-			$this->begin();
-
 			// git branch $name
-			$this->run('git branch', $name);
+			$this->run('branch', $name);
 
 			if ($checkout) {
 				$this->checkout($name);
 			}
 
-			return $this->end();
+			return $this;
 		}
 
 
@@ -153,11 +149,10 @@
 		 */
 		public function removeBranch($name)
 		{
-			return $this->begin()
-				->run('git branch', [
-					'-d' => $name,
-				])
-				->end();
+			$this->run('branch', [
+				'-d' => $name,
+			]);
+			return $this;
 		}
 
 
@@ -170,7 +165,7 @@
 		public function getCurrentBranchName()
 		{
 			try {
-				$branch = $this->extractFromCommand('git branch -a', function($value) {
+				$branch = $this->extractFromCommand(['branch', '-a'], function($value) {
 					if (isset($value[0]) && $value[0] === '*') {
 						return trim(substr($value, 1));
 					}
@@ -197,7 +192,7 @@
 		 */
 		public function getBranches()
 		{
-			return $this->extractFromCommand('git branch -a', function($value) {
+			return $this->extractFromCommand(['branch', '-a'], function($value) {
 				return trim(substr($value, 1));
 			});
 		}
@@ -210,7 +205,7 @@
 		 */
 		public function getRemoteBranches()
 		{
-			return $this->extractFromCommand('git branch -r', function($value) {
+			return $this->extractFromCommand(['branch', '-r'], function($value) {
 				return trim(substr($value, 1));
 			});
 		}
@@ -223,7 +218,7 @@
 		 */
 		public function getLocalBranches()
 		{
-			return $this->extractFromCommand('git branch', function($value) {
+			return $this->extractFromCommand(['branch'], function($value) {
 				return trim(substr($value, 1));
 			});
 		}
@@ -238,9 +233,8 @@
 		 */
 		public function checkout($name)
 		{
-			return $this->begin()
-				->run('git checkout', $name)
-				->end();
+			$this->run('checkout', $name);
+			return $this;
 		}
 
 
@@ -257,13 +251,11 @@
 				$file = func_get_args();
 			}
 
-			$this->begin();
-
 			foreach ($file as $item) {
-				$this->run('git rm', $item, '-r');
+				$this->run('rm', $item, '-r');
 			}
 
-			return $this->end();
+			return $this;
 		}
 
 
@@ -280,8 +272,6 @@
 				$file = func_get_args();
 			}
 
-			$this->begin();
-
 			foreach ($file as $item) {
 				// make sure the given item exists
 				// this can be a file or an directory, git supports both
@@ -291,10 +281,10 @@
 					throw new GitException("The path at '$item' does not represent a valid file.");
 				}
 
-				$this->run('git add', $item);
+				$this->run('add', $item);
 			}
 
-			return $this->end();
+			return $this;
 		}
 
 
@@ -306,9 +296,8 @@
 		 */
 		public function addAllChanges()
 		{
-			return $this->begin()
-				->run('git add --all')
-				->end();
+			$this->run('add', '--all');
+			return $this;
 		}
 
 
@@ -328,13 +317,11 @@
 				];
 			}
 
-			$this->begin();
-
 			foreach ($file as $from => $to) {
-				$this->run('git mv', $from, $to);
+				$this->run('mv', $from, $to);
 			}
 
-			return $this->end();
+			return $this;
 		}
 
 
@@ -352,11 +339,10 @@
 				$params = [];
 			}
 
-			return $this->begin()
-				->run("git commit", $params, [
-					'-m' => $message,
-				])
-				->end();
+			$this->run('commit', $params, [
+				'-m' => $message,
+			]);
+			return $this;
 		}
 
 
@@ -368,11 +354,10 @@
 		 */
 		public function getLastCommitId()
 		{
-			$this->begin();
-			$lastLine = exec('git log --pretty=format:"%H" -n 1 2>&1');
-			$this->end();
+			$result = $this->run('log', '--pretty=format:"%H"', '-n', '1');
+			$lastLine = $result->getOutputLastLine();
 
-			if (preg_match('/^[0-9a-f]{40}$/i', $lastLine)) {
+			if (is_string($lastLine) && preg_match('/^[0-9a-f]{40}$/i', $lastLine)) {
 				return $lastLine;
 			}
 
@@ -389,12 +374,9 @@
 		public function hasChanges()
 		{
 			// Make sure the `git status` gets a refreshed look at the working tree.
-			$this->begin()
-				->run('git update-index -q --refresh')
-				->end();
-
-			$output = $this->extractFromCommand('git status --porcelain');
-			return !empty($output);
+			$this->run('update-index', '-q', '--refresh');
+			$result = $this->run('status', '--porcelain');
+			return $result->hasOutput();
 		}
 
 
@@ -421,9 +403,8 @@
 				$params = [];
 			}
 
-			return $this->begin()
-				->run("git pull $remote", $params)
-				->end();
+			$this->run('pull', $remote, $params);
+			return $this;
 		}
 
 
@@ -440,9 +421,8 @@
 				$params = [];
 			}
 
-			return $this->begin()
-				->run("git push $remote", $params)
-				->end();
+			$this->run('push', $remote, $params);
+			return $this;
 		}
 
 
@@ -459,9 +439,8 @@
 				$params = [];
 			}
 
-			return $this->begin()
-				->run("git fetch $remote", $params)
-				->end();
+			$this->run('fetch', $remote, $params);
+			return $this;
 		}
 
 
@@ -475,9 +454,8 @@
 		 */
 		public function addRemote($name, $url, array $params = NULL)
 		{
-			return $this->begin()
-				->run('git remote add', $params, $name, $url)
-				->end();
+			$this->run('remote', 'add', $params, $name, $url);
+			return $this;
 		}
 
 
@@ -490,9 +468,8 @@
 		 */
 		public function renameRemote($oldName, $newName)
 		{
-			return $this->begin()
-				->run('git remote rename', $oldName, $newName)
-				->end();
+			$this->run('remote', 'rename', $oldName, $newName);
+			return $this;
 		}
 
 
@@ -504,9 +481,8 @@
 		 */
 		public function removeRemote($name)
 		{
-			return $this->begin()
-				->run('git remote remove', $name)
-				->end();
+			$this->run('remote', 'remove', $name);
+			return $this;
 		}
 
 
@@ -520,9 +496,8 @@
 		 */
 		public function setRemoteUrl($name, $url, array $params = NULL)
 		{
-			return $this->begin()
-				->run('git remote set-url', $params, $name, $url)
-				->end();
+			$this->run('remote', 'set-url', $params, $name, $url);
+			return $this;
 		}
 
 
@@ -537,46 +512,8 @@
 				$cmd = [$cmd];
 			}
 
-			array_unshift($cmd, 'git');
-			$cmd = self::processCommand($cmd);
-
-			$this->begin();
-			exec($cmd . ' 2>&1', $output, $ret);
-			$this->end();
-
-			if ($ret !== 0) {
-				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret);
-			}
-
-			return $output;
-		}
-
-
-		/**
-		 * @return static
-		 */
-		protected function begin()
-		{
-			if ($this->cwd === NULL) { // TODO: good idea??
-				$this->cwd = getcwd();
-				chdir($this->repository);
-			}
-
-			return $this;
-		}
-
-
-		/**
-		 * @return static
-		 */
-		protected function end()
-		{
-			if (is_string($this->cwd)) {
-				chdir($this->cwd);
-			}
-
-			$this->cwd = NULL;
-			return $this;
+			$result = $this->run(...$cmd);
+			return $result->getOutput();
 		}
 
 
@@ -586,18 +523,10 @@
 		 * @return string[]|NULL
 		 * @throws GitException
 		 */
-		protected function extractFromCommand($cmd, $filter = NULL)
+		protected function extractFromCommand(array $args, $filter = NULL)
 		{
-			$output = [];
-			$exitCode = NULL;
-
-			$this->begin();
-			exec("$cmd", $output, $exitCode);
-			$this->end();
-
-			if ($exitCode !== 0 || !is_array($output)) {
-				throw new GitException("Command $cmd failed.");
-			}
+			$result = $this->run(...$args);
+			$output = $result->getOutput();
 
 			if ($filter !== NULL) {
 				$newArray = [];
@@ -615,7 +544,7 @@
 				$output = $newArray;
 			}
 
-			if (!isset($output[0])) { // empty array
+			if (empty($output)) {
 				return NULL;
 			}
 
@@ -625,195 +554,18 @@
 
 		/**
 		 * Runs command.
-		 * @param  string|array
-		 * @return static
+		 * @return RunnerResult
 		 * @throws GitException
 		 */
-		protected function run($cmd/*, $options = NULL*/)
+		protected function run(...$args)
 		{
-			$args = func_get_args();
-			$cmd = self::processCommand($args);
-			exec($cmd . ' 2>&1', $output, $ret);
+			$result = $this->runner->run($this->repository, $args);
 
-			if ($ret !== 0) {
-				throw new GitException("Command '$cmd' failed (exit-code $ret).", $ret);
+			if (!$result->isOk()) {
+				throw new GitException("Command '{$result->getCommand()}' failed (exit-code {$result->getExitCode()}).", $result->getExitCode(), NULL, $result);
 			}
 
-			return $this;
-		}
-
-
-		protected static function processCommand(array $args)
-		{
-			$cmd = [];
-
-			$programName = array_shift($args);
-
-			foreach($args as $arg) {
-				if (is_array($arg)) {
-					foreach ($arg as $key => $value) {
-						$_c = '';
-
-						if (is_string($key)) {
-							$_c = "$key ";
-						}
-
-						$cmd[] = $_c . escapeshellarg($value);
-					}
-
-				} elseif(is_scalar($arg) && !is_bool($arg)) {
-					$cmd[] = escapeshellarg($arg);
-				}
-			}
-
-			return "$programName " . implode(' ', $cmd);
-		}
-
-
-		/**
-		 * Init repo in directory
-		 * @param  string
-		 * @param  array|NULL
-		 * @return static
-		 * @throws GitException
-		 */
-		public static function init($directory, array $params = NULL)
-		{
-			if (is_dir("$directory/.git")) {
-				throw new GitException("Repo already exists in $directory.");
-			}
-
-			if (!is_dir($directory) && !@mkdir($directory, 0777, TRUE)) { // intentionally @; not atomic; from Nette FW
-				throw new GitException("Unable to create directory '$directory'.");
-			}
-
-			$cwd = getcwd();
-			chdir($directory);
-			exec(self::processCommand([
-				'git init',
-				$params,
-				$directory,
-			]), $output, $returnCode);
-
-			if ($returnCode !== 0) {
-				throw new GitException("Git init failed (directory $directory).");
-			}
-
-			$repo = getcwd();
-			chdir($cwd);
-
-			return new static($repo);
-		}
-
-
-		/**
-		 * Clones GIT repository from $url into $directory
-		 * @param  string
-		 * @param  string|NULL
-		 * @param  array|NULL
-		 * @return static
-		 * @throws GitException
-		 */
-		public static function cloneRepository($url, $directory = NULL, array $params = NULL)
-		{
-			if ($directory !== NULL && is_dir("$directory/.git")) {
-				throw new GitException("Repo already exists in $directory.");
-			}
-
-			$cwd = getcwd();
-
-			if ($directory === NULL) {
-				$directory = Helpers::extractRepositoryNameFromUrl($url);
-				$directory = "$cwd/$directory";
-
-			} elseif(!Helpers::isAbsolute($directory)) {
-				$directory = "$cwd/$directory";
-			}
-
-			if ($params === NULL) {
-				$params = '-q';
-			}
-
-			$descriptorspec = [
-				0 => ['pipe', 'r'], // stdin
-				1 => ['pipe', 'w'], // stdout
-				2 => ['pipe', 'w'], // stderr
-			];
-
-			$pipes = [];
-			$command = self::processCommand([
-				'git clone',
-				$params,
-				$url,
-				$directory
-			]);
-			$process = proc_open($command, $descriptorspec, $pipes);
-
-			if (!$process) {
-				throw new GitException("Git clone failed (directory $directory).");
-			}
-
-			// Reset output and error
-			$stdout = '';
-			$stderr = '';
-
-			while (TRUE) {
-				// Read standard output
-				$output = fgets($pipes[1], 1024);
-
-				if ($output) {
-					$stdout .= $output;
-				}
-
-				// Read error output
-				$output_err = fgets($pipes[2], 1024);
-
-				if ($output_err) {
-					$stderr .= $output_err;
-				}
-
-				// We are done
-				if ((feof($pipes[1]) || $output === FALSE) && (feof($pipes[2]) || $output_err === FALSE)) {
-					break;
-				}
-			}
-
-			$returnCode = proc_close($process);
-
-			if ($returnCode !== 0) {
-				throw new GitException("Git clone failed (directory $directory)." . ($stderr !== '' ? ("\n$stderr") : ''));
-			}
-
-			return new static($directory);
-		}
-
-
-		/**
-		 * @param  string
-		 * @param  array|NULL
-		 * @return bool
-		 */
-		public static function isRemoteUrlReadable($url, array $refs = NULL)
-		{
-			$env = '';
-
-			if (DIRECTORY_SEPARATOR === '\\') { // Windows
-				$env = 'set GIT_TERMINAL_PROMPT=0 &&';
-
-			} else {
-				$env = 'GIT_TERMINAL_PROMPT=0';
-			}
-
-			exec(self::processCommand([
-				$env . ' git ls-remote',
-				'--heads',
-				'--quiet',
-				'--exit-code',
-				$url,
-				$refs,
-			]) . ' 2>&1', $output, $returnCode);
-
-			return $returnCode === 0;
+			return $result;
 		}
 
 
@@ -827,10 +579,8 @@
 		 */
 		public function getCommitMessage($commit, $oneline = FALSE)
 		{
-			$this->begin();
-			exec('git log -1 --format=' . ($oneline ? '%s' : '%B') . ' ' . $commit . ' 2>&1', $message);
-			$this->end();
-			return implode(PHP_EOL, $message);
+			$result = $this->run('log', '-1', '--format=' . ($oneline ? '%s' : '%B'), $commit);
+			return implode(PHP_EOL, $result->getOutput());
 		}
 
 		/**
@@ -843,12 +593,16 @@
 		 */
 		public function getCommitDate($commit = '', $dateFormat = 'iso-strict')
 		{
-			$this->begin();
-			$lastLine = exec('git log -1 ' . $commit . ' --pretty="format:%cd" --date=' . $dateFormat);
-			$this->end();
+			$result = $this->run('log', '-1', $commit, '--pretty="format:%cd"', '--date=' . $dateFormat);
+			$lastLine = $result->getOutputLastLine();
+
+			if ($lastLine === NULL) {
+				return NULL;
+			}
 
 			try {
 				return new \DateTime($lastLine);
+
 			} catch (\Exception $e) {
 				return null;
 			}
@@ -859,15 +613,13 @@
 		 * Returns commit author from specific commit
 		 * `git log -1 --format='%ae'`
 		 * @param  string      commit ID (if empty last commit)
-		 * @return string
+		 * @return string|NULL
 		 * @throws GitException
 		 */
 		public function getCommitAuthor($commit = '')
 		{
-			$this->begin();
-			$lastLine = exec('git log -1 ' . $commit . ' --format="%ae"');
-			$this->end();
-
+			$result = $this->run('log', '-1', $commit, '--format="%ae"');
+			$lastLine = $result->getOutputLastLine();
 			return $lastLine;
 		}
 
@@ -884,9 +636,7 @@
 			$message = $this->getCommitMessage($commit);
 			$subject = $this->getCommitMessage($commit, TRUE);
 
-			$this->begin();
-			exec('git show --raw ' . $commit . ' 2>&1', $output);
-			$this->end();
+			$result = $this->run('show', '--raw', $commit);
 			$data = [
 				'commit' => $commit,
 				'subject' => $subject,
@@ -898,20 +648,17 @@
 
 			// git show is a porcelain command and output format may changes
 			// in future git release or custom config.
-			foreach ($output as $index => $info) {
+			foreach ($result->getOutput() as $index => $info) {
 				if (preg_match('`Author: *(.*)`', $info, $author)) {
 					$data['author'] = trim($author[1]);
-					unset($output[$index]);
 				}
 
 				if (preg_match('`Commit: *(.*)`', $info, $committer)) {
 					$data['committer'] = trim($committer[1]);
-					unset($output[$index]);
 				}
 
 				if (preg_match('`Date: *(.*)`', $info, $date)) {
 					$data['date'] = trim($date[1]);
-					unset($output[$index]);
 				}
 			}
 

@@ -1,11 +1,13 @@
 <?php
 use Tester\Assert;
-use CzProject\GitPhp\GitRepository;
+use CzProject\GitPhp\Git;
 require __DIR__ . '/bootstrap.php';
+
+$git = new Git;
 
 $cwd = getcwd();
 chdir(TEMP_DIR);
-$repo = GitRepository::cloneRepository('https://github.com/czproject/git-php.git');
+$repo = $git->cloneRepository('https://github.com/czproject/git-php.git');
 chdir($cwd);
 
 Assert::same(realpath(TEMP_DIR . '/git-php'), $repo->getRepositoryPath());
@@ -26,7 +28,7 @@ Assert::same(['master'], $repo->getLocalBranches());
 
 // Specificky adresar
 Tester\Helpers::purge(TEMP_DIR);
-$repo = GitRepository::cloneRepository('https://github.com/czproject/git-php.git', TEMP_DIR . '/git-php2');
+$repo = $git->cloneRepository('https://github.com/czproject/git-php.git', TEMP_DIR . '/git-php2');
 
 Assert::same(realpath(TEMP_DIR . '/git-php2'), $repo->getRepositoryPath());
 
@@ -47,6 +49,6 @@ Assert::same(['master'],$repo->getLocalBranches());
 // error
 $invalidRepoPath = TEMP_DIR . '/INVALID.git';
 $invalidDest = TEMP_DIR . '/INVALID';
-Assert::exception(function () use ($invalidRepoPath, $invalidDest) {
-	GitRepository::cloneRepository($invalidRepoPath, $invalidDest);
+Assert::exception(function () use ($git, $invalidRepoPath, $invalidDest) {
+	$git->cloneRepository($invalidRepoPath, $invalidDest);
 }, CzProject\GitPhp\GitException::class, "Git clone failed (directory $invalidDest).\nfatal: repository '$invalidRepoPath' does not exist");

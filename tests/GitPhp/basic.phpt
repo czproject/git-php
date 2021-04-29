@@ -1,13 +1,15 @@
 <?php
 use Tester\Assert;
+use CzProject\GitPhp\Git;
 use CzProject\GitPhp\GitRepository;
 require __DIR__ . '/bootstrap.php';
 
-$repo = GitRepository::init(TEMP_DIR);
+$git = new Git;
+$repo = $git->init(TEMP_DIR);
 
 // repo already exists
-Assert::exception(function() {
-	GitRepository::init(TEMP_DIR);
+Assert::exception(function() use ($git) {
+	$git->init(TEMP_DIR);
 }, CzProject\GitPhp\GitException::class);
 
 Assert::same(realpath(TEMP_DIR), $repo->getRepositoryPath());

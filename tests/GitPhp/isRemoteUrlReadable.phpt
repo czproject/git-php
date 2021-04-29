@@ -1,7 +1,8 @@
 <?php
 use Tester\Assert;
-use CzProject\GitPhp\GitRepository;
+use CzProject\GitPhp\Git;
 require __DIR__ . '/bootstrap.php';
 
-Assert::true(GitRepository::isRemoteUrlReadable('https://github.com/czproject/git-php'));
-Assert::false(GitRepository::isRemoteUrlReadable('https://github.com/czproject/git-php-404'));
+$git = new Git;
+Assert::true($git->isRemoteUrlReadable('https://github.com/czproject/git-php'));
+Assert::false($git->isRemoteUrlReadable('https://github.com/czproject/git-php-404'));

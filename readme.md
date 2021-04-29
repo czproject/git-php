@@ -44,8 +44,9 @@ Usage
 
 ``` php
 <?php
+$git = new CzProject\GitPhp\Git;
 // create repo object
-$repo = new CzProject\GitPhp\GitRepository('/path/to/repo');
+$repo = $git->open('/path/to/repo');
 
 // create a new file in repo
 $filename = $repo->getRepositoryPath() . '/readme.txt';
@@ -65,14 +66,14 @@ Initialization of empty repository
 
 ``` php
 <?php
-$repo = GitRepository::init('/path/to/repo-directory');
+$repo = $git->init('/path/to/repo-directory');
 ```
 
 With parameters:
 
 ``` php
 <?php
-$repo = GitRepository::init('/path/to/repo-directory', [
+$repo = $git->init('/path/to/repo-directory', [
 	'--bare', // creates bare repo
 ]);
 ```
@@ -84,10 +85,10 @@ Cloning of repository
 ``` php
 <?php
 // Cloning of repository into subdirectory 'git-php' in current working directory
-$repo = GitRepository::cloneRepository('https://github.com/czproject/git-php.git');
+$repo = $git->cloneRepository('https://github.com/czproject/git-php.git');
 
 // Cloning of repository into own directory
-$repo = GitRepository::cloneRepository('https://github.com/czproject/git-php.git', '/path/to/my/subdir');
+$repo = $git->cloneRepository('https://github.com/czproject/git-php.git', '/path/to/my/subdir');
 ```
 
 
@@ -246,18 +247,26 @@ Custom methods
 You can create custom methods. For example:
 
 ``` php
+class OwnGit extends \CzProject\GitPhp\Git
+{
+	public function open($directory)
+	{
+		return new OwnGitRepository($directory, $this->runner);
+	}
+}
+
 class OwnGitRepository extends \CzProject\GitPhp\GitRepository
 {
 	public function setRemoteBranches($name, array $branches)
 	{
-		return $this->begin()
-			->run('git remote set-branches', $name, $branches)
-			->end();
+		$this->run('remote', 'set-branches', $name, $branches);
+		return $this;
 	}
 }
 
 
-$repo = new OwnGitRepository('/path/to/repo');
+$git = new OwnGit;
+$repo = $git->open('/path/to/repo');
 $repo->addRemote('origin', 'repository-url');
 $repo->setRemoteBranches('origin', [
 	'branch-1',

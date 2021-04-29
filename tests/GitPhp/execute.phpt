@@ -1,9 +1,10 @@
 <?php
 use Tester\Assert;
-use CzProject\GitPhp\GitRepository;
+use CzProject\GitPhp\Git;
 require __DIR__ . '/bootstrap.php';
 
-$repo = GitRepository::init(TEMP_DIR);
+$git = new Git;
+$repo = $git->init(TEMP_DIR);
 file_put_contents($repo->getRepositoryPath() . '/readme.md', "README\n");
 $repo->addFile($repo->getRepositoryPath() . '/readme.md');
 $repo->commit('init commit');
