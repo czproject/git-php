@@ -43,7 +43,6 @@ Usage
 -----
 
 ``` php
-<?php
 $git = new CzProject\GitPhp\Git;
 // create repo object
 $repo = $git->open('/path/to/repo');
@@ -65,14 +64,12 @@ Initialization of empty repository
 ----------------------------------
 
 ``` php
-<?php
 $repo = $git->init('/path/to/repo-directory');
 ```
 
 With parameters:
 
 ``` php
-<?php
 $repo = $git->init('/path/to/repo-directory', [
 	'--bare', // creates bare repo
 ]);
@@ -83,7 +80,6 @@ Cloning of repository
 ---------------------
 
 ``` php
-<?php
 // Cloning of repository into subdirectory 'git-php' in current working directory
 $repo = $git->cloneRepository('https://github.com/czproject/git-php.git');
 
@@ -96,7 +92,6 @@ Basic operations
 ----------------
 
 ``` php
-<?php
 $repo->hasChanges();    // returns boolean
 $repo->commit('commit message');
 $repo->merge('branch-name');
@@ -134,7 +129,6 @@ Branches
 --------
 
 ``` php
-<?php
 // gets list of all repository branches (remotes & locals)
 $repo->getBranches();
 
@@ -159,7 +153,6 @@ Tags
 ----
 
 ``` php
-<?php
 // gets list of all tags in repository
 $repo->getTags();
 
@@ -182,7 +175,6 @@ Remotes
 -------
 
 ``` php
-<?php
 // pulls changes from remote
 $repo->pull('remote-name', ['--options']);
 $repo->pull('origin');
