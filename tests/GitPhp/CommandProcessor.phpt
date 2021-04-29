@@ -35,6 +35,12 @@ test(function () {
 		'first',
 		[
 			'--second' => new CommitId('734713bc047d87bf7eac9674765ae793478c50d3'),
+			'--one' => TRUE,
+			'--two' => FALSE,
+			'--three' => NULL,
+			TRUE,
+			FALSE,
+			NULL,
 		],
 		NULL,
 		'arg',
@@ -42,7 +48,17 @@ test(function () {
 	];
 
 	$processor = new CommandProcessor(CommandProcessor::MODE_NON_WINDOWS);
-	Assert::same('git first --second 734713bc047d87bf7eac9674765ae793478c50d3 arg 734713bc047d87bf7eac9674765ae793478c50d3', $processor->process('git', $options));
+	Assert::same(implode(' ', [
+		'git',
+		'first',
+		'--second 734713bc047d87bf7eac9674765ae793478c50d3',
+		'--one 1',
+		'--two 0',
+		'1',
+		'0',
+		'arg',
+		'734713bc047d87bf7eac9674765ae793478c50d3',
+	]), $processor->process('git', $options));
 });
 
 
@@ -66,4 +82,12 @@ test(function () {
 			FALSE,
 		]);
 	}, InvalidStateException::class, 'Unknow argument type boolean.');
+
+	Assert::exception(function () use ($processor) {
+		$processor->process('git', [
+			[
+				(object) [],
+			],
+		]);
+	}, InvalidStateException::class, 'Unknow option value type stdClass.');
 });

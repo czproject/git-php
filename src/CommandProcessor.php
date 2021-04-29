@@ -49,6 +49,20 @@
 							$_c = "$key ";
 						}
 
+						if (is_bool($value)) {
+							$value = $value ? '1' : '0';
+
+						} elseif ($value instanceof CommitId) {
+							$value = $value->toString();
+
+						} elseif ($value === NULL) {
+							// ignored
+							continue;
+
+						} elseif (!is_scalar($value)) {
+							throw new InvalidStateException('Unknow option value type ' . (is_object($value) ? get_class($value) : gettype($value)) . '.');
+						}
+
 						$cmd[] = $_c . $this->escapeArgument($value);
 					}
 
