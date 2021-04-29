@@ -54,6 +54,12 @@
 
 				} elseif (is_scalar($arg) && !is_bool($arg)) {
 					$cmd[] = $this->escapeArgument($arg);
+
+				} elseif ($arg === NULL) {
+					// ignored
+
+				} else {
+					throw new InvalidStateException('Unknow argument type ' . (is_object($arg) ? get_class($arg) : gettype($arg)) . '.');
 				}
 			}
 
