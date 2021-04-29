@@ -19,10 +19,10 @@
 
 
 		/**
-		 * @param  string
-		 * @param  int
-		 * @param  string[]
-		 * @param  string[]
+		 * @param  string $command
+		 * @param  int $exitCode
+		 * @param  string[] $output
+		 * @param  string[] $errorOutput
 		 */
 		public function __construct($command, $exitCode, array $output, array $errorOutput)
 		{

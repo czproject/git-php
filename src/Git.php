@@ -15,6 +15,10 @@
 		}
 
 
+		/**
+		 * @param  string $directory
+		 * @return GitRepository
+		 */
 		public function open($directory)
 		{
 			return new GitRepository($directory, $this->runner);
@@ -23,8 +27,8 @@
 
 		/**
 		 * Init repo in directory
-		 * @param  string
-		 * @param  array|NULL
+		 * @param  string $directory
+		 * @param  array|NULL $params
 		 * @return GitRepository
 		 * @throws GitException
 		 */
@@ -55,9 +59,9 @@
 
 		/**
 		 * Clones GIT repository from $url into $directory
-		 * @param  string
-		 * @param  string|NULL
-		 * @param  array|NULL
+		 * @param  string $url
+		 * @param  string|NULL $directory
+		 * @param  array|NULL $params
 		 * @return GitRepository
 		 * @throws GitException
 		 */
@@ -105,8 +109,8 @@
 
 
 		/**
-		 * @param  string
-		 * @param  array|NULL
+		 * @param  string $url
+		 * @param  array|NULL $refs
 		 * @return bool
 		 */
 		public function isRemoteUrlReadable($url, array $refs = NULL)
@@ -127,6 +131,9 @@
 
 
 		/**
+		 * @param  string $cwd
+		 * @param  array $args
+		 * @param  array<string, string> $env
 		 * @return RunnerResult
 		 * @throws GitException
 		 */

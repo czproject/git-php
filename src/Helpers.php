@@ -15,6 +15,7 @@
 		 * Is path absolute?
 		 * Method from Nette\Utils\FileSystem
 		 * @link   https://github.com/nette/nette/blob/master/Nette/Utils/FileSystem.php
+		 * @param  string $path
 		 * @return bool
 		 */
 		public static function isAbsolute($path)
@@ -24,7 +25,7 @@
 
 
 		/**
-		 * @param  string  /path/to/repo.git | host.xz:foo/.git | ...
+		 * @param  string $url  /path/to/repo.git | host.xz:foo/.git | ...
 		 * @return string  repo | foo | ...
 		 */
 		public static function extractRepositoryNameFromUrl($url)

@@ -13,6 +13,9 @@
 		private $isWindows;
 
 
+		/**
+		 * @param int $mode
+		 */
 		public function __construct($mode = self::MODE_DETECT)
 		{
 			if ($mode === self::MODE_NON_WINDOWS) {
@@ -31,9 +34,9 @@
 
 
 		/**
-		 * @param  string
-		 * @param  array
-		 * @param  array|NULL
+		 * @param  string $app
+		 * @param  array $args
+		 * @param  array<string, string>|NULL $env
 		 * @return string
 		 */
 		public function process($app, array $args, array $env = NULL)
@@ -98,7 +101,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $value
 		 * @return string
 		 */
 		private function escapeArgument($value)

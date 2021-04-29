@@ -13,7 +13,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $repository
 		 * @throws GitException
 		 */
 		public function __construct($repository, IRunner $runner = NULL)
@@ -44,8 +44,8 @@
 		/**
 		 * Creates a tag.
 		 * `git tag <name>`
-		 * @param  string
-		 * @param  array|NULL
+		 * @param  string $name
+		 * @param  array|NULL $options
 		 * @throws GitException
 		 * @return static
 		 */
@@ -59,7 +59,7 @@
 		/**
 		 * Removes tag.
 		 * `git tag -d <name>`
-		 * @param  string
+		 * @param  string $name
 		 * @throws GitException
 		 * @return static
 		 */
@@ -76,8 +76,8 @@
 		 * Renames tag.
 		 * `git tag <new> <old>`
 		 * `git tag -d <old>`
-		 * @param  string
-		 * @param  string
+		 * @param  string $oldName
+		 * @param  string $newName
 		 * @throws GitException
 		 * @return static
 		 */
@@ -106,8 +106,8 @@
 		/**
 		 * Merges branches.
 		 * `git merge <options> <name>`
-		 * @param  string
-		 * @param  array|NULL
+		 * @param  string $branch
+		 * @param  array|NULL $options
 		 * @throws GitException
 		 * @return static
 		 */
@@ -122,8 +122,8 @@
 		 * Creates new branch.
 		 * `git branch <name>`
 		 * (optionaly) `git checkout <name>`
-		 * @param  string
-		 * @param  bool
+		 * @param  string $name
+		 * @param  bool $checkout
 		 * @throws GitException
 		 * @return static
 		 */
@@ -143,7 +143,7 @@
 		/**
 		 * Removes branch.
 		 * `git branch -d <name>`
-		 * @param  string
+		 * @param  string $name
 		 * @throws GitException
 		 * @return static
 		 */
@@ -227,7 +227,7 @@
 		/**
 		 * Checkout branch.
 		 * `git checkout <branch>`
-		 * @param  string
+		 * @param  string $name
 		 * @throws GitException
 		 * @return static
 		 */
@@ -241,7 +241,7 @@
 		/**
 		 * Removes file(s).
 		 * `git rm <file>`
-		 * @param  string|string[]
+		 * @param  string|string[] $file
 		 * @throws GitException
 		 * @return static
 		 */
@@ -262,7 +262,7 @@
 		/**
 		 * Adds file(s).
 		 * `git add <file>`
-		 * @param  string|string[]
+		 * @param  string|string[] $file
 		 * @throws GitException
 		 * @return static
 		 */
@@ -304,8 +304,8 @@
 		/**
 		 * Renames file(s).
 		 * `git mv <file>`
-		 * @param  string|string[]  from: array('from' => 'to', ...) || (from, to)
-		 * @param  string|NULL
+		 * @param  string|string[] $file  from: array('from' => 'to', ...) || (from, to)
+		 * @param  string|NULL $to
 		 * @throws GitException
 		 * @return static
 		 */
@@ -328,8 +328,8 @@
 		/**
 		 * Commits changes
 		 * `git commit <params> -m <message>`
-		 * @param  string
-		 * @param  string[]  param => value
+		 * @param  string $message
+		 * @param  string[] $params  param => value
 		 * @throws GitException
 		 * @return static
 		 */
@@ -438,8 +438,8 @@
 
 		/**
 		 * Pull changes from a remote
-		 * @param  string|NULL
-		 * @param  array|NULL
+		 * @param  string|NULL $remote
+		 * @param  array|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -452,8 +452,8 @@
 
 		/**
 		 * Push changes to a remote
-		 * @param  string|NULL
-		 * @param  array|NULL
+		 * @param  string|NULL $remote
+		 * @param  array|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -466,8 +466,8 @@
 
 		/**
 		 * Run fetch command to get latest branches
-		 * @param  string|NULL
-		 * @param  array|NULL
+		 * @param  string|NULL $remote
+		 * @param  array|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -480,9 +480,9 @@
 
 		/**
 		 * Adds new remote repository
-		 * @param  string
-		 * @param  string
-		 * @param  array|NULL
+		 * @param  string $name
+		 * @param  string $url
+		 * @param  array|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -495,8 +495,8 @@
 
 		/**
 		 * Renames remote repository
-		 * @param  string
-		 * @param  string
+		 * @param  string $oldName
+		 * @param  string $newName
 		 * @return static
 		 * @throws GitException
 		 */
@@ -509,7 +509,7 @@
 
 		/**
 		 * Removes remote repository
-		 * @param  string
+		 * @param  string $name
 		 * @return static
 		 * @throws GitException
 		 */
@@ -522,9 +522,9 @@
 
 		/**
 		 * Changes remote repository URL
-		 * @param  string
-		 * @param  string
-		 * @param  array|NULL
+		 * @param  string $name
+		 * @param  string $url
+		 * @param  array|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -536,7 +536,7 @@
 
 
 		/**
-		 * @param  string[]
+		 * @param  string $cmd
 		 * @return string[]  returns output
 		 * @throws GitException
 		 */
@@ -548,12 +548,11 @@
 
 
 		/**
-		 * @param  string
-		 * @param  callback|NULL
+		 * @param  array $args
 		 * @return string[]|NULL
 		 * @throws GitException
 		 */
-		protected function extractFromCommand(array $args, $filter = NULL)
+		protected function extractFromCommand(array $args, callable $filter = NULL)
 		{
 			$result = $this->run(...$args);
 			$output = $result->getOutput();
@@ -584,6 +583,7 @@
 
 		/**
 		 * Runs command.
+		 * @param  array $args
 		 * @return RunnerResult
 		 * @throws GitException
 		 */

@@ -21,7 +21,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $cwd
 		 */
 		public function __construct($cwd)
 		{

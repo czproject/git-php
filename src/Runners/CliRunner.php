@@ -18,7 +18,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $gitBinary
 		 */
 		public function __construct($gitBinary = 'git')
 		{
