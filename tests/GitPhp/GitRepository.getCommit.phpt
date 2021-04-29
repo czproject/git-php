@@ -73,7 +73,7 @@ test(function () {
 		['2021-04-29T17:55:09+02:00']
 	);
 
-	$timestamp = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, '2021-04-29T16:55:09+01:00')->getTimestamp();
+	$timestamp = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, '2021-04-29T16:55:09+01:00')->getTimestamp();
 
 	$repo = $git->open(__DIR__);
 	$commit = $repo->getLastCommit();
@@ -152,7 +152,7 @@ test(function () {
 		['2021-04-29T17:55:09+02:00']
 	);
 
-	$timestamp = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, '2021-04-29T16:55:09+01:00')->getTimestamp();
+	$timestamp = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, '2021-04-29T16:55:09+01:00')->getTimestamp();
 
 	$repo = $git->open(__DIR__);
 	$commit = $repo->getCommit('734713bc047d87bf7eac9674765ae793478c50d3');
