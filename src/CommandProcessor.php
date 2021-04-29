@@ -66,11 +66,11 @@
 							throw new InvalidStateException('Unknow option value type ' . (is_object($value) ? get_class($value) : gettype($value)) . '.');
 						}
 
-						$cmd[] = $_c . $this->escapeArgument($value);
+						$cmd[] = $_c . $this->escapeArgument((string) $value);
 					}
 
 				} elseif (is_scalar($arg) && !is_bool($arg)) {
-					$cmd[] = $this->escapeArgument($arg);
+					$cmd[] = $this->escapeArgument((string) $arg);
 
 				} elseif ($arg === NULL) {
 					// ignored

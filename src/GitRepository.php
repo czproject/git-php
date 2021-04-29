@@ -22,12 +22,13 @@
 				$repository = dirname($repository);
 			}
 
-			$this->repository = realpath($repository);
+			$path = realpath($repository);
 
-			if ($this->repository === FALSE) {
+			if ($path === FALSE) {
 				throw new GitException("Repository '$repository' not found.");
 			}
 
+			$this->repository = $path;
 			$this->runner = $runner !== NULL ? $runner : new Runners\CliRunner;
 		}
 
@@ -395,6 +396,10 @@
 			$result = $this->run('log', '-1', $commitId, '--pretty="format:%ad"', '--date=iso-strict');
 			$authorDate = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, $result->getOutputLastLine());
 
+			if (!($authorDate instanceof \DateTimeImmutable)) {
+				throw new GitException('Failed fetching of commit author date.', 0, NULL, $result);
+			}
+
 			// committer email
 			$result = $this->run('log', '-1', $commitId, '--format="%ce"');
 			$committerEmail = rtrim($result->getOutputAsString());
@@ -406,6 +411,10 @@
 			// committer date
 			$result = $this->run('log', '-1', $commitId, '--pretty="format:%cd"', '--date=iso-strict');
 			$committerDate = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, $result->getOutputLastLine());
+
+			if (!($committerDate instanceof \DateTimeImmutable)) {
+				throw new GitException('Failed fetching of commit committer date.', 0, NULL, $result);
+			}
 
 			return new Commit(
 				$commitId,
@@ -567,7 +576,7 @@
 						continue;
 					}
 
-					$newArray[] = $value;
+					$newArray[] = (string) $value;
 				}
 
 				$output = $newArray;
