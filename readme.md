@@ -175,6 +175,22 @@ History
 // returns last commit ID on current branch
 $commitId = $repo->getLastCommitId();
 $commitId->getId(); // or (string) $commitId
+
+// returns commit data
+$commit = $repo->getCommit('734713bc047d87bf7eac9674765ae793478c50d3');
+$commit->getId(); // instance of CommitId
+$commit->getSubject();
+$commit->getBody();
+$commit->getAuthorName();
+$commit->getAuthorEmail();
+$commit->getAuthorDate();
+$commit->getCommitterName();
+$commit->getCommitterEmail();
+$commit->getCommitterDate();
+$commit->getDate();
+
+// returns commit data of last commit on current branch
+$commit = $repo->getLastCommit();
 ```
 
 

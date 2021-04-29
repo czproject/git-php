@@ -70,6 +70,15 @@
 
 
 		/**
+		 * @return string
+		 */
+		public function getOutputAsString()
+		{
+			return implode("\n", $this->output);
+		}
+
+
+		/**
 		 * @return string|NULL
 		 */
 		public function getOutputLastLine()

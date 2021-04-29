@@ -357,6 +357,71 @@
 
 
 		/**
+		 * @return Commit
+		 */
+		public function getLastCommit()
+		{
+			return $this->getCommit($this->getLastCommitId());
+		}
+
+
+		/**
+		 * @param  string|CommitId $commitId
+		 * @return Commit
+		 */
+		public function getCommit($commitId)
+		{
+			if (!($commitId instanceof CommitId)) {
+				$commitId = new CommitId($commitId);
+			}
+
+			// subject
+			$result = $this->run('log', '-1', $commitId, '--format="%s"');
+			$subject = rtrim($result->getOutputAsString());
+
+			// body
+			$result = $this->run('log', '-1', $commitId, '--format="%b"');
+			$body = rtrim($result->getOutputAsString());
+
+			// author email
+			$result = $this->run('log', '-1', $commitId, '--format="%ae"');
+			$authorEmail = rtrim($result->getOutputAsString());
+
+			// author name
+			$result = $this->run('log', '-1', $commitId, '--format="%an"');
+			$authorName = rtrim($result->getOutputAsString());
+
+			// author date
+			$result = $this->run('log', '-1', $commitId, '--pretty="format:%ad"', '--date=iso-strict');
+			$authorDate = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, $result->getOutputLastLine());
+
+			// committer email
+			$result = $this->run('log', '-1', $commitId, '--format="%ce"');
+			$committerEmail = rtrim($result->getOutputAsString());
+
+			// committer name
+			$result = $this->run('log', '-1', $commitId, '--format="%cn"');
+			$committerName = rtrim($result->getOutputAsString());
+
+			// committer date
+			$result = $this->run('log', '-1', $commitId, '--pretty="format:%cd"', '--date=iso-strict');
+			$committerDate = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ISO8601, $result->getOutputLastLine());
+
+			return new Commit(
+				$commitId,
+				$subject,
+				$body !== '' ? $body : NULL,
+				$authorEmail,
+				$authorName !== '' ? $authorName : NULL,
+				$authorDate,
+				$committerEmail,
+				$committerName !== '' ? $committerName : NULL,
+				$committerDate
+			);
+		}
+
+
+		/**
 		 * Exists changes?
 		 * `git status` + magic
 		 * @return bool
@@ -531,102 +596,5 @@
 			}
 
 			return $result;
-		}
-
-
-		/**
-		 * Returns commit message from specific commit
-		 * `git log -1 --format={%s|%B} )--pretty=format:'%H' -n 1`
-		 * @param  string  commit ID
-		 * @param  bool    use %s instead of %B if TRUE
-		 * @return string
-		 * @throws GitException
-		 */
-		public function getCommitMessage($commit, $oneline = FALSE)
-		{
-			$result = $this->run('log', '-1', '--format=' . ($oneline ? '%s' : '%B'), $commit);
-			return implode(PHP_EOL, $result->getOutput());
-		}
-
-		/**
-		 * Returns commit date from specific commit
-		 * `git log -1 --date=iso-strict`
-		 * @param  string          commit ID (if empty last commit)
-		 * @param  string          date format (eg. 'iso-strict' or 'format:'%Y-%m-%d %H:%M:%S'')
-		 * @return \DateTime|NULL
-		 * @throws GitException
-		 */
-		public function getCommitDate($commit = '', $dateFormat = 'iso-strict')
-		{
-			$result = $this->run('log', '-1', $commit, '--pretty="format:%cd"', '--date=' . $dateFormat);
-			$lastLine = $result->getOutputLastLine();
-
-			if ($lastLine === NULL) {
-				return NULL;
-			}
-
-			try {
-				return new \DateTime($lastLine);
-
-			} catch (\Exception $e) {
-				return null;
-			}
-		}
-
-
-		/**
-		 * Returns commit author from specific commit
-		 * `git log -1 --format='%ae'`
-		 * @param  string      commit ID (if empty last commit)
-		 * @return string|NULL
-		 * @throws GitException
-		 */
-		public function getCommitAuthor($commit = '')
-		{
-			$result = $this->run('log', '-1', $commit, '--format="%ae"');
-			$lastLine = $result->getOutputLastLine();
-			return $lastLine;
-		}
-
-
-		/**
-		 * Returns array of commit metadata from specific commit
-		 * `git show --raw <sha1>`
-		 * @param  string  commit ID
-		 * @return array
-		 * @throws GitException
-		 */
-		public function getCommitData($commit)
-		{
-			$message = $this->getCommitMessage($commit);
-			$subject = $this->getCommitMessage($commit, TRUE);
-
-			$result = $this->run('show', '--raw', $commit);
-			$data = [
-				'commit' => $commit,
-				'subject' => $subject,
-				'message' => $message,
-				'author' => NULL,
-				'committer' => NULL,
-				'date' => NULL,
-			];
-
-			// git show is a porcelain command and output format may changes
-			// in future git release or custom config.
-			foreach ($result->getOutput() as $index => $info) {
-				if (preg_match('`Author: *(.*)`', $info, $author)) {
-					$data['author'] = trim($author[1]);
-				}
-
-				if (preg_match('`Commit: *(.*)`', $info, $committer)) {
-					$data['committer'] = trim($committer[1]);
-				}
-
-				if (preg_match('`Date: *(.*)`', $info, $date)) {
-					$data['date'] = trim($date[1]);
-				}
-			}
-
-			return $data;
 		}
 	}
