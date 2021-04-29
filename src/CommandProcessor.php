@@ -35,8 +35,8 @@
 
 		/**
 		 * @param  string $app
-		 * @param  array $args
-		 * @param  array<string, string>|NULL $env
+		 * @param  array<mixed> $args
+		 * @param  array<string, scalar>|NULL $env
 		 * @return string
 		 */
 		public function process($app, array $args, array $env = NULL)

@@ -16,7 +16,7 @@
 		/** @var CommandProcessor */
 		private $commandProcessor;
 
-		/** @var array  [command => RunnerResult] */
+		/** @var array<string, RunnerResult>  [command => RunnerResult] */
 		private $results = [];
 
 
@@ -30,6 +30,14 @@
 		}
 
 
+		/**
+		 * @param  array<mixed> $args
+		 * @param  array<string, scalar> $env
+		 * @param  array<string> $output
+		 * @param  array<string> $errorOutput
+		 * @param  int $exitCode
+		 * @return self
+		 */
 		public function setResult(array $args, array $env, array $output, array $errorOutput = [], $exitCode = 0)
 		{
 			$cmd = $this->commandProcessor->process('git', $args, $env);

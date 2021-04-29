@@ -28,7 +28,7 @@
 		/**
 		 * Init repo in directory
 		 * @param  string $directory
-		 * @param  array|NULL $params
+		 * @param  array<mixed>|NULL $params
 		 * @return GitRepository
 		 * @throws GitException
 		 */
@@ -61,7 +61,7 @@
 		 * Clones GIT repository from $url into $directory
 		 * @param  string $url
 		 * @param  string|NULL $directory
-		 * @param  array|NULL $params
+		 * @param  array<mixed>|NULL $params
 		 * @return GitRepository
 		 * @throws GitException
 		 */
@@ -110,7 +110,7 @@
 
 		/**
 		 * @param  string $url
-		 * @param  array|NULL $refs
+		 * @param  array<string>|NULL $refs
 		 * @return bool
 		 */
 		public function isRemoteUrlReadable($url, array $refs = NULL)
@@ -132,8 +132,8 @@
 
 		/**
 		 * @param  string $cwd
-		 * @param  array $args
-		 * @param  array<string, string> $env
+		 * @param  array<mixed> $args
+		 * @param  array<string, scalar> $env
 		 * @return RunnerResult
 		 * @throws GitException
 		 */

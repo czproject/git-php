@@ -45,7 +45,7 @@
 		 * Creates a tag.
 		 * `git tag <name>`
 		 * @param  string $name
-		 * @param  array|NULL $options
+		 * @param  array<mixed>|NULL $options
 		 * @throws GitException
 		 * @return static
 		 */
@@ -107,7 +107,7 @@
 		 * Merges branches.
 		 * `git merge <options> <name>`
 		 * @param  string $branch
-		 * @param  array|NULL $options
+		 * @param  array<mixed>|NULL $options
 		 * @throws GitException
 		 * @return static
 		 */
@@ -439,7 +439,7 @@
 		/**
 		 * Pull changes from a remote
 		 * @param  string|NULL $remote
-		 * @param  array|NULL $params
+		 * @param  array<mixed>|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -453,7 +453,7 @@
 		/**
 		 * Push changes to a remote
 		 * @param  string|NULL $remote
-		 * @param  array|NULL $params
+		 * @param  array<mixed>|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -467,7 +467,7 @@
 		/**
 		 * Run fetch command to get latest branches
 		 * @param  string|NULL $remote
-		 * @param  array|NULL $params
+		 * @param  array<mixed>|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -482,7 +482,7 @@
 		 * Adds new remote repository
 		 * @param  string $name
 		 * @param  string $url
-		 * @param  array|NULL $params
+		 * @param  array<mixed>|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -524,7 +524,7 @@
 		 * Changes remote repository URL
 		 * @param  string $name
 		 * @param  string $url
-		 * @param  array|NULL $params
+		 * @param  array<mixed>|NULL $params
 		 * @return static
 		 * @throws GitException
 		 */
@@ -536,7 +536,7 @@
 
 
 		/**
-		 * @param  string $cmd
+		 * @param  mixed ...$cmd
 		 * @return string[]  returns output
 		 * @throws GitException
 		 */
@@ -548,7 +548,7 @@
 
 
 		/**
-		 * @param  array $args
+		 * @param  array<mixed> $args
 		 * @return string[]|NULL
 		 * @throws GitException
 		 */
@@ -583,7 +583,7 @@
 
 		/**
 		 * Runs command.
-		 * @param  array $args
+		 * @param  mixed ...$args
 		 * @return RunnerResult
 		 * @throws GitException
 		 */

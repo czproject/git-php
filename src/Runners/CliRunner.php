@@ -97,6 +97,10 @@
 		}
 
 
+		/**
+		 * @param  string $output
+		 * @return string[]
+		 */
 		protected function convertOutput($output)
 		{
 			$output = str_replace(["\r\n", "\r"], "\n", $output);
