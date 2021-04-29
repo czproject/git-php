@@ -1,0 +1,18 @@
+name: Static Analysis
+
+on: [push, pull_request]
+
+jobs:
+    phpstan:
+        name: PHPStan
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.4
+                  coverage: none
+
+            - run: composer install --no-interaction --prefer-dist
+            - run: composer create-project phpstan/phpstan temp/phpstan ^0.12 --no-progress
+            - run: temp/phpstan/phpstan analyse --configuration tests/phpstan.neon
