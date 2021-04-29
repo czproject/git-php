@@ -3,6 +3,7 @@
 use Tester\Assert;
 use CzProject\GitPhp\CommandProcessor;
 use CzProject\GitPhp\CommitId;
+use CzProject\GitPhp\InvalidArgumentException;
 use CzProject\GitPhp\InvalidStateException;
 
 require __DIR__ . '/bootstrap.php';
@@ -90,4 +91,13 @@ test(function () {
 			],
 		]);
 	}, InvalidStateException::class, 'Unknow option value type stdClass.');
+});
+
+
+test(function () {
+
+	Assert::exception(function () {
+		$processor = new CommandProcessor('INVALID');
+
+	}, InvalidArgumentException::class, "Invalid mode 'INVALID'.");
 });
