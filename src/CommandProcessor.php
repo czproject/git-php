@@ -58,6 +58,9 @@
 				} elseif ($arg === NULL) {
 					// ignored
 
+				} elseif ($arg instanceof CommitId) {
+					$cmd[] = $arg->toString();
+
 				} else {
 					throw new InvalidStateException('Unknow argument type ' . (is_object($arg) ? get_class($arg) : gettype($arg)) . '.');
 				}
