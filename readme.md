@@ -227,7 +227,7 @@ $repo->removeRemote('origin');
 
 // changes remote URL
 $repo->setRemoteUrl('remote-name', 'new-repository-url');
-$repo->removeRemote('upstream', 'https://github.com/czproject/git-php.git');
+$repo->setRemoteUrl('upstream', 'https://github.com/czproject/git-php.git');
 ```
 
 **Troubleshooting - How to provide username and password for commands**
