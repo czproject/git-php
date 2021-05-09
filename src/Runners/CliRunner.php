@@ -53,19 +53,21 @@
 			}
 
 			// Reset output and error
+			stream_set_blocking($pipes[1], false);
+			stream_set_blocking($pipes[2], false);
 			$stdout = '';
 			$stderr = '';
 
 			while (TRUE) {
 				// Read standard output
-				$stdoutOutput = fgets($pipes[1], 1024);
+				$stdoutOutput = stream_get_contents($pipes[1]);
 
 				if (is_string($stdoutOutput)) {
 					$stdout .= $stdoutOutput;
 				}
 
 				// Read error output
-				$stderrOutput = fgets($pipes[2], 1024);
+				$stderrOutput = stream_get_contents($pipes[2]);
 
 				if (is_string($stderrOutput)) {
 					$stderr .= $stderrOutput;
