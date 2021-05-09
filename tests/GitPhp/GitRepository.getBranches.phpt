@@ -11,7 +11,7 @@ $runner = new MemoryRunner(__DIR__);
 $git = new Git($runner);
 $repo = $git->open(__DIR__);
 
-$runner->setResult(['branch', '-a'], [], [
+$runner->setResult(['branch', '-a', '--no-color'], [], [
 	'  master',
 	'* develop',
 	'  remotes/origin/master',
@@ -23,5 +23,5 @@ Assert::same([
 ], $repo->getBranches());
 
 
-$runner->setResult(['branch', '-a'], [], []);
+$runner->setResult(['branch', '-a', '--no-color'], [], []);
 Assert::null($repo->getBranches());

@@ -166,7 +166,7 @@
 		public function getCurrentBranchName()
 		{
 			try {
-				$branch = $this->extractFromCommand(['branch', '-a'], function($value) {
+				$branch = $this->extractFromCommand(['branch', '-a', '--no-color'], function($value) {
 					if (isset($value[0]) && $value[0] === '*') {
 						return trim(substr($value, 1));
 					}
@@ -193,7 +193,7 @@
 		 */
 		public function getBranches()
 		{
-			return $this->extractFromCommand(['branch', '-a'], function($value) {
+			return $this->extractFromCommand(['branch', '-a', '--no-color'], function($value) {
 				return trim(substr($value, 1));
 			});
 		}
@@ -206,7 +206,7 @@
 		 */
 		public function getRemoteBranches()
 		{
-			return $this->extractFromCommand(['branch', '-r'], function($value) {
+			return $this->extractFromCommand(['branch', '-r', '--no-color'], function($value) {
 				return trim(substr($value, 1));
 			});
 		}
@@ -219,7 +219,7 @@
 		 */
 		public function getLocalBranches()
 		{
-			return $this->extractFromCommand(['branch'], function($value) {
+			return $this->extractFromCommand(['branch', '--no-color'], function($value) {
 				return trim(substr($value, 1));
 			});
 		}
