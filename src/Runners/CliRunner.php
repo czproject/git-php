@@ -53,8 +53,8 @@
 			}
 
 			// Reset output and error
-			stream_set_blocking($pipes[1], false);
-			stream_set_blocking($pipes[2], false);
+			stream_set_blocking($pipes[1], FALSE);
+			stream_set_blocking($pipes[2], FALSE);
 			$stdout = '';
 			$stderr = '';
 
