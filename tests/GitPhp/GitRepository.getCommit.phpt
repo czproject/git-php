@@ -12,63 +12,63 @@ test(function () {
 
 	// last commit ID
 	$runner->assert(
-		['log', '--pretty=format:"%H"', '-n', '1'],
+		['log', '--pretty=format:%H', '-n', '1'],
 		[],
 		['734713bc047d87bf7eac9674765ae793478c50d3']
 	);
 
 	// commit subject
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%s"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%s'],
 		[],
 		['init commit', '', '']
 	);
 
 	// commit body
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%b"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%b'],
 		[],
 		['', '', ''] // 3 empty lines
 	);
 
 	// author email
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%ae"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%ae'],
 		[],
 		['john@example.com']
 	);
 
 	// author name
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%an"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%an'],
 		[],
 		['John Example']
 	);
 
 	// author date
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--pretty="format:%ad"', '--date=iso-strict'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--pretty=format:%ad', '--date=iso-strict'],
 		[],
 		["2021-04-29T15:55:09+00:00"]
 	);
 
 	// committer email
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%ce"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%ce'],
 		[],
 		["john@committer.com"]
 	);
 
 	// committer name
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%cn"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%cn'],
 		[],
 		["John Committer"]
 	);
 
 	// committter date
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--pretty="format:%cd"', '--date=iso-strict'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--pretty=format:%cd', '--date=iso-strict'],
 		[],
 		['2021-04-29T17:55:09+02:00']
 	);
@@ -98,56 +98,56 @@ test(function () {
 
 	// commit subject
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%s"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%s'],
 		[],
 		['init commit', '', '']
 	);
 
 	// commit body
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%b"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%b'],
 		[],
 		['first line', 'second line', '', ''] // + 2 empty lines
 	);
 
 	// author email
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%ae"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%ae'],
 		[],
 		['john@example.com']
 	);
 
 	// author name
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%an"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%an'],
 		[],
 		['John Example']
 	);
 
 	// author date
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--pretty="format:%ad"', '--date=iso-strict'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--pretty=format:%ad', '--date=iso-strict'],
 		[],
 		["2021-04-29T15:55:09+00:00"]
 	);
 
 	// committer email
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%ce"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%ce'],
 		[],
 		["john@committer.com"]
 	);
 
 	// committer name
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format="%cn"'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--format=%cn'],
 		[],
 		["John Committer"]
 	);
 
 	// committter date
 	$runner->assert(
-		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--pretty="format:%cd"', '--date=iso-strict'],
+		['log', '-1', '734713bc047d87bf7eac9674765ae793478c50d3', '--pretty=format:%cd', '--date=iso-strict'],
 		[],
 		['2021-04-29T17:55:09+02:00']
 	);

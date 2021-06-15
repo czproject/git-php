@@ -10,7 +10,7 @@ $runner = new AssertRunner(__DIR__);
 $git = new Git($runner);
 
 $runner->assert(
-	['log', '--pretty=format:"%H"', '-n', '1'],
+	['log', '--pretty=format:%H', '-n', '1'],
 	[],
 	['734713bc047d87bf7eac9674765ae793478c50d3']
 );

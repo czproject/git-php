@@ -351,7 +351,7 @@
 		 */
 		public function getLastCommitId()
 		{
-			$result = $this->run('log', '--pretty=format:"%H"', '-n', '1');
+			$result = $this->run('log', '--pretty=format:%H', '-n', '1');
 			$lastLine = $result->getOutputLastLine();
 			return new CommitId((string) $lastLine);
 		}
@@ -377,23 +377,23 @@
 			}
 
 			// subject
-			$result = $this->run('log', '-1', $commitId, '--format="%s"');
+			$result = $this->run('log', '-1', $commitId, '--format=%s');
 			$subject = rtrim($result->getOutputAsString());
 
 			// body
-			$result = $this->run('log', '-1', $commitId, '--format="%b"');
+			$result = $this->run('log', '-1', $commitId, '--format=%b');
 			$body = rtrim($result->getOutputAsString());
 
 			// author email
-			$result = $this->run('log', '-1', $commitId, '--format="%ae"');
+			$result = $this->run('log', '-1', $commitId, '--format=%ae');
 			$authorEmail = rtrim($result->getOutputAsString());
 
 			// author name
-			$result = $this->run('log', '-1', $commitId, '--format="%an"');
+			$result = $this->run('log', '-1', $commitId, '--format=%an');
 			$authorName = rtrim($result->getOutputAsString());
 
 			// author date
-			$result = $this->run('log', '-1', $commitId, '--pretty="format:%ad"', '--date=iso-strict');
+			$result = $this->run('log', '-1', $commitId, '--pretty=format:%ad', '--date=iso-strict');
 			$authorDate = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, (string) $result->getOutputLastLine());
 
 			if (!($authorDate instanceof \DateTimeImmutable)) {
@@ -401,15 +401,15 @@
 			}
 
 			// committer email
-			$result = $this->run('log', '-1', $commitId, '--format="%ce"');
+			$result = $this->run('log', '-1', $commitId, '--format=%ce');
 			$committerEmail = rtrim($result->getOutputAsString());
 
 			// committer name
-			$result = $this->run('log', '-1', $commitId, '--format="%cn"');
+			$result = $this->run('log', '-1', $commitId, '--format=%cn');
 			$committerName = rtrim($result->getOutputAsString());
 
 			// committer date
-			$result = $this->run('log', '-1', $commitId, '--pretty="format:%cd"', '--date=iso-strict');
+			$result = $this->run('log', '-1', $commitId, '--pretty=format:%cd', '--date=iso-strict');
 			$committerDate = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, (string) $result->getOutputLastLine());
 
 			if (!($committerDate instanceof \DateTimeImmutable)) {
