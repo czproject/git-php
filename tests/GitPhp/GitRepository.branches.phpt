@@ -10,12 +10,12 @@ require __DIR__ . '/bootstrap.php';
 $runner = new AssertRunner(__DIR__);
 $git = new Git($runner);
 
-$runner->assert(['branch', 'master']);
-$runner->assert(['branch', 'develop']);
-$runner->assert(['checkout', 'develop']);
-$runner->assert(['merge', 'feature-1']);
+$runner->assert(['branch', '--end-of-options', 'master']);
+$runner->assert(['branch', '--end-of-options', 'develop']);
+$runner->assert(['checkout', '--end-of-options', 'develop']);
+$runner->assert(['merge', '--end-of-options', 'feature-1']);
 $runner->assert(['branch', '-d', 'feature-1']);
-$runner->assert(['checkout', 'master']);
+$runner->assert(['checkout', '--end-of-options', 'master']);
 
 $repo = $git->open(__DIR__);
 $repo->createBranch('master');

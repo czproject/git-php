@@ -10,17 +10,17 @@ require __DIR__ . '/bootstrap.php';
 $runner = new AssertRunner(__DIR__);
 $git = new Git($runner);
 
-$runner->assert(['clone', '-q', 'git@github.com:czproject/git-php.git', __DIR__]);
-$runner->assert(['remote', 'add', 'origin2', 'git@github.com:czproject/git-php.git']);
-$runner->assert(['remote', 'add', 'remote', 'git@github.com:czproject/git-php.git']);
+$runner->assert(['clone', '-q', '--end-of-options', 'git@github.com:czproject/git-php.git', __DIR__]);
+$runner->assert(['remote', 'add', '--end-of-options', 'origin2', 'git@github.com:czproject/git-php.git']);
+$runner->assert(['remote', 'add', '--end-of-options', 'remote', 'git@github.com:czproject/git-php.git']);
 $runner->assert(['remote', 'add', [
 	'--mirror=push',
-], 'only-push', 'test-url']);
-$runner->assert(['remote', 'rename', 'remote', 'origin3']);
+], '--end-of-options', 'only-push', 'test-url']);
+$runner->assert(['remote', 'rename', '--end-of-options', 'remote', 'origin3']);
 $runner->assert(['remote', 'set-url', [
 	'--push',
-], 'origin3', 'test-url']);
-$runner->assert(['remote', 'remove', 'origin2']);
+], '--end-of-options', 'origin3', 'test-url']);
+$runner->assert(['remote', 'remove', '--end-of-options', 'origin2']);
 
 $repo = $git->cloneRepository('git@github.com:czproject/git-php.git', __DIR__);
 $repo->addRemote('origin2', 'git@github.com:czproject/git-php.git');
@@ -34,9 +34,9 @@ $repo->setRemoteUrl('origin3', 'test-url', [
 ]);
 $repo->removeRemote('origin2');
 
-$runner->assert(['push', 'origin']);
-$runner->assert(['fetch', 'origin']);
-$runner->assert(['pull', 'origin']);
+$runner->assert(['push', '--end-of-options', 'origin']);
+$runner->assert(['fetch', '--end-of-options', 'origin']);
+$runner->assert(['pull', '--end-of-options', 'origin']);
 $repo->push('origin');
 $repo->fetch('origin');
 $repo->pull('origin');

@@ -14,11 +14,11 @@ $repo = $git->open(__DIR__ . '/fixtures');
 
 test(function () use ($repo, $runner) {
 	$runner->resetAsserts();
-	$runner->assert(['add', 'file1.txt']);
-	$runner->assert(['add', 'file2.txt']);
-	$runner->assert(['add', 'file3.txt']);
-	$runner->assert(['add', 'file4.txt']);
-	$runner->assert(['add', 'file5.txt']);
+	$runner->assert(['add', '--end-of-options', 'file1.txt']);
+	$runner->assert(['add', '--end-of-options', 'file2.txt']);
+	$runner->assert(['add', '--end-of-options', 'file3.txt']);
+	$runner->assert(['add', '--end-of-options', 'file4.txt']);
+	$runner->assert(['add', '--end-of-options', 'file5.txt']);
 
 	$repo->addFile('file1.txt');
 	$repo->addFile([
@@ -38,11 +38,11 @@ test(function () use ($repo) {
 
 test(function () use ($repo, $runner) {
 	$runner->resetAsserts();
-	$runner->assert(['rm', 'file1.txt', '-r']);
-	$runner->assert(['rm', 'file2.txt', '-r']);
-	$runner->assert(['rm', 'file3.txt', '-r']);
-	$runner->assert(['rm', 'file4.txt', '-r']);
-	$runner->assert(['rm', 'file5.txt', '-r']);
+	$runner->assert(['rm', '-r', '--end-of-options', 'file1.txt']);
+	$runner->assert(['rm', '-r', '--end-of-options', 'file2.txt']);
+	$runner->assert(['rm', '-r', '--end-of-options', 'file3.txt']);
+	$runner->assert(['rm', '-r', '--end-of-options', 'file4.txt']);
+	$runner->assert(['rm', '-r', '--end-of-options', 'file5.txt']);
 
 	$repo->removeFile('file1.txt');
 	$repo->removeFile([
@@ -55,9 +55,9 @@ test(function () use ($repo, $runner) {
 
 test(function () use ($repo, $runner) {
 	$runner->resetAsserts();
-	$runner->assert(['mv', 'file1.txt', 'new1.txt']);
-	$runner->assert(['mv', 'file2.txt', 'new2.txt']);
-	$runner->assert(['mv', 'file3.txt', 'new3.txt']);
+	$runner->assert(['mv', '--end-of-options', 'file1.txt', 'new1.txt']);
+	$runner->assert(['mv', '--end-of-options', 'file2.txt', 'new2.txt']);
+	$runner->assert(['mv', '--end-of-options', 'file3.txt', 'new3.txt']);
 
 	$repo->renameFile('file1.txt', 'new1.txt');
 	$repo->renameFile([

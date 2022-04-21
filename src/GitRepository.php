@@ -52,7 +52,7 @@
 		 */
 		public function createTag($name, $options = NULL)
 		{
-			$this->run('tag', $options, $name);
+			$this->run('tag', $options, '--end-of-options', $name);
 			return $this;
 		}
 
@@ -86,7 +86,7 @@
 		{
 			// http://stackoverflow.com/a/1873932
 			// create new as alias to old (`git tag NEW OLD`)
-			$this->run('tag', $newName, $oldName);
+			$this->run('tag', '--end-of-options', $newName, $oldName);
 			// delete old (`git tag -d OLD`)
 			$this->removeTag($oldName);
 			return $this;
@@ -114,7 +114,7 @@
 		 */
 		public function merge($branch, $options = NULL)
 		{
-			$this->run('merge', $options, $branch);
+			$this->run('merge', $options, '--end-of-options', $branch);
 			return $this;
 		}
 
@@ -131,7 +131,7 @@
 		public function createBranch($name, $checkout = FALSE)
 		{
 			// git branch $name
-			$this->run('branch', $name);
+			$this->run('branch', '--end-of-options', $name);
 
 			if ($checkout) {
 				$this->checkout($name);
@@ -234,7 +234,7 @@
 		 */
 		public function checkout($name)
 		{
-			$this->run('checkout', $name);
+			$this->run('checkout', '--end-of-options', $name);
 			return $this;
 		}
 
@@ -253,7 +253,7 @@
 			}
 
 			foreach ($file as $item) {
-				$this->run('rm', $item, '-r');
+				$this->run('rm', '-r', '--end-of-options', $item);
 			}
 
 			return $this;
@@ -282,7 +282,7 @@
 					throw new GitException("The path at '$item' does not represent a valid file.");
 				}
 
-				$this->run('add', $item);
+				$this->run('add', '--end-of-options', $item);
 			}
 
 			return $this;
@@ -319,7 +319,7 @@
 			}
 
 			foreach ($file as $from => $to) {
-				$this->run('mv', $from, $to);
+				$this->run('mv', '--end-of-options', $from, $to);
 			}
 
 			return $this;
@@ -454,7 +454,7 @@
 		 */
 		public function pull($remote = NULL, array $params = NULL)
 		{
-			$this->run('pull', $remote, $params);
+			$this->run('pull', $params, '--end-of-options', $remote);
 			return $this;
 		}
 
@@ -468,7 +468,7 @@
 		 */
 		public function push($remote = NULL, array $params = NULL)
 		{
-			$this->run('push', $remote, $params);
+			$this->run('push', $params, '--end-of-options', $remote);
 			return $this;
 		}
 
@@ -482,7 +482,7 @@
 		 */
 		public function fetch($remote = NULL, array $params = NULL)
 		{
-			$this->run('fetch', $remote, $params);
+			$this->run('fetch', $params, '--end-of-options', $remote);
 			return $this;
 		}
 
@@ -497,7 +497,7 @@
 		 */
 		public function addRemote($name, $url, array $params = NULL)
 		{
-			$this->run('remote', 'add', $params, $name, $url);
+			$this->run('remote', 'add', $params, '--end-of-options', $name, $url);
 			return $this;
 		}
 
@@ -511,7 +511,7 @@
 		 */
 		public function renameRemote($oldName, $newName)
 		{
-			$this->run('remote', 'rename', $oldName, $newName);
+			$this->run('remote', 'rename', '--end-of-options', $oldName, $newName);
 			return $this;
 		}
 
@@ -524,7 +524,7 @@
 		 */
 		public function removeRemote($name)
 		{
-			$this->run('remote', 'remove', $name);
+			$this->run('remote', 'remove', '--end-of-options', $name);
 			return $this;
 		}
 
@@ -539,7 +539,7 @@
 		 */
 		public function setRemoteUrl($name, $url, array $params = NULL)
 		{
-			$this->run('remote', 'set-url', $params, $name, $url);
+			$this->run('remote', 'set-url', $params, '--end-of-options', $name, $url);
 			return $this;
 		}
 

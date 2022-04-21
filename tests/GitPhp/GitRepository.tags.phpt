@@ -10,8 +10,8 @@ require __DIR__ . '/bootstrap.php';
 $runner = new AssertRunner(__DIR__);
 $git = new Git($runner);
 
-$runner->assert(['tag', 'v1.0.0']);
-$runner->assert(['tag', 'v2.0.0', 'v1.0.0']);
+$runner->assert(['tag', '--end-of-options', 'v1.0.0']);
+$runner->assert(['tag', '--end-of-options', 'v2.0.0', 'v1.0.0']);
 $runner->assert(['tag', '-d', 'v1.0.0']);
 $runner->assert(['tag', '-d', 'v2.0.0']);
 
