@@ -61,7 +61,7 @@
 				throw new \CzProject\GitPhp\InvalidStateException("Missing assert for command '$cmd'");
 			}
 
-			\Tester\Assert::same($cmd, $result->getCommand());
+			\Tester\Assert::same($result->getCommand(), $cmd);
 			next($this->asserts);
 			return $result;
 		}
