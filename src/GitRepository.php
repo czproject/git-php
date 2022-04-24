@@ -234,7 +234,19 @@
 		 */
 		public function checkout($name)
 		{
-			$this->run('checkout', '--end-of-options', $name);
+			if (!is_string($name)) {
+				throw new InvalidArgumentException('Branch name must be string.');
+			}
+
+			if ($name === '') {
+				throw new InvalidArgumentException('Branch name cannot be empty.');
+			}
+
+			if ($name[0] === '-') {
+				throw new InvalidArgumentException('Branch name cannot be option name.');
+			}
+
+			$this->run('checkout', $name);
 			return $this;
 		}
 
