@@ -459,7 +459,7 @@
 
 		/**
 		 * Pull changes from a remote
-		 * @param  string|NULL $remote
+		 * @param  string|string[]|NULL $remote
 		 * @param  array<mixed>|NULL $options
 		 * @return static
 		 * @throws GitException
@@ -473,7 +473,7 @@
 
 		/**
 		 * Push changes to a remote
-		 * @param  string|NULL $remote
+		 * @param  string|string[]|NULL $remote
 		 * @param  array<mixed>|NULL $options
 		 * @return static
 		 * @throws GitException
@@ -487,7 +487,7 @@
 
 		/**
 		 * Run fetch command to get latest branches
-		 * @param  string|NULL $remote
+		 * @param  string|string[]|NULL $remote
 		 * @param  array<mixed>|NULL $options
 		 * @return static
 		 * @throws GitException

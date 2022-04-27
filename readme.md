@@ -206,12 +206,12 @@ $repo->pull('origin');
 // pushs changes to remote
 $repo->push('remote-name', ['--options']);
 $repo->push('origin');
-$repo->push('origin', ['master', '-u']);
+$repo->push(['origin', 'master'], ['-u']);
 
 // fetchs changes from remote
 $repo->fetch('remote-name', ['--options']);
 $repo->fetch('origin');
-$repo->fetch('origin', ['master']);
+$repo->fetch(['origin', 'master']);
 
 // adds remote repository
 $repo->addRemote('remote-name', 'repository-url', ['--options']);

@@ -35,8 +35,16 @@ $repo->setRemoteUrl('origin3', 'test-url', [
 $repo->removeRemote('origin2');
 
 $runner->assert(['push', '--end-of-options', 'origin']);
+$runner->assert(['push', '--repo', 'https://user:password@example.com/MyUser/MyRepo.git', '--end-of-options']);
+$runner->assert(['push', '--end-of-options', 'origin', 'master']);
 $runner->assert(['fetch', '--end-of-options', 'origin']);
+$runner->assert(['fetch', '--end-of-options', 'origin', 'master']);
 $runner->assert(['pull', '--end-of-options', 'origin']);
+$runner->assert(['pull', '--end-of-options', 'origin', 'master']);
 $repo->push('origin');
+$repo->push(NULL, ['--repo' => 'https://user:password@example.com/MyUser/MyRepo.git']);
+$repo->push(['origin', 'master']);
 $repo->fetch('origin');
+$repo->fetch(['origin', 'master']);
 $repo->pull('origin');
+$repo->pull(['origin', 'master']);
