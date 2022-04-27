@@ -342,13 +342,13 @@
 		 * Commits changes
 		 * `git commit <params> -m <message>`
 		 * @param  string $message
-		 * @param  string[] $params  param => value
+		 * @param  array<mixed>|NULL $options
 		 * @throws GitException
 		 * @return static
 		 */
-		public function commit($message, $params = NULL)
+		public function commit($message, $options = NULL)
 		{
-			$this->run('commit', $params, [
+			$this->run('commit', $options, [
 				'-m' => $message,
 			]);
 			return $this;
@@ -460,13 +460,13 @@
 		/**
 		 * Pull changes from a remote
 		 * @param  string|NULL $remote
-		 * @param  array<mixed>|NULL $params
+		 * @param  array<mixed>|NULL $options
 		 * @return static
 		 * @throws GitException
 		 */
-		public function pull($remote = NULL, array $params = NULL)
+		public function pull($remote = NULL, array $options = NULL)
 		{
-			$this->run('pull', $params, '--end-of-options', $remote);
+			$this->run('pull', $options, '--end-of-options', $remote);
 			return $this;
 		}
 
@@ -474,13 +474,13 @@
 		/**
 		 * Push changes to a remote
 		 * @param  string|NULL $remote
-		 * @param  array<mixed>|NULL $params
+		 * @param  array<mixed>|NULL $options
 		 * @return static
 		 * @throws GitException
 		 */
-		public function push($remote = NULL, array $params = NULL)
+		public function push($remote = NULL, array $options = NULL)
 		{
-			$this->run('push', $params, '--end-of-options', $remote);
+			$this->run('push', $options, '--end-of-options', $remote);
 			return $this;
 		}
 
@@ -488,13 +488,13 @@
 		/**
 		 * Run fetch command to get latest branches
 		 * @param  string|NULL $remote
-		 * @param  array<mixed>|NULL $params
+		 * @param  array<mixed>|NULL $options
 		 * @return static
 		 * @throws GitException
 		 */
-		public function fetch($remote = NULL, array $params = NULL)
+		public function fetch($remote = NULL, array $options = NULL)
 		{
-			$this->run('fetch', $params, '--end-of-options', $remote);
+			$this->run('fetch', $options, '--end-of-options', $remote);
 			return $this;
 		}
 
@@ -503,13 +503,13 @@
 		 * Adds new remote repository
 		 * @param  string $name
 		 * @param  string $url
-		 * @param  array<mixed>|NULL $params
+		 * @param  array<mixed>|NULL $options
 		 * @return static
 		 * @throws GitException
 		 */
-		public function addRemote($name, $url, array $params = NULL)
+		public function addRemote($name, $url, array $options = NULL)
 		{
-			$this->run('remote', 'add', $params, '--end-of-options', $name, $url);
+			$this->run('remote', 'add', $options, '--end-of-options', $name, $url);
 			return $this;
 		}
 
@@ -545,13 +545,13 @@
 		 * Changes remote repository URL
 		 * @param  string $name
 		 * @param  string $url
-		 * @param  array<mixed>|NULL $params
+		 * @param  array<mixed>|NULL $options
 		 * @return static
 		 * @throws GitException
 		 */
-		public function setRemoteUrl($name, $url, array $params = NULL)
+		public function setRemoteUrl($name, $url, array $options = NULL)
 		{
-			$this->run('remote', 'set-url', $params, '--end-of-options', $name, $url);
+			$this->run('remote', 'set-url', $options, '--end-of-options', $name, $url);
 			return $this;
 		}
 
