@@ -13,9 +13,22 @@
 		/** @var string */
 		private $gitBinary;
 
+  	/** @var bool */
+		private $oldGit = FALSE;
+
 		/** @var CommandProcessor */
 		private $commandProcessor;
 
+
+		/**
+		 * @param string
+		 *
+		 * @return string
+		 */
+		private function getVersion($str) {
+			preg_match("/(?:version|v)\s*((?:[0-9]+\.?)+)/i", $str, $matches);
+			return $matches[1];
+		}
 
 		/**
 		 * @param  string $gitBinary
@@ -24,6 +37,11 @@
 		{
 			$this->gitBinary = $gitBinary;
 			$this->commandProcessor = new CommandProcessor;
+
+			$gitVersionResult = $this->run($this->getCwd(), ['version']);
+			if ($gitVersionResult->isOk() && (version_compare($this->getVersion($gitVersionResult->getOutputLastLine()), '2.24') < 0)) {
+				$this->oldGit = TRUE;
+			}
 		}
 
 
@@ -41,6 +59,10 @@
 				1 => ['pipe', 'w'], // stdout
 				2 => ['pipe', 'w'], // stderr
 			];
+
+			if ($this->oldGit && ($key = array_search('--end-of-options', $args)) !== FALSE) {
+    		unset($args[$key]);
+			}
 
 			$pipes = [];
 			$command = $this->commandProcessor->process($this->gitBinary, $args);
