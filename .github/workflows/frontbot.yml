@@ -1,0 +1,14 @@
+name: FrontBot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 4' # every thursday at 0:00
+
+jobs:
+    frontbot:
+        uses: janpecha/actions/.github/workflows/frontbot.yml@master
+        with:
+            committer: "Jan Pecha <janpecha@email.cz>"
+        secrets:
+            FRONTBOT_TOKEN: ${{ secrets.FRONTBOT_TOKEN }}
