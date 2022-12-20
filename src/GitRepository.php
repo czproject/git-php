@@ -286,6 +286,8 @@
 			}
 
 			foreach ($file as $item) {
+				assert(is_string($item));
+
 				// make sure the given item exists
 				// this can be a file or an directory, git supports both
 				$path = Helpers::isAbsolute($item) ? $item : ($this->getRepositoryPath() . DIRECTORY_SEPARATOR . $item);
