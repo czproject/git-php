@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+
+  pull_request:
+
+jobs:
+    tests:
+        uses: janpecha/actions/.github/workflows/nette-tester-library.yml@master
+        with:
+            phpVersions: '["5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0", "8.1"]'
+            lowestDependencies: true
+
+    coding-style:
+        uses: janpecha/actions/.github/workflows/code-checker.yml@master
+
+    static-analysis:
+        uses: janpecha/actions/.github/workflows/phpstan.yml@master
+        with:
+            configFile: tests/phpstan.neon
