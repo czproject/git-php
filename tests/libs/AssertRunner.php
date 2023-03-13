@@ -16,7 +16,7 @@
 		/** @var CommandProcessor */
 		private $commandProcessor;
 
-		/** @var array  [command => RunnerResult] */
+		/** @var RunnerResult[] */
 		private $asserts = [];
 
 
@@ -30,6 +30,14 @@
 		}
 
 
+		/**
+		 * @param  mixed[] $expectedArgs
+		 * @param  array<string, scalar> $expectedEnv
+		 * @param  string[] $resultOutput
+		 * @param  string[] $resultErrorOutput
+		 * @param  int $resultExitCode
+		 * @return self
+		 */
 		public function assert(array $expectedArgs, array $expectedEnv = [], array $resultOutput = [], array $resultErrorOutput = [], $resultExitCode = 0)
 		{
 			$cmd = $this->commandProcessor->process('git', $expectedArgs, $expectedEnv);
@@ -38,6 +46,9 @@
 		}
 
 
+		/**
+		 * @return self
+		 */
 		public function resetAsserts()
 		{
 			$this->asserts = [];

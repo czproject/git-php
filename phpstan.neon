@@ -4,3 +4,4 @@ parameters:
 
 	paths:
 		- src
+		- tests

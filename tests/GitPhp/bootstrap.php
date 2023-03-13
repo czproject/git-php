@@ -5,8 +5,10 @@ require __DIR__ . '/../libs/AssertRunner.php';
 
 Tester\Environment::setup();
 
-
-function test($cb)
+/**
+ * @return void
+ */
+function test(callable $cb)
 {
 	try {
 		$cb();
