@@ -10,6 +10,9 @@
 			"email": "janpecha@email.cz"
 		}
 	],
+	"funding": [
+		{"type": "other", "url": "https://www.janpecha.cz/donate/git-php/"}
+	],
 	"require": {
 		"php": ">=5.6.0"
 	},
