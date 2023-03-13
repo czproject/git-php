@@ -3,4 +3,4 @@ parameters:
 	treatPhpDocTypesAsCertain: false
 
 	paths:
-		- ../src
+		- src
