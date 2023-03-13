@@ -1,10 +1,10 @@
 Git-PHP
 =======
 
+[![Build Status](https://github.com/czproject/git-php/workflows/Build/badge.svg)](https://github.com/czproject/git-php/actions)
 [![Downloads this Month](https://img.shields.io/packagist/dm/czproject/git-php.svg)](https://packagist.org/packages/czproject/git-php)
 [![Latest Stable Version](https://poser.pugx.org/czproject/git-php/v/stable)](https://github.com/czproject/git-php/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/czproject/git-php/blob/master/license.md)
-[![Tests Status](https://github.com/czproject/git-php/workflows/Tests/badge.svg)](https://github.com/czproject/git-php/actions)
 
 
 Library for work with Git repository in PHP.
