@@ -14,6 +14,15 @@
 			$this->runner = $runner !== NULL ? $runner : new Runners\CliRunner;
 		}
 
+		/**
+		 * Add a configuration parameter to the command.
+		 * @param string $name
+		 * @param mixed $value
+		 */
+		public function addConfig($name, $value)
+		{
+			$this->runner->addConfig($name, $value);
+		}
 
 		/**
 		 * @param  string $directory
