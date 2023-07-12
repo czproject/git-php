@@ -121,7 +121,6 @@
 				'ls-remote',
 				'--heads',
 				'--quiet',
-				'--exit-code',
 				'--end-of-options',
 				$url,
 				$refs,
