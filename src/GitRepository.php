@@ -620,4 +620,17 @@
 
 			return $result;
 		}
+		/**
+		 * Returns last commit ID on remote 
+		 * `git log origin master --pretty=format:"%H" -n 1`
+		 * @return CommitId
+		 * @throws GitException
+		 */
+		
+		public function getLastRemoteCommitId($remote)
+		{
+			$result = $this->run('log', $remote, '--pretty=format:%H', '-n', '1');
+			$lastLine = $result->getOutputLastLine();
+			return new CommitId((string) $lastLine);
+		}
 	}
