@@ -11,6 +11,7 @@
 
 		/** @var bool */
 		private $isWindows;
+		protected $configs = [];
 
 
 		/**
@@ -32,6 +33,15 @@
 			}
 		}
 
+		/**
+		 * Add a configuration parameter to the command.
+		 * @param string $name
+		 * @param mixed $value
+		 */
+		public function addConfig($name, $value)
+		{
+			$this->configs[] = [$name, $value];
+		}
 
 		/**
 		 * @param  string $app
@@ -42,6 +52,15 @@
 		public function process($app, array $args, array $env = NULL)
 		{
 			$cmd = [];
+
+			foreach ($this->configs as $config) {
+				list($name, $value) = $config;
+				if ($value == NULL) {
+					$cmd[] = "-c $name";
+				} else {
+					$cmd[] = "-c $name=" . $this->escapeArgument($value);
+				}
+			}
 
 			foreach ($args as $arg) {
 				if (is_array($arg)) {
