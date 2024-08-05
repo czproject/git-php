@@ -571,6 +571,24 @@
 
 
 		/**
+		 * Runs command and returns result.
+		 * @param  mixed ...$args
+		 * @return RunnerResult
+		 * @throws GitException
+		 */
+		public function run(...$args)
+		{
+			$result = $this->runner->run($this->repository, $args);
+
+			if (!$result->isOk()) {
+				throw new GitException("Command '{$result->getCommand()}' failed (exit-code {$result->getExitCode()}).", $result->getExitCode(), NULL, $result);
+			}
+
+			return $result;
+		}
+
+
+		/**
 		 * @param  array<mixed> $args
 		 * @return string[]|NULL
 		 * @throws GitException
@@ -601,23 +619,5 @@
 			}
 
 			return $output;
-		}
-
-
-		/**
-		 * Runs command.
-		 * @param  mixed ...$args
-		 * @return RunnerResult
-		 * @throws GitException
-		 */
-		protected function run(...$args)
-		{
-			$result = $this->runner->run($this->repository, $args);
-
-			if (!$result->isOk()) {
-				throw new GitException("Command '{$result->getCommand()}' failed (exit-code {$result->getExitCode()}).", $result->getExitCode(), NULL, $result);
-			}
-
-			return $result;
 		}
 	}
