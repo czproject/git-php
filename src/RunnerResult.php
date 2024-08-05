@@ -11,20 +11,20 @@
 		/** @var int */
 		private $exitCode;
 
-		/** @var string[] */
+		/** @var string|string[] */
 		private $output;
 
-		/** @var string[] */
+		/** @var string|string[] */
 		private $errorOutput;
 
 
 		/**
 		 * @param  string $command
 		 * @param  int $exitCode
-		 * @param  string[] $output
-		 * @param  string[] $errorOutput
+		 * @param  string|string[] $output
+		 * @param  string|string[] $errorOutput
 		 */
-		public function __construct($command, $exitCode, array $output, array $errorOutput)
+		public function __construct($command, $exitCode, $output, $errorOutput)
 		{
 			$this->command = (string) $command;
 			$this->exitCode = (int) $exitCode;
@@ -65,6 +65,10 @@
 		 */
 		public function getOutput()
 		{
+			if (is_string($this->output)) {
+				return $this->splitOutput($this->output);
+			}
+
 			return $this->output;
 		}
 
@@ -74,6 +78,10 @@
 		 */
 		public function getOutputAsString()
 		{
+			if (is_string($this->output)) {
+				return $this->output;
+			}
+
 			return implode("\n", $this->output);
 		}
 
@@ -83,7 +91,8 @@
 		 */
 		public function getOutputLastLine()
 		{
-			$lastLine = end($this->output);
+			$output = $this->getOutput();
+			$lastLine = end($output);
 			return is_string($lastLine) ? $lastLine : NULL;
 		}
 
@@ -93,6 +102,10 @@
 		 */
 		public function hasOutput()
 		{
+			if (is_string($this->output)) {
+				return trim($this->output) !== '';
+			}
+
 			return !empty($this->output);
 		}
 
@@ -102,7 +115,24 @@
 		 */
 		public function getErrorOutput()
 		{
+			if (is_string($this->errorOutput)) {
+				return $this->splitOutput($this->errorOutput);
+			}
+
 			return $this->errorOutput;
+		}
+
+
+		/**
+		 * @return string
+		 */
+		public function getErrorOutputAsString()
+		{
+			if (is_string($this->errorOutput)) {
+				return $this->errorOutput;
+			}
+
+			return implode("\n", $this->errorOutput);
 		}
 
 
@@ -111,6 +141,10 @@
 		 */
 		public function hasErrorOutput()
 		{
+			if (is_string($this->errorOutput)) {
+				return trim($this->errorOutput) !== '';
+			}
+
 			return !empty($this->errorOutput);
 		}
 
@@ -126,5 +160,22 @@
 				. "---- STDERR: \n\n"
 				. implode("\n", $this->getErrorOutput()) . "\n\n"
 				. '=> ' . $this->getExitCode() . "\n\n";
+		}
+
+
+		/**
+		 * @param  string $output
+		 * @return string[]
+		 */
+		private function splitOutput($output)
+		{
+			$output = str_replace(["\r\n", "\r"], "\n", $output);
+			$output = rtrim($output, "\n");
+
+			if ($output === '') {
+				return [];
+			}
+
+			return explode("\n", $output);
 		}
 	}

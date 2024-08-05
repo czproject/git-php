@@ -80,7 +80,7 @@
 			}
 
 			$returnCode = proc_close($process);
-			return new RunnerResult($command, $returnCode, $this->convertOutput($stdout), $this->convertOutput($stderr));
+			return new RunnerResult($command, $returnCode, $stdout, $stderr);
 		}
 
 
