@@ -101,3 +101,20 @@ test(function () {
 
 	}, InvalidArgumentException::class, "Invalid mode 'INVALID'.");
 });
+
+test(function () {
+	$processor = new CommandProcessor(CommandProcessor::MODE_NON_WINDOWS);
+	$processor->addConfig('core.sshCommand', "ssh -i '/path/to/private key file' -o StrictHostKeyChecking=no -o IdentitiesOnly=yes");
+	$processor->addConfig('test', NULL);
+
+	Assert::same(implode(' ', [
+		'git',
+		"-c core.sshCommand='ssh -i '\''/path/to/private key file'\'' -o StrictHostKeyChecking=no -o IdentitiesOnly=yes'",
+		'-c test',
+		'clone',
+		"'https://github.com/test/test.git'",
+		'test',
+	]), $processor->process('git', ['clone', 'https://github.com/test/test.git', 'test']));
+
+	print($processor->process('git', ['clone', 'https://github.com/test/test.git', 'test']));
+});
