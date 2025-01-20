@@ -59,7 +59,7 @@
 		/**
 		 * @return RunnerResult
 		 */
-		public function run($cwd, array $args, array $env = NULL)
+		public function run($cwd, array $args, ?array $env = NULL)
 		{
 			if (empty($this->asserts)) {
 				throw new \CzProject\GitPhp\InvalidStateException('Missing asserts, use $runner->assert().');

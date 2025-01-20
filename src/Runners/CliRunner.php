@@ -30,7 +30,7 @@
 		/**
 		 * @return RunnerResult
 		 */
-		public function run($cwd, array $args, array $env = NULL)
+		public function run($cwd, array $args, ?array $env = NULL)
 		{
 			if (!is_dir($cwd)) {
 				throw new GitException("Directory '$cwd' not found");

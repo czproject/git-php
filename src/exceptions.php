@@ -18,7 +18,7 @@
 		 * @param string $message
 		 * @param int $code
 		 */
-		public function __construct($message, $code = 0, \Exception $previous = NULL, RunnerResult $runnerResult = NULL)
+		public function __construct($message, $code = 0, ?\Exception $previous = NULL, ?RunnerResult $runnerResult = NULL)
 		{
 			parent::__construct($message, $code, $previous);
 			$this->runnerResult = $runnerResult;

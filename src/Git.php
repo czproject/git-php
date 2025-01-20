@@ -9,7 +9,7 @@
 		protected $runner;
 
 
-		public function  __construct(IRunner $runner = NULL)
+		public function  __construct(?IRunner $runner = NULL)
 		{
 			$this->runner = $runner !== NULL ? $runner : new Runners\CliRunner;
 		}
@@ -32,7 +32,7 @@
 		 * @return GitRepository
 		 * @throws GitException
 		 */
-		public function init($directory, array $params = NULL)
+		public function init($directory, ?array $params = NULL)
 		{
 			if (is_dir("$directory/.git")) {
 				throw new GitException("Repo already exists in $directory.");
@@ -66,7 +66,7 @@
 		 * @return GitRepository
 		 * @throws GitException
 		 */
-		public function cloneRepository($url, $directory = NULL, array $params = NULL)
+		public function cloneRepository($url, $directory = NULL, ?array $params = NULL)
 		{
 			if ($directory !== NULL && is_dir("$directory/.git")) {
 				throw new GitException("Repo already exists in $directory.");
@@ -115,7 +115,7 @@
 		 * @param  array<string>|NULL $refs
 		 * @return bool
 		 */
-		public function isRemoteUrlReadable($url, array $refs = NULL)
+		public function isRemoteUrlReadable($url, ?array $refs = NULL)
 		{
 			$result = $this->runner->run($this->runner->getCwd(), [
 				'ls-remote',
@@ -139,7 +139,7 @@
 		 * @return RunnerResult
 		 * @throws GitException
 		 */
-		private function run($cwd, array $args, array $env = NULL)
+		private function run($cwd, array $args, ?array $env = NULL)
 		{
 			$result = $this->runner->run($cwd, $args, $env);
 

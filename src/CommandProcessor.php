@@ -39,7 +39,7 @@
 		 * @param  array<string, scalar>|NULL $env
 		 * @return string
 		 */
-		public function process($app, array $args, array $env = NULL)
+		public function process($app, array $args, ?array $env = NULL)
 		{
 			$cmd = [];
 

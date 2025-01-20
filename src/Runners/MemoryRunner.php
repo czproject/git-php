@@ -49,7 +49,7 @@
 		/**
 		 * @return RunnerResult
 		 */
-		public function run($cwd, array $args, array $env = NULL)
+		public function run($cwd, array $args, ?array $env = NULL)
 		{
 			$cmd = $this->commandProcessor->process('git', $args, $env);
 

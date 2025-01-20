@@ -11,7 +11,7 @@
 		 * @param  array<string, scalar>|NULL $env
 		 * @return RunnerResult
 		 */
-		function run($cwd, array $args, array $env = NULL);
+		function run($cwd, array $args, ?array $env = NULL);
 
 
 		/**
