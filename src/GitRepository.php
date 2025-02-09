@@ -5,7 +5,7 @@
 
 	class GitRepository
 	{
-		/** @var  string */
+		/** @var string */
 		protected $repository;
 
 		/** @var IRunner */
@@ -42,7 +42,17 @@
 		}
 
 
-		/**
+        /**
+         * @return GitConfig
+         */
+        public function getGitConfig()
+        {
+            return new GitConfig($this, $this->runner);
+        }
+
+
+
+        /**
 		 * Creates a tag.
 		 * `git tag <name>`
 		 * @param  string $name
