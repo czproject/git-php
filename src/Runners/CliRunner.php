@@ -52,6 +52,15 @@
 				throw new GitException("Executing of command '$command' failed (directory $cwd).");
 			}
 
+			if (!(is_array($pipes)
+				&& isset($pipes[0], $pipes[1], $pipes[2])
+				&& is_resource($pipes[0])
+				&& is_resource($pipes[1])
+				&& is_resource($pipes[2])
+			)) {
+				throw new GitException("Invalid pipes for command '$command' failed (directory $cwd).");
+			}
+
 			// Reset output and error
 			stream_set_blocking($pipes[1], FALSE);
 			stream_set_blocking($pipes[2], FALSE);

@@ -590,6 +590,7 @@
 
 		/**
 		 * @param  array<mixed> $args
+		 * @param  (callable(string $value): (string|FALSE))|NULL $filter
 		 * @return string[]|NULL
 		 * @throws GitException
 		 */
