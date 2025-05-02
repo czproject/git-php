@@ -32,6 +32,14 @@
 		{
 			return $this->runnerResult;
 		}
+
+        /**
+         * @return string
+         */
+        public function getVerboseMessage()
+        {
+            return $this->runnerResult->toText();
+        }
 	}
 
 
