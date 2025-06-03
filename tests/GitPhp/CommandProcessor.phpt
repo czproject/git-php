@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Tester\Assert;
 use CzProject\GitPhp\CommandProcessor;
 use CzProject\GitPhp\CommitId;

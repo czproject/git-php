@@ -1,5 +1,7 @@
 <?php
 
+	declare(strict_types=1);
+
 	namespace CzProject\GitPhp\Tests;
 
 	use CzProject\GitPhp\CommandProcessor;

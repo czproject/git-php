@@ -1,7 +1,2 @@
-parameters:
-	php:
-		strictTypes: false
-
-
 sets:
 	- JP\CodeChecker\Sets\CzProjectMinimum

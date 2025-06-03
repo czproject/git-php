@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CzProject\GitPhp\Git;
 use CzProject\GitPhp\Runners\OldGitRunner;
 use CzProject\GitPhp\Tests\AssertRunner;

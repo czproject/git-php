@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Tester\Assert;
 use CzProject\GitPhp\Git;
 use CzProject\GitPhp\Runners\MemoryRunner;
