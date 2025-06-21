@@ -16,7 +16,7 @@
 		private $gitBinary;
 
 		/** @var CommandProcessor */
-		private $commandProcessor;
+		protected $commandProcessor;
 
 
 		/**
