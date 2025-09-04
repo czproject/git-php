@@ -11,6 +11,7 @@
 		}
 	],
 	"funding": [
+		{"type": "thanks.dev", "url": "https://thanks.dev/u/gh/czproject"},
 		{"type": "stripe", "url": "https://donate.stripe.com/7sIcO2a9maTSg2A9AA"},
 		{"type": "other", "url": "https://www.janpecha.cz/donate/git-php/"}
 	],

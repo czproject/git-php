@@ -11,6 +11,9 @@ Library for work with Git repository in PHP.
 
 <a href="https://www.janpecha.cz/donate/git-php/"><img src="https://buymecoffee.intm.org/img/donate-banner.v1.svg" alt="Donate" height="100"></a>
 
+> [!TIP]
+> You can use [Stripe.com](https://donate.stripe.com/7sIcO2a9maTSg2A9AA), [Thanks.dev](https://thanks.dev/u/gh/czproject) or [other](https://www.janpecha.cz/donate/git-php/) method.
+
 
 Installation
 ------------
