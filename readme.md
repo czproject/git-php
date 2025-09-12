@@ -223,6 +223,20 @@ $repo->setRemoteUrl('remote-name', 'new-repository-url');
 $repo->setRemoteUrl('upstream', 'https://github.com/czproject/git-php.git');
 ```
 
+Config
+------
+
+``` php
+// get config object of repo
+$config = $repo->getGitConfig();
+
+// set a option
+$config->set('option.name', 'value', ['--options']);
+
+// get a value for option (returns NULL if not set)
+$config->set('option.name', ['--options']);
+```
+
 **Troubleshooting - How to provide username and password for commands**
 
 1) use SSH instead of HTTPS - https://stackoverflow.com/a/8588786
