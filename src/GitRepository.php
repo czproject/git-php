@@ -540,7 +540,7 @@
 		 */
 		public function removeRemote($name)
 		{
-			$this->run('remote', 'remove', '--end-of-options', $name);
+			$this->run('remote', 'remove', $name);
 			return $this;
 		}
 
