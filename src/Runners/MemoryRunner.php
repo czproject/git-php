@@ -31,6 +31,15 @@
 			$this->commandProcessor = new CommandProcessor;
 		}
 
+		/**
+		 * Add a configuration parameter to the command.
+		 * @param string $name
+		 * @param mixed $value
+		 */
+		public function addConfig($name, $value)
+		{
+			$this->commandProcessor->addConfig($name, $value);
+		}
 
 		/**
 		 * @param  array<mixed> $args
