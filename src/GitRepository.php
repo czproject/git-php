@@ -559,6 +559,16 @@
 			return $this;
 		}
 
+		/**
+		 * Get last edit datetime for a path
+		 * @param  $path 
+		 * @return string returns output
+		 * @throws GitException
+		*/
+		public function getPathLastEdit($path) {
+			return $this->execute("log", ["-1", "--pretty=format:%ci", $path]);
+		}
+
 
 		/**
 		 * @param  mixed ...$cmd
