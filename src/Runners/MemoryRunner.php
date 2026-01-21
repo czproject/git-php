@@ -16,7 +16,7 @@
 		private $cwd;
 
 		/** @var CommandProcessor */
-		private $commandProcessor;
+		protected $commandProcessor;
 
 		/** @var array<string, RunnerResult>  [command => RunnerResult] */
 		private $results = [];
